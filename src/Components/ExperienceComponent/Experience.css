@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+input {
+    width: 100%;
+    color: #fff;
+}
+  
+label {
+    width: 100%;
+    font-weight: 600 !important;
+    color: #f2f2f2 !important;
+    font-size: 16px !important;
+    font-family: "Roboto", serif !important;
+    border-radius: 20px !important;
+}
+
+p {
+    color: #fff;
+}
+
+.radio {
+    display: none;
+}
+
+#projects:checked ~ .label-1,
+#education:checked ~ .label-2{
+    background-color: #1b2129;
+}
+
+.selection {
+    margin-top: 60px;
+    border-radius: 20px;
+    background-color: #0E1117;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: none;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-secondary:hover {
+    background-color: #181e25;
+}
+
+.projects-selection,
+.education-selection {
+    padding: 0;
+}
+
+.display {
+    margin-top: 20px;
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+    background-color: #0E1117;
+    border: 1px solid #3C444D;
+    backdrop-filter: blur(0px);
+    border-radius: 8px;
+}
+
+.vl {
+    border-left: 1px solid gray;
+    height: 85%;
+    position: absolute;
+    left: 34px;
+    top: 65px;
+}
+
+.list-component {
+    list-style: none;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.list-component .__item {
+    background: url('../../assets/dot.png') no-repeat top left;
+    background-size: 21px;
+    background-position: top left;
+    padding: 0 0 4px 20px;
+    margin-left: 0px;
+    position: relative;
+    right: 20px;
+    margin-bottom: 10px;
+    top: 10px;
+}
+  
+.card-component {
+    padding: 24px;
+    font-family: Arial;
+    position: relative;
+    bottom: 20px;
+    text-align: left;
+}
+  
+.card-component .__year {
+    margin-top: -0.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ddd;
+}
+  
+.card-component .__title {
+    font-size: 2em;
+}
+
+.card-component .details {
+    background-color: #151B23;
+    border-radius: 4px;
+    padding: 24px;
+}
+
+.card-component .__subtitle {
+    font-size: 1em;
+    color: #fff;
+}
+  
+.card-component .__text {
+    color: #F2F2F2;
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tech-tag {
+    margin-top: 14px;
+    display: flex;
+    padding: 6px 8px 6px 6px;
+    margin-right: 8px;
+    border: 1px solid #3C444D;
+    border-radius: 18px;
+    height: 36px;
+    font-size: 1em;
+    font-weight: bolder;
+    color: #3C444D;
+    font-size: 1rem;
+    transition: ease-in-out 0.2s;
+    cursor: pointer;
+}
+
+.tech-logo {
+    height: 100%;
+    margin-right: 4px;
+    margin-left: 0px;
+}
+
+.corner {
+    border-radius: 12px 0 0 12px;
+}
+
+.tech-name {
+    margin-top: -1px;
+}
+
+.tech-tag:hover {
+    border-color: #fff;
+    color: #fff;
+}
+
+@media screen and (max-width: 1399px){}
+
+@media screen and (max-width: 1199px){}
+
+@media screen and (max-width: 991px){
+    .tech-tags {
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 767px){
+    .selection {
+        border-radius: 8px;
+    }
+}
