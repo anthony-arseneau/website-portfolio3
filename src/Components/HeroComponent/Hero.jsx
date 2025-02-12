@@ -3,16 +3,24 @@ import profile from '../../assets/profile4.png'
 import canadaFlag from '../../assets/canada_flag.png'
 import videoBg from '../../assets/background4.mp4'
 import { Links } from '../../Components/component_import.js'
+import React, { useEffect, useState } from 'react'
+
 
 function Hero() {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        setIsVisible(true);
+      }, []);
+
     return (
         <>
-            <div className='hero'>
+            <div className='hero' id='home'>
                 <div className='video-wrapper'>
                     <video src={videoBg} autoPlay loop muted className='video-bg'/>
                 </div>
                 <div className="video-overlay"/>
-                <div className='profile-info'>
+                <div className={isVisible ? 'fade-down profile-info' : 'profile-info'}>
                     <div className='profile-container'>
                         <img src={profile} className="profile" alt="AI generated profile picture. See Linkedin or github profiles to see actual picture." />
                     </div>
@@ -24,7 +32,7 @@ function Hero() {
                     </div>
                 </div>
                 <div className='row'>
-                    <h1 className='hero-title col-md-8 offset-md-2'>Computer Science <br/> Student</h1>
+                    <h1 className={isVisible ? 'fade-up hero-title col-md-8 offset-md-2' : 'hero-title col-md-8 offset-md-2'}>Computer Science <br/> Student</h1>
                 </div>
                 <Links/>
             </div>

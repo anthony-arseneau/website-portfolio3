@@ -10,6 +10,12 @@ import Links from './LinksComponent/Links.jsx';
 // Import experience component
 import Experience from './ExperienceComponent/Experience.jsx';
 
+// Import institutions component
+import Institutions from './InstitutionsComponent/Institutions.jsx';
+
+// Import footer component
+import Footer from './FooterComponent/Footer.jsx';
+
 /**
  * Export all components to allow easy import elsewhere
  * This includes:
@@ -17,5 +23,5 @@ import Experience from './ExperienceComponent/Experience.jsx';
  * 
  * @author Anthony Arseneau
  */
-export { Hero, NavigationBar, Links, Experience };
-export default { Hero, NavigationBar, Links, Experience };
+export { Hero, NavigationBar, Links, Experience, Institutions, Footer };
+export default { Hero, NavigationBar, Links, Experience, Institutions, Footer };

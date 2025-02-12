@@ -1,0 +1,12 @@
+.institutions-content {
+    display: flex;
+    background-color: #fff;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.academic_logo {
+    height: 70px;
+    margin: auto 10px;
+}

@@ -23,12 +23,13 @@ p {
 }
 
 #projects:checked ~ .label-1,
-#education:checked ~ .label-2{
+#experience:checked ~ .label-2,
+#education:checked ~ .label-3{
     background-color: #1b2129;
 }
 
 .selection {
-    margin-top: 60px;
+    margin-top: 50px;
     border-radius: 20px;
     background-color: #0E1117;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -45,6 +46,7 @@ p {
 }
 
 .projects-selection,
+.experience-selection,
 .education-selection {
     padding: 0;
 }
@@ -69,7 +71,6 @@ p {
 .list-component {
     list-style: none;
     padding-top: 40px;
-    padding-bottom: 40px;
 }
 
 .list-component .__item {
@@ -158,6 +159,15 @@ p {
 .tech-tag:hover {
     border-color: #fff;
     color: #fff;
+}
+
+.link {
+    text-decoration: none;
+    color: #fff;
+}
+
+.link:hover {
+    text-decoration: underline;
 }
 
 @media screen and (max-width: 1399px){}
