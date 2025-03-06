@@ -54,7 +54,7 @@ export const Experience = () => {
                         <div className="col-md-4 experience-selection">
                             {/* Experience */}
                             <input type="radio" id="experience" name="experience" value="experience" className="radio" onClick={() => setDisplay("experience")}/>
-                            <label className="btn btn-secondary label label-2" htmlFor="experience">Experience</label>
+                            <label className="btn btn-secondary label label-2" htmlFor="experience">Work</label>
                         </div>
                         <div className="col-md-4 education-selection">
                             {/* Education */}
@@ -468,8 +468,8 @@ export const Experience = () => {
                                     <h2 className="__year">September 2025</h2>
                                     <h1 className="__title">MEng. Mecanical Engineering</h1>
                                     <div className='details'>
-                                        <h3 className="__subtitle">Applying...</h3>
-                                        <p className="__text"></p>
+                                        <h3 className="__subtitle"><a href='https://www.unb.ca/' target='_blank' className='link'>University of New Brunswick</a> | <a href='https://www.google.com/maps/place/Fredericton,+NB/@45.9453436,-66.8310588,11z/data=!3m1!4b1!4m6!3m5!1s0x4ca4220ba498fb2b:0xe7de2f297a415db4!8m2!3d45.9635895!4d-66.6431151!16zL20vMDJ3NzA?entry=ttu&g_ep=EgoyMDI1MDMwMy4wIKXMDSoASAFQAw%3D%3D' target='_blank' className='link'>Fredericton, NB</a></h3>
+                                        <p className="__text">Accepted to study at UNB.</p>
                                     </div>
                                 </div>
                             </li>
