@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="footer">
         <Links/>
-        <p className='last-edited'>Last edited: March 6, 2025</p>
+        <p className='last-edited'>Last edited: March 17, 2025</p>
     </footer>
   );
 };
