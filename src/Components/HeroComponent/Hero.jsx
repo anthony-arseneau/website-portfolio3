@@ -26,8 +26,8 @@ function Hero() {
                     </div>
                     <div className='info'>
                         <h2>Anthony Arseneau</h2>
-                        <a target='_blank' className='info-location' href='https://www.google.com/maps/place/Moncton,+NB/@46.1131365,-64.9654078,11z/data=!3m1!4b1!4m6!3m5!1s0x4ca0b92918d41765:0xdc10a333a4e63c4!8m2!3d46.0878165!4d-64.7782313!16zL20vMDRfbGI?entry=ttu&g_ep=EgoyMDI1MDIwOS4wIKXMDSoASAFQAw%3D%3D'>
-                            <h3>Moncton NB, Canada<img className='flag' src={canadaFlag}></img></h3>
+                        <a target='_blank' className='info-location' href='https://www.google.com/maps/place/Fredericton,+NB/@45.9453436,-66.8310588,11z/data=!3m1!4b1!4m6!3m5!1s0x4ca4220ba498fb2b:0xe7de2f297a415db4!8m2!3d45.9635895!4d-66.6431151!16zL20vMDJ3NzA?entry=ttu&g_ep=EgoyMDI1MDMxNy4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D'>
+                            <h3>Fredericton NB, Canada<img className='flag' src={canadaFlag}></img></h3>
                         </a>
                     </div>
                 </div>

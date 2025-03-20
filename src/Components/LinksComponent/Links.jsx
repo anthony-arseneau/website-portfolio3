@@ -28,7 +28,7 @@ export const Links = () => {
                         <a id="pdfLink" href={resume} download={'resume_anthony_arseneau.pdf'} className="links-menu-link">Resume <FaRegFileAlt style={{marginTop: -2}}/></a>
                     </li>
                     <li className="links-menu-list-rotate">
-                        <a onClick={() => window.location = 'mailto:anthony@arseneau.ai'} className="links-menu-link bigger"><LuSend style={{marginLeft: -1}}/></a>
+                        <a onClick={() => window.location = 'mailto:afarseneau@mta.ca'} className="links-menu-link bigger"><LuSend style={{marginLeft: -1}}/></a>
                     </li>
                 </ul>
             </section>
