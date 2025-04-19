@@ -368,7 +368,7 @@ export const Experience = () => {
                                         <h3 className="__subtitle"><a href='https://ranz-bontogon.com/' target='_blank' className='link'>RB Personal Contract</a> | <a href='https://www.google.com/maps/place/Moncton,+NB/@46.1131365,-64.9654078,11z/data=!3m1!4b1!4m6!3m5!1s0x4ca0b92918d41765:0xdc10a333a4e63c4!8m2!3d46.0878165!4d-64.7782313!16zL20vMDRfbGI?entry=ttu&g_ep=EgoyMDI1MDIwOS4wIKXMDSoASAFQAw%3D%3D' target='_blank' className='link'>Moncton, NB</a></h3>
                                         <p className="__text">
                                             Developed a high-performance website using HTML, CSS, and JavaScript, increasing client visibility and user
-                                            engagement by over 600%, attracting more than 1,200 unique users per month.
+                                            engagement by over 10x, attracting more than 1,500 unique users per month.
                                             Collaborated closely with the client to provide comprehensive assistance throughout the domain registration process,
                                             management of the hosting setup, and migration of the website to the new platform.
                                             Monitored website traffic and performance metrics through advanced analytics tools, such as Cloudflare, which
