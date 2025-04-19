@@ -38,7 +38,7 @@ import googlestreet from '../../assets/googlestreet.png'
 
 
 export const Experience = () => {
-    const[display, setDisplay] = useState("projects");
+    const[display, setDisplay] = useState("experience");
 
     return (
         <>
@@ -48,12 +48,12 @@ export const Experience = () => {
                     <div className='row selection'>
                         <div className="col-md-4 projects-selection">
                             {/* Projects */}
-                            <input type="radio" id="projects" name="experience" value="projects" className="radio" onClick={() => setDisplay("projects")} defaultChecked/>
+                            <input type="radio" id="projects" name="experience" value="projects" className="radio" onClick={() => setDisplay("projects")}/>
                             <label className="btn btn-secondary label label-1" htmlFor="projects">Projects</label>
                         </div>
                         <div className="col-md-4 experience-selection">
                             {/* Experience */}
-                            <input type="radio" id="experience" name="experience" value="experience" className="radio" onClick={() => setDisplay("experience")}/>
+                            <input type="radio" id="experience" name="experience" value="experience" className="radio" onClick={() => setDisplay("experience")} defaultChecked/>
                             <label className="btn btn-secondary label label-2" htmlFor="experience">Work</label>
                         </div>
                         <div className="col-md-4 education-selection">
@@ -349,13 +349,26 @@ export const Experience = () => {
                         <ul className="list-component">
                             <li className="__item">
                                 <div className="card-component">
+                                    <h2 className="__year">May – August 2025</h2>
+                                    <h1 className="__title">Meter Services Intern</h1>
+                                    <div className='details'>
+                                        <h3 className="__subtitle"><a href='https://www.nbpower.com/' target='_blank' className='link'>NB Power</a> | <a href='https://www.google.com/maps?sca_esv=c39eac78d6ed00f6&output=search&q=bathurst&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpIgVFCTcbZI9VMGzNoV0iOZkckJJygdiLH6_g992ly-N3ZhTu1MHW3iZwH0a8xO8HGQfhZCtTE10EUDitcgLyPOPgcSN_kPyxmSMtP_k3VNkASaNYrGV87kHm_owanoPH3SM7ecLF7zpM_p1r5dQqP1vt46Of1Kso6kmAQmTbuei57KiiUCLyE_uV5d0FyAOsEKynGw&entry=mc&ved=1t:200715&ictx=111' target='_blank' className='link'>Bathurst, NB</a></h3>
+                                        <p className="__text">
+                                            NB Power summer student internship.
+                                            Position starting soon.
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="__item">
+                                <div className="card-component">
                                     <h2 className="__year">May 2024 – Present</h2>
                                     <h1 className="__title">Web Developer</h1>
                                     <div className='details'>
                                         <h3 className="__subtitle"><a href='https://ranz-bontogon.com/' target='_blank' className='link'>RB Personal Contract</a> | <a href='https://www.google.com/maps/place/Moncton,+NB/@46.1131365,-64.9654078,11z/data=!3m1!4b1!4m6!3m5!1s0x4ca0b92918d41765:0xdc10a333a4e63c4!8m2!3d46.0878165!4d-64.7782313!16zL20vMDRfbGI?entry=ttu&g_ep=EgoyMDI1MDIwOS4wIKXMDSoASAFQAw%3D%3D' target='_blank' className='link'>Moncton, NB</a></h3>
                                         <p className="__text">
                                             Developed a high-performance website using HTML, CSS, and JavaScript, increasing client visibility and user
-                                            engagement by over 500%, attracting more than 1,100 unique users per month.
+                                            engagement by over 600%, attracting more than 1,200 unique users per month.
                                             Collaborated closely with the client to provide comprehensive assistance throughout the domain registration process,
                                             management of the hosting setup, and migration of the website to the new platform.
                                             Monitored website traffic and performance metrics through advanced analytics tools, such as Cloudflare, which
@@ -476,20 +489,10 @@ export const Experience = () => {
                             <li className="__item">
                                 <div className="card-component">
                                     <h2 className="__year">Class of 2025</h2>
-                                    <h1 className="__title">Computer Science Degree</h1>
+                                    <h1 className="__title">BSc. Computer Science</h1>
                                     <div className='details'>
                                         <h3 className="__subtitle"><a href='https://mta.ca/' target='_blank' className='link'>Mount Allison University</a> | <a href='https://www.google.com/maps?sca_esv=c62d8c7ed5b74a5b&output=search&q=sackville&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpIgVFCTcbZI9VMGzNoV0iOZkckJJygdiLH6_g992ly-N3ZhTu1MHW3iZwH0a8xO8HZ5pNA7P1FP69xfs9dsZrpVtvYRlslfTiGgyLPI14HArMPvNAyR4_7szs0rY5DvThj6Rri2i4JggIDc-s9lYlJSzeOhba9FqUqpnBe0PRKj4cq4boj5Qwss4eSS7aEKBzI2TyEw&entry=mc&ved=1t:200715&ictx=111' target='_blank' className='link'>Sackville, NB</a></h3>
                                         <p className="__text">BSc. Major in Computer Science, Minor in Mathematics.<br/>Cumulative GPA of 3.7 out of 4.3.</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">Class of 2021</h2>
-                                    <h1 className="__title">High School Diploma</h1>
-                                    <div className='details'>
-                                        <h3 className="__subtitle"><a href='https://www.dsfne.ca/ecole/ecole-secondaire-nepisiguit-bathurst/' target='_blank' className='link'>Ecole Secondaire Nepisiguit</a> | <a href='https://www.google.com/maps?sca_esv=c62d8c7ed5b74a5b&output=search&q=bathurst&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpIgVFCTcbZI9VMGzNoV0iOZkckJJygdiLH6_g992ly-N56ueDsJ8PHmDNZqG8FmCe3GaMsJKZsLO8dQHXAa6ktp1Q-Ppm9Ty0oP3Vd8j148johs55TxuqqFtA_OuhVduB_ZaOlhwqZcpgdCmdxVKDjWMZtnYxAD8fUZ4o0y0NeFMuyYJZKylpMlFR_x_1-ojk1sLn1A&entry=mc&ved=1t:200715&ictx=111' target='_blank' className='link'>Bathurst, NB</a></h3>
-                                        <p className="__text">Final grade of 98.2%.</p>
                                     </div>
                                 </div>
                             </li>

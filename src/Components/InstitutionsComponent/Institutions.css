@@ -6,7 +6,11 @@
     padding: 15px 0;
 }
 
+.academic_link {
+    margin: auto 15px;
+}
+
 .academic_logo {
     height: 70px;
-    margin: auto 10px;
+    padding: 10px 0;
 }

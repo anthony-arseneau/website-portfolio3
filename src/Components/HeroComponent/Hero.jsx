@@ -32,7 +32,7 @@ function Hero() {
                     </div>
                 </div>
                 <div className='row'>
-                    <h1 className={isVisible ? 'fade-up hero-title col-md-8 offset-md-2' : 'hero-title col-md-8 offset-md-2'}>Computer Science <br/> Student</h1>
+                    <h1 className={isVisible ? 'fade-up hero-title col-md-8 offset-md-2' : 'hero-title col-md-8 offset-md-2'}>MEng Mechanical Engineering Student <br/>& Computer Scientist</h1>
                 </div>
                 <Links/>
             </div>
