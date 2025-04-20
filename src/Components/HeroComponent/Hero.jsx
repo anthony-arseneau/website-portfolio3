@@ -4,6 +4,8 @@ import canadaFlag from '../../assets/canada_flag.png'
 import videoBg from '../../assets/background4.mp4'
 import { Links } from '../../Components/component_import.js'
 import React, { useEffect, useState } from 'react'
+import worker from '../../assets/worker.png'
+import computer from '../../assets/cpu.png'
 
 
 function Hero() {
@@ -32,7 +34,7 @@ function Hero() {
                     </div>
                 </div>
                 <div className='row'>
-                    <h1 className={isVisible ? 'fade-up hero-title col-md-8 offset-md-2' : 'hero-title col-md-8 offset-md-2'}>MEng Mechanical Engineering Student <br/>& Computer Scientist</h1>
+                    <h1 className={isVisible ? 'fade-up hero-title col-md-8 offset-md-2' : 'hero-title col-md-8 offset-md-2'}>MEng. ME Student <img src={worker} alt="worker icon" className="icon" /> <br/>& BSc. CS <img src={computer} alt="computer icon" className="icon" /></h1>
                 </div>
                 <Links/>
             </div>
