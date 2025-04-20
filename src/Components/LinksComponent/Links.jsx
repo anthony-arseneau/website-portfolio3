@@ -100,7 +100,7 @@ export const Links = () => {
                         left: position.x,
                         background: 'linear-gradient(135deg, rgba(46, 49, 146, 0.8), rgba(23, 209, 209, 0.5))',
                         borderRadius: '8px',
-                        padding: '4px 8px',
+                        padding: '5px 8px',
                         color: 'white',
                         fontSize: '12px',
                         width: 'auto', // Allow container to shrink with content
@@ -115,6 +115,7 @@ export const Links = () => {
                         overflowWrap: 'break-word',  // Ensure words break properly
                         backdropFilter: 'blur(3px)',  // Apply blur effect to the background
                         boxShadow: 'inset 0 0 10px rgba(255, 255, 255, 0.4)',
+                        lineHeight: '1.3',
                     }}
                 >
                     {hoverText}
