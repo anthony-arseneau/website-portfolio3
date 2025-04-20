@@ -100,9 +100,23 @@
 .icon {
     height: 64px;
     vertical-align: middle;
-    margin-left: 8px;
+    margin-left: 20px;
     margin-top: -15px;
-  }
+    transition: transform 0.2s;
+}
+
+.icon:hover {
+    animation: wiggle 0.8s ease-in-out;
+}
+
+@keyframes wiggle {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(-10deg); }
+    40%  { transform: rotate(8deg); }
+    60%  { transform: rotate(-5deg); }
+    80%  { transform: rotate(3deg); }
+    100% { transform: rotate(0deg); }
+  }  
 
 @media screen and (max-width: 767px) {
     .profile-info {
