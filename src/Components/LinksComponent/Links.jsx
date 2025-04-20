@@ -32,10 +32,12 @@ export const Links = () => {
     }, []);
 
     const handleResumeClick = (e) => {
+        e.preventDefault(); // Prevent default anchor behavior
+    
         // Open in new tab
         window.open(resume, '_blank');
     
-        // Create a temporary link to trigger the download
+        // Trigger download
         const link = document.createElement('a');
         link.href = resume;
         link.download = 'resume_anthony_arseneau.pdf';
