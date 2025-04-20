@@ -67,14 +67,15 @@ export const Links = () => {
                             </a>
                         </li>
                         <li className="links-menu-list">
-                            <a id="pdfLink" 
-                            href={resume} 
-                            download={'resume_anthony_arseneau.pdf'} 
-                            className="links-menu-link"
-                            onClick={handleResumeClick}
-                            onMouseMove={(e) => handleMouseMove(e, 'Download Resume')}
-                            onMouseLeave={handleMouseLeave}>
-                                Resume <FaRegFileAlt style={{marginTop: -2}}/>
+                            <a
+                                id="pdfLink"
+                                href={resume}
+                                className="links-menu-link"
+                                onClick={handleResumeClick}
+                                onMouseMove={(e) => handleMouseMove(e, 'Download Resume')}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                Resume <FaRegFileAlt style={{ marginTop: -2 }} />
                             </a>
                         </li>
                         <li className="links-menu-list-rotate">
