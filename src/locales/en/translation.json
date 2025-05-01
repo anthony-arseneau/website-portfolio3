@@ -1,6 +1,7 @@
 {
   "home": "Home",
   "experience_": "Experience",
+  "tech-stack": "Technologies",
   "location": "Fredericton NB, Canada",
   "locationDescription": "See location on Google Maps",
   "studentTitle": "MEng ME Student",
@@ -78,5 +79,8 @@
         "description": "BSc. Major in Computer Science, Minor in Mathematics. Cumulative GPA of 3.7 out of 4.3."
       }
     }
-  }  
+  },
+  "web_development_frontend": "Web Development & Front-End",
+  "software_engineering": "Software Engineering & Back-End",
+  "systems_engineering": "Systems & Engineering Tools"
 }

@@ -15,6 +15,7 @@ a {
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 35px;
     width:fit-content;
+    display:contents;
     left: 50%;
     transform: translateX(-50%);
     width: auto;
@@ -66,7 +67,7 @@ a {
 /* Position language toggle to the right of the navbar */
 .language-toggle {
     position: absolute;
-    left: 110px; /* Adjust this value as needed */
+    left: 180px; /* Adjust this value as needed */
     top: 20px;
 }
 

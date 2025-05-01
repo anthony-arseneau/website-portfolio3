@@ -5,9 +5,12 @@ import {
   arduino, fusion, dremel, html, googlestreet
 } from '../../assets/logos_import';
 import './TechStack.css'
+import { useTranslation } from 'react-i18next';
 
+const TechStack = () => {
+const { t } = useTranslation();
 const techStacks = {
-  'Web Development & Front-End': [
+  [t('web_development_frontend')]: [
     { name: 'HTML', url: 'https://www.w3schools.com/howto/howto_make_a_website.asp', logo: html },
     { name: 'CSS', url: 'https://developer.mozilla.org/en-US/docs/Web/CSS', logo: css },
     { name: 'JavaScript', url: 'https://www.javascript.com/', logo: js },
@@ -17,7 +20,7 @@ const techStacks = {
     { name: 'npm', url: 'https://www.npmjs.com/', logo: npm },
     { name: 'Figma', url: 'https://www.figma.com/', logo: figma }
   ],
-  'Software Engineering & Back-End': [
+  [t('software_engineering')]: [
     { name: 'Java', url: 'https://www.java.com/en/', logo: java },
     { name: 'JavaFX', url: 'https://openjfx.io/', logo: javafx },
     { name: 'Spring Boot', url: 'https://spring.io/projects/spring-boot', logo: springboot },
@@ -25,7 +28,7 @@ const techStacks = {
     { name: 'JSON', url: 'https://www.json.org/json-en.html', logo: json },
     { name: 'Scrum', url: 'https://www.scrum.org/', logo: scrum }
   ],
-  'Systems & Engineering Tools': [
+  [t('systems_engineering')]: [
     { name: 'C++', url: 'https://cplusplus.com/', logo: cpp },
     { name: 'Arduino', url: 'https://www.arduino.cc/', logo: arduino },
     { name: 'Fusion 360', url: 'https://www.autodesk.com/ca-en/products/fusion-360/personal', logo: fusion },
@@ -40,8 +43,8 @@ const techStacks = {
   ]
 };
 
-const TechStack = () => (
-    <div className='row'>
+    return(
+    <div className='row' id="tech-stack">
         <div className="col-md-8 offset-md-2 tech-stack-container display">
             <h1 className='header'>Tech Stack</h1>
             <div className='row justify-content-center'>
@@ -63,6 +66,7 @@ const TechStack = () => (
             </div>
         </div>
     </div>
-);
+    )
+};
 
 export default TechStack;

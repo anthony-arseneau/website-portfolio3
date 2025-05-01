@@ -18,7 +18,7 @@ export const Experience = () => {
     return (
         <>
             {/* Experience selection */}
-            <div className="center-wrapper">
+            <div className="center-wrapper" id="experience1">
                 <div className="selection">
                     <div className="experience-buttons">
                         <div className="button-wrapper">

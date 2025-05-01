@@ -40,6 +40,9 @@ export const NavigationBar = () => {
                         <li className="menu-list">
                             <a onClick={() => scrollToSection('experience1')} className="menu-link">{t('experience_')}</a>
                         </li>
+                        <li className="menu-list">
+                            <a onClick={() => scrollToSection('tech-stack')} className="menu-link">{t('tech-stack')}</a>
+                        </li>
                     </ul>
                 </section>
             </nav>

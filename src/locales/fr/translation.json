@@ -1,6 +1,7 @@
 {
   "home": "Accueil",
   "experience_": "Expérience",
+  "tech-stack": "Technologies",
   "location": "Fredericton NB, Canada",
   "locationDescription": "Voir l'emplacement sur Google Maps",
   "studentTitle": "Étudiant en Génie Mécanique",
@@ -84,5 +85,8 @@
         "description": "Baccalauréat en sciences, majeure Informatique, mineure Mathématiques. Moyenne cumulative de 3,7 / 4,3."
       }
     }
-  }  
+  },
+  "web_development_frontend": "Développement Web & Front-End",
+  "software_engineering": "Ingénierie logicielle",
+  "systems_engineering": "Systèmes & Ingénierie"
 }
