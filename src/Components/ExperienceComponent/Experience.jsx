@@ -1,41 +1,14 @@
 import React, { useState } from 'react';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.css'; // Import bootstrap for styling
-import bash from '../../assets/bash.png';
-import cloudflare from '../../assets/cloudflare.png';
-import css from '../../assets/css.svg';
-import js from '../../assets/js.png';
-import jsx from '../../assets/jsx.png';
-import react from '../../assets/react.png';
-import ubuntu from '../../assets/ubuntu.png';
+
+
 import './Experience.css';
 import { useTranslation } from 'react-i18next'; 
-
-import gradle from '../../assets/gradle.png';
-import java from '../../assets/java.png';
-import json from '../../assets/json.png';
-import npm from '../../assets/npm.png';
-import springboot from '../../assets/springboot.png';
-import vite from '../../assets/vite.png';
-import figma from '../../assets/figma.png'
-import scrum from '../../assets/scrum.png'
-
-import aes from '../../assets/aes.png';
-import javafx from '../../assets/javafx.webp';
-import rsa from '../../assets/rsa.png';
-import sha256 from '../../assets/sha256.png';
-
-import arduino from '../../assets/arduino.svg';
-import cpp from '../../assets/cpp.png';
-import dremel from '../../assets/dremel.jpg';
-import fusion from '../../assets/fusion.png';
-
-import baller from '../../assets/baller2.mp4'
-import SPGC from '../../assets/SPGC.jpg'
-import knowinnotes from '../../assets/knowinnotes.png'
-
-import html from '../../assets/html.webp'
-
-import googlestreet from '../../assets/googlestreet.png'
+import {
+    vite, react, jsx, js, css, cloudflare, bash, ubuntu, npm, springboot,
+    gradle, java, json, figma, scrum, javafx, rsa, aes, sha256, cpp,
+    arduino, fusion, dremel, html, googlestreet, knowinnotes, SPGC, baller
+  } from '../../assets/logos_import';
 
 
 export const Experience = () => {
@@ -45,27 +18,25 @@ export const Experience = () => {
     return (
         <>
             {/* Experience selection */}
-            <div className='row' id='experience1'>
-                <div className='col-md-4 offset-md-4'>
-                    <div className='row selection'>
-                        <div className="col-md-4 projects-selection">
-                            {/* Projects */}
-                            <input type="radio" id="projects" name="experience" value="projects" className="radio" onClick={() => setDisplay("projects")}/>
+            <div className="center-wrapper">
+                <div className="selection">
+                    <div className="experience-buttons">
+                        <div className="button-wrapper">
+                            <input type="radio" id="projects" name="experience" value="projects" className="radio" onClick={() => setDisplay("projects")} />
                             <label className="btn btn-secondary label label-1" htmlFor="projects">{t('experience.selection.projects')}</label>
                         </div>
-                        <div className="col-md-4 experience-selection">
-                            {/* Experience */}
-                            <input type="radio" id="experience" name="experience" value="experience" className="radio" onClick={() => setDisplay("experience")} defaultChecked/>
+                        <div className="button-wrapper">
+                            <input type="radio" id="experience" name="experience" value="experience" className="radio" onClick={() => setDisplay("experience")} defaultChecked />
                             <label className="btn btn-secondary label label-2" htmlFor="experience">{t('experience.selection.work')}</label>
                         </div>
-                        <div className="col-md-4 education-selection">
-                            {/* Education */}
-                            <input type="radio" id="education" name="experience" value="education" className="radio" onClick={() => setDisplay("education")}/>
+                        <div className="button-wrapper">
+                            <input type="radio" id="education" name="experience" value="education" className="radio" onClick={() => setDisplay("education")} />
                             <label className="btn btn-secondary label label-3" htmlFor="education">{t('experience.selection.education')}</label>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             {display == "projects" &&
                 <div className='row'>

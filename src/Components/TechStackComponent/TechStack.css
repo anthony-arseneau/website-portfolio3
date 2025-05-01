@@ -1,0 +1,50 @@
+.tech-stack-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 70px;
+    padding: 32px;
+}
+
+.tech-column {
+    background-color: #151B23;
+    border-radius: 4px;
+    margin: 12px;
+    padding: 12px;
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+}
+
+.tech-column h3 {
+    text-align: center;
+    color: #fff;
+    margin: 20px auto 0 auto;
+}
+
+.tech-tag2 {
+    margin-top: 14px;
+    display: flex;
+    padding: 6px 8px 6px 6px;
+    margin-right: 8px;
+    border: 1px solid #3C444D;
+    border-radius: 18px;
+    height: 36px;
+    font-size: 1em;
+    font-weight: bolder;
+    color: #3C444D;
+    font-size: 1rem;
+    transition: ease-in-out 0.2s;
+    cursor: pointer;
+}
+
+.tech-tag2:hover {
+    border-color: #fff;
+    color: #fff;
+}
+
+.header {
+    margin: 20px auto 10px auto;
+    font-size: 2em;
+    color: #ccc;
+}
