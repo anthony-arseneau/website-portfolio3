@@ -1,31 +1,26 @@
-import './Hero.css'
-import profile from '../../assets/profile4.png'
-import canadaFlag from '../../assets/canada_flag.png'
-import videoBg from '../../assets/background4.mp4'
-import { Links } from '../../Components/component_import.js'
-import React, { useEffect, useState } from 'react'
-import worker from '../../assets/worker.png'
-import computer from '../../assets/cpu.png'
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next'; 
+import { useHoverText } from '../../hooks/useHoverText'; // Import the custom hook
+import './Hero.css';
+import profile from '../../assets/profile5.png';
+import canadaFlag from '../../assets/canada_flag.png';
+import videoBg from '../../assets/background4.mp4';
+import { Links } from '../../Components/component_import.js';
+import worker from '../../assets/worker.png';
+import computer from '../../assets/cpu.png';
+import firework from '../../assets/fireworks.gif';
 
 function Hero() {
     const [isVisible, setIsVisible] = useState(false);
-    const [showTextarea, setShowTextarea] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [hoverText, setHoverText] = useState('');
+    const [hovering, setHovering] = useState(false);
+    const [gifKey, setGifKey] = useState(0);
+
+    const { t } = useTranslation(); 
+    const { showTextarea, position, hoverText, handleMouseMove, handleMouseLeave } = useHoverText(); // Using custom hook
 
     useEffect(() => {
         setIsVisible(true);
     }, []);
-
-    const handleMouseMove = (e, text) => {
-        setShowTextarea(true);
-        setHoverText(text);
-        setPosition({ x: e.pageX + 15, y: e.pageY + 15 });
-    };
-
-    const handleMouseLeave = () => {
-        setShowTextarea(false);
-    };
 
     return (
         <>
@@ -40,28 +35,52 @@ function Hero() {
                     </div>
                     <div className='info'>
                         <h2>Anthony Arseneau</h2>
-                        <a target='_blank' className='info-location' href='https://www.google.com/maps/place/Fredericton,+NB/...'>
-                            <h3>Fredericton NB, Canada<img className='flag' src={canadaFlag} /></h3>
+                        <a 
+                            target='_blank' 
+                            className='info-location' 
+                            href='https://www.google.com/maps/place/Fredericton,+NB/...'
+                            onMouseEnter={() => {
+                                setHovering(true);
+                                setGifKey(prev => prev + 1);
+                            }}
+                            onMouseLeave={() => {
+                                setHovering(false);
+                                handleMouseLeave();
+                            }}
+                            onMouseMove={(e) => handleMouseMove(e, t('locationDescription'))}
+                        >
+                            <h3>{t('location')}
+                                <span className='flag-wrapper'>
+                                    <img className='flag' src={canadaFlag} />
+                                    
+                                    {hovering && false && (
+                                        <>
+                                            <img className='flag-anim flag-anim-left' src={`${firework}?${gifKey}`} alt="animated fireworks" />
+                                            <img className='flag-anim flag-anim-right' src={`${firework}?${gifKey}`} alt="animated fireworks" />
+                                        </>
+                                    )}
+                                </span>
+                            </h3>
                         </a>
                     </div>
                 </div>
                 <div className='row'>
                     <h1 className={isVisible ? 'fade-up hero-title col-md-8 offset-md-2' : 'hero-title col-md-8 offset-md-2'}>
-                        MEng. ME Student 
+                        {t('studentTitle')} 
                         <img 
                             src={worker} 
                             alt="worker icon" 
                             className="icon" 
-                            onMouseMove={(e) => handleMouseMove(e, 'Mechanical Engineering Grad Student')}
+                            onMouseMove={(e) => handleMouseMove(e, t('engineeringDegree'))}
                             onMouseLeave={handleMouseLeave}
                         /> 
                         <br /> 
-                        & BSc. CS 
+                        {t('degreeTitle')} 
                         <img 
                             src={computer} 
                             alt="computer icon" 
                             className="icon" 
-                            onMouseMove={(e) => handleMouseMove(e, 'Bachelor of Science with a Major in Computer Science and a Minor in Mathematics')}
+                            onMouseMove={(e) => handleMouseMove(e, t('computerScienceDegree'))}
                             onMouseLeave={handleMouseLeave}
                         />
                     </h1>
@@ -79,17 +98,17 @@ function Hero() {
                             padding: '5px 8px',
                             color: 'white',
                             fontSize: '12px',
-                            width: 'auto', // Allow container to shrink with content
+                            width: 'auto',
                             maxWidth: '376px',  
-                            minWidth: '50px',  // Prevent it from being too narrow
+                            minWidth: '50px',
                             display: 'inline-block',
-                            whiteSpace: 'pre-wrap',  // Preserve spaces and line breaks
-                            wordBreak: 'break-word',  // Ensure long words wrap
+                            whiteSpace: 'pre-wrap',
+                            wordBreak: 'break-word',
                             zIndex: 1000,
                             textAlign: 'left',
                             fontWeight: 'bold',
-                            overflowWrap: 'break-word',  // Ensure words break properly
-                            backdropFilter: 'blur(3px)',  // Apply blur effect to the background
+                            overflowWrap: 'break-word',
+                            backdropFilter: 'blur(3px)',
                             boxShadow: 'inset 0 0 10px rgba(255, 255, 255, 0.4)',
                             lineHeight: '1.3',
                         }}
@@ -98,11 +117,10 @@ function Hero() {
                     </div>
                 )}
 
-
                 <Links/>
             </div>
         </>
-    )
+    );
 }
 
 export default Hero;

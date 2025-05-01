@@ -39,10 +39,6 @@
     text-decoration: underline;
 }
 
-.flag {
-    margin-left: 5px;
-}
-
 .hero-card {
     padding: 2em;
     position: relative;
@@ -107,6 +103,98 @@
 
 .icon:hover {
     animation: wiggle 0.9s ease-in-out;
+}
+
+
+
+.flag-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+
+/* Base flag style */
+.flag {
+    margin-left: 5px;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Animation when the parent h3 is hovered
+.info-location h3:hover .flag {
+    animation: squishJump 0.6s ease forwards;
+} */
+
+/* Keyframes for squish then jump */
+@keyframes squishJump {
+    0% {
+        transform: scale(1, 1);
+    }
+    20% {
+        transform: scale(1.2, 0.8);
+    }
+    40% {
+        transform: scale(0.9, 1.1);
+    }
+    60% {
+        transform: translateY(-2px) scale(1.05, 0.95);
+    }
+    80% {
+        transform: translateY(0px) scale(1, 1);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+
+.flag-anim {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.flag-anim-left {
+    top: -20px;
+    left: -18px;
+    animation: floatLeft 1s ease-in-out 1;
+}
+
+.flag-anim-right {
+    top: -20px;
+    right: -22px;
+    animation: floatRight 1s ease-in-out 1;
+}
+
+@keyframes floatLeft {
+    0% {
+        transform: rotate(-45deg) translateY(5px) scale(1.1);
+        opacity: 0.2;
+    }
+    50% {
+        transform: rotate(-45deg) translateY(0) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(-45deg) translateY(-5px) scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes floatRight {
+    0% {
+        transform: rotate(45deg) translateY(5px) scale(1.1);
+        opacity: 0;
+    }
+    50% {
+        transform: rotate(45deg) translateY(0) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(45deg) translateY(-5px) scale(1);
+        opacity: 0;
+    }
 }
 
 @keyframes wiggle {

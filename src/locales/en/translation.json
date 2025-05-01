@@ -1,0 +1,82 @@
+{
+  "home": "Home",
+  "experience_": "Experience",
+  "location": "Fredericton NB, Canada",
+  "locationDescription": "See location on Google Maps",
+  "studentTitle": "MEng ME Student",
+  "degreeTitle": "BSc CS",
+  "engineeringDegree": "Mechanical Engineering Grad Student",
+  "computerScienceDegree": "Bachelor of Science with a Major in Computer Science and a Minor in Mathematics",
+  "resume": "Resume",
+  "hoverLinkedIn": "LinkedIn",
+  "hoverGitHub": "GitHub",
+  "hoverDownloadResume": "Download Resume",
+  "hoverEmailMe": "Email me",
+  "experience": {
+    "selection": {
+      "projects": "Projects",
+      "work": "Work",
+      "education": "Education"
+    },
+    "projects": {
+      "item1": {
+        "date": "January 2024 – Present",
+        "title": "Portfolio Website",
+        "subtitle": "Personal Project",
+        "description": "Developed a responsive portfolio website hosted on a personal server to showcase projects, skills, images, and videos, attracting over 600 unique users per month. Enhanced security and performance with HTTPS integration, optimized media load times, and a seamless cross-device experience."
+      },
+      "item2": {
+        "date": "September - December 2024",
+        "title": "Sight Reading Application",
+        "subtitle": "University Project, Software Design",
+        "description": "Knowin’ Notes is an application that aids users in learning to sight read for piano. Users achieve their sight reading ambitions by correctly identifying musical notation (notes, chords, and arpeggiated patterns) with a MIDI keyboard or their device screen. As the user’s sight reading skills improve, they will be prompted with notation of increasing difficulty. Those who teach music, music students, and pianists that want to improve their sight reading abilities are demographics for which we expect Knowin’ Notes to have the greatest impact."
+      },
+      "item3": {
+        "date": "January - April 2024",
+        "title": "Encrypted Messaging Application",
+        "subtitle": "University Project, Computer Networks",
+        "description": "Developed a secure messaging application using cryptographic algorithms like RSA, AES, and SHA-256, ensuring data integrity and confidentiality. Built with Java and Computer Networks frameworks, the project was rigorously tested for resilience against network vulnerabilities."
+      },
+      "item4": {
+        "date": "September - December 2023",
+        "title": "Self-Leveling Robot",
+        "subtitle": "University Project, Digital Signal Processing & Electronics",
+        "description": "Developed a robotic platform to balance a steel bearing ball under various perturbations. Leveraged CAD software, PID systems, C++, and electrical tools, such as microcontrollers and precise stepper motors. Contributed to project planning, troubleshooting, and iterative prototyping in a team environment to optimize performance."
+      }
+    },
+    "work": {
+      "item1": {
+        "date": "May – August 2025",
+        "title": "Meter Services Intern",
+        "description": "NB Power summer student internship. Position starting soon."
+      },
+      "item2": {
+        "date": "Mai 2024 – Présent",
+        "title": "Web Developer",
+        "description": "Developed a high-performance website using HTML, CSS, and JavaScript, increasing client visibility and user engagement by over 10x, attracting more than 1,500 unique users per month. Collaborated closely with the client to provide comprehensive assistance throughout the domain registration process, management of the hosting setup, and migration of the website to the new platform. Monitored website traffic and performance metrics through advanced analytics tools, such as Cloudflare, which contributed to a 33% improvement in website loading speed, overall security, and user experience." 
+      },
+      "item3": {
+        "date": "Summers 2018 – 2024",
+        "title": "Maintenance Worker and Technician",
+        "description": "Gathered over 35,000 views on Google Street View by capturing and processing 360-degree footage using image stitching software and geospatial data engineering techniques, increasing client engagement and boosting online visibility. Assisted in the installation of new machinery, ensuring compliance with safety and engineering standards. Designed mechanical parts for broken or missing components using CAD software like Autodesk Fusion 360. Operated heavy machinery to assist with construction and performed basic maintenance tasks, including cleaning, painting, and minor repairs to maintain safe and efficient operations." 
+      },
+      "item4": {
+        "date": "September 2023 – April 2024",
+        "title": "President of Residence",
+        "description": "Spearheaded a wide array of successful events, fostering inclusive community within the Thornton House residence. Orchestrated seamless communication between the residence and the university, serving as the primary liaison to ensure residents’ needs, and delegated responsibilities to an executive team, ensuring smooth execution of initiatives." 
+      }
+    },
+    "education": {
+      "item1": {
+        "date": "September 2025",
+        "title": "MEng Mecanical Engineering",
+        "description": "Accepted to study at UNB."
+      },
+      "item2": {
+        "date": "Class of 2025",
+        "title": "BSc Computer Science",
+        "description": "BSc. Major in Computer Science, Minor in Mathematics. Cumulative GPA of 3.7 out of 4.3."
+      }
+    }
+  }  
+}

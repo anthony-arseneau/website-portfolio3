@@ -1,32 +1,18 @@
-import './Links.css'
+import React, { useEffect, useState } from 'react';
+import { useHoverText } from '../../hooks/useHoverText';
+import { useTranslation } from 'react-i18next'; // Import the useTranslation hook
+import './Links.css';
 import { FaLinkedinIn } from "react-icons/fa6";
 import { FiGithub } from "react-icons/fi";
 import { FaRegFileAlt } from "react-icons/fa";
 import { LuSend } from "react-icons/lu";
-import React, { useEffect, useState } from 'react'
-
-import resume from '../../assets/public_resume.pdf'
+import resume from '../../assets/public_resume.pdf';
 
 export const Links = () => {
+    const { t } = useTranslation(); // Hook for translation
     const [isVisible, setIsVisible] = useState(false);
-    const [showTextarea, setShowTextarea] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [hoverText, setHoverText] = useState('');
+    const { showTextarea, position, hoverText, handleMouseMove, handleMouseLeave } = useHoverText();
 
-    useEffect(() => {
-        setIsVisible(true);
-    }, []);
-
-    const handleMouseMove = (e, text) => {
-        setShowTextarea(true);
-        setHoverText(text);
-        setPosition({ x: e.pageX + 15, y: e.pageY + 15 });
-    };
-
-    const handleMouseLeave = () => {
-        setShowTextarea(false);
-    };
-    
     useEffect(() => {
         setIsVisible(true);
     }, []);
@@ -54,7 +40,7 @@ export const Links = () => {
                         <li className="links-menu-list-rotate">
                             <a href="https://linkedin.com/in/anthonyarseneau" 
                             target='_blank' className="links-menu-link" 
-                            onMouseMove={(e) => handleMouseMove(e, 'LinkedIn')}
+                            onMouseMove={(e) => handleMouseMove(e, t('hoverLinkedIn'))}
                             onMouseLeave={handleMouseLeave}>
                                 <FaLinkedinIn/>
                             </a>
@@ -63,7 +49,7 @@ export const Links = () => {
                             <a href="https://github.com/anthony-arseneau" 
                             target='_blank' 
                             className="links-menu-link bigger"
-                            onMouseMove={(e) => handleMouseMove(e, 'GitHub')}
+                            onMouseMove={(e) => handleMouseMove(e, t('hoverGitHub'))}
                             onMouseLeave={handleMouseLeave}>
                                 <FiGithub/>
                             </a>
@@ -74,16 +60,16 @@ export const Links = () => {
                                 href={resume}
                                 className="links-menu-link"
                                 onClick={handleResumeClick}
-                                onMouseMove={(e) => handleMouseMove(e, 'Download Resume')}
+                                onMouseMove={(e) => handleMouseMove(e, t('hoverDownloadResume'))}
                                 onMouseLeave={handleMouseLeave}
                             >
-                                Resume <FaRegFileAlt style={{ marginTop: -2 }} />
+                                {t('resume')} <FaRegFileAlt style={{ marginTop: -2 }} />
                             </a>
                         </li>
                         <li className="links-menu-list-rotate">
                             <a onClick={() => window.location = 'mailto:afarseneau@mta.ca'} 
                             className="links-menu-link bigger"
-                            onMouseMove={(e) => handleMouseMove(e, 'Email me')}
+                            onMouseMove={(e) => handleMouseMove(e, t('hoverEmailMe'))}
                             onMouseLeave={handleMouseLeave}>
                                 <LuSend style={{marginLeft: -1}}/>
                             </a>
@@ -103,17 +89,17 @@ export const Links = () => {
                         padding: '5px 8px',
                         color: 'white',
                         fontSize: '12px',
-                        width: 'auto', // Allow container to shrink with content
+                        width: 'auto',
                         maxWidth: '400px',  
-                        minWidth: '50px',  // Prevent it from being too narrow
+                        minWidth: '50px',
                         display: 'inline-block',
-                        whiteSpace: 'pre-wrap',  // Preserve spaces and line breaks
-                        wordBreak: 'break-word',  // Ensure long words wrap
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word',
                         zIndex: 1000,
                         textAlign: 'left',
                         fontWeight: 'bold',
-                        overflowWrap: 'break-word',  // Ensure words break properly
-                        backdropFilter: 'blur(3px)',  // Apply blur effect to the background
+                        overflowWrap: 'break-word',
+                        backdropFilter: 'blur(3px)',
                         boxShadow: 'inset 0 0 10px rgba(255, 255, 255, 0.4)',
                         lineHeight: '1.3',
                     }}
@@ -122,7 +108,7 @@ export const Links = () => {
                 </div>
             )}
         </>
-    )
+    );
 }
 
 export default Links;

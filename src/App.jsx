@@ -1,5 +1,6 @@
 import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 import { Home } from './Pages/page_import.js'; // Import pages
+import './i18n'; // before rendering components
 
 function App() {
     return (

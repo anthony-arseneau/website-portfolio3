@@ -1,0 +1,88 @@
+{
+  "home": "Accueil",
+  "experience_": "Expérience",
+  "location": "Fredericton NB, Canada",
+  "locationDescription": "Voir l'emplacement sur Google Maps",
+  "studentTitle": "Étudiant en Génie Mécanique",
+  "degreeTitle": "BSc CS",
+  "engineeringDegree": "Étudiant en génie mécanique",
+  "computerScienceDegree": "Baccalauréat en sciences, majeure en informatique et mineure en mathématiques",
+  "resume": "CV",
+  "hoverLinkedIn": "LinkedIn",
+  "hoverGitHub": "GitHub",
+  "hoverDownloadResume": "Télécharger le CV",
+  "hoverEmailMe": "Envoyer un e-mail",
+  "experience": {
+    "selection": {
+      "projects": "Projets",
+      "work": "Travail",
+      "education": "Éducation"
+    },
+    "projects": {
+      "item1": {
+        "date": "Janvier 2024 – Présent",
+        "title": "Site portfolio",
+        "subtitle": "Projet personnel",
+        "description": "Développement d’un site web portfolio réactif hébergé sur un serveur personnel pour présenter projets, compétences, images et vidéos, attirant plus de 600 utilisateurs uniques par mois. Sécurité et performances améliorées grâce à l’intégration HTTPS, à l’optimisation des temps de chargement des médias et à une expérience fluide sur tous les appareils."
+      },
+      "item2": {
+        "date": "Septembre – Décembre 2024",
+        "title": "Application de lecture à vue",
+        "subtitle": "Projet universitaire, Conception logicielle",
+        "description": "Knowin’ Notes est une application qui aide les utilisateurs à apprendre la lecture à vue au piano. Les utilisateurs atteignent leurs objectifs en identifiant correctement la notation musicale (notes, accords et motifs arpégés) à l’aide d’un clavier MIDI ou de l’écran de leur appareil. À mesure que leurs compétences progressent, la difficulté des notations augmente. Cette application est particulièrement utile aux enseignants de musique, aux étudiants et aux pianistes souhaitant améliorer leur lecture à vue."
+      },
+      "item3": {
+        "date": "Janvier – Avril 2024",
+        "title": "Application de messagerie chiffrée",
+        "subtitle": "Projet universitaire, Réseaux informatiques",
+        "description": "Développement d’une application de messagerie sécurisée utilisant les algorithmes cryptographiques RSA, AES et SHA-256 pour garantir l’intégrité et la confidentialité des données. Réalisée en Java avec un cadre de réseaux informatiques, l’application a été testée pour sa résilience face aux vulnérabilités réseau."
+      },
+      "item4": {
+        "date": "Septembre – Décembre 2023",
+        "title": "Robot auto-nivelant",
+        "subtitle": "Projet universitaire, Traitement du signal et électronique",
+        "description": "Conception d’une plateforme robotique pour équilibrer une bille d’acier sous diverses perturbations. Utilisation de logiciels de CAO, de systèmes PID, de C++ et d’outils électroniques (microcontrôleurs, moteurs pas à pas). Participation à la planification, au dépannage et aux prototypes itératifs pour optimiser les performances."
+      }
+    },
+    "work": {
+      "item1": {
+        "date": "Mai – Août 2025",
+        "title": "Stagiaire services de compteur",
+        "subtitle": "NB Power | Bathurst (NB)",
+        "description": "Stage d’été étudiant chez NB Power. Le poste débutera prochainement."
+      },
+      "item2": {
+        "date": "Mai 2024 – Présent",
+        "title": "Développeur Web",
+        "subtitle": "Contrat personnel RB | Moncton (NB)",
+        "description": "Création d’un site haute performance en HTML, CSS et JavaScript, augmentant la visibilité du client et l’engagement de plus de 1 500 utilisateurs uniques par mois. Collaboration étroite pour l’enregistrement de domaine, la gestion de l’hébergement et la migration de la plateforme. Surveillance du trafic et optimisation (Cloudflare), améliorant de 33 % la vitesse de chargement, la sécurité et l’expérience utilisateur."
+      },
+      "item3": {
+        "date": "Été 2018 – 2024",
+        "title": "Ouvrier d’entretien et technicien",
+        "subtitle": "Madisco Apartments | Bathurst (NB)",
+        "description": "Plus de 35 000 vues sur Google Street View via la capture et le traitement de séquences à 360° avec logiciel d’assemblage et techniques de géodonnées, augmentant l’engagement client. Installation de machines, respect des normes de sécurité et de génie. Conception de pièces mécaniques manquantes via CAO (Fusion 360). Opérations de machinerie lourde et maintenance (nettoyage, peinture, réparations mineures)."
+      },
+      "item4": {
+        "date": "Septembre 2023 – Avril 2024",
+        "title": "Président de résidence",
+        "subtitle": "Mount Allison University | Sackville (NB)",
+        "description": "Organisation d’événements variés favorisant l’inclusion au sein de la résidence Thornton House. Communication fluide entre la résidence et l’université, délégation des responsabilités à l’équipe exécutive pour assurer le succès des initiatives."
+      }
+    },
+    "education": {
+      "item1": {
+        "date": "Septembre 2025",
+        "title": "MEng Génie mécanique",
+        "subtitle": "University of New Brunswick | Fredericton (NB)",
+        "description": "Admission au programme de MEng à l’UNB."
+      },
+      "item2": {
+        "date": "Classe de 2025",
+        "title": "BSc Informatique",
+        "subtitle": "Mount Allison University | Sackville (NB)",
+        "description": "Baccalauréat en sciences, majeure Informatique, mineure Mathématiques. Moyenne cumulative de 3,7 / 4,3."
+      }
+    }
+  }  
+}
