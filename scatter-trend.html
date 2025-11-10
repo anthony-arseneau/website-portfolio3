@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #000; margin: 0; padding: 24px; }
+    .container { margin: 0 auto; background: #000; border-radius: 12px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); padding: 24px 28px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; margin-bottom: 14px; }
+    .control { display: flex; align-items: center; gap: 8px; }
+    select, button { padding: 6px 8px; border-radius: 6px; border: 1px solid #ccd; background: #fff; }
+    #chart { width: 100%; height: 640px;}
+    .axis text { fill: #fff; font-size: 24px; }
+    .axis path, .axis line { stroke: none; }
+    .grid line { stroke: #222; }
+    .legend .title { font-weight: bold; fill: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <svg id="chart"></svg>
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+
+  <script>
+    // chart size
+    const margin = { top: 24, right: 40, bottom: 56, left: 68 };
+    const width = 1100 - margin.left - margin.right;
+    const height = 640 - margin.top - margin.bottom;
+    const svg = d3.select('#chart')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom);
+
+    const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+    
+    const xAxisG = g.append('g').attr('class', 'axis').attr('transform', `translate(0,${height})`);
+    const yAxisG = g.append('g').attr('class', 'axis');
+    const gridG = g.append('g').attr('class', 'grid');
+
+    const dotsG = g.append('g').attr('class', 'dots');
+    const regressionG = g.append('g').attr('class', 'regression-lines');
+    const labelsG = g.append('g').attr('class', 'regression-labels');
+
+    const tooltip = d3.select('#tooltip');
+
+    // Daylight hours data **need to fetch from source later**
+    const daylightData = {
+      'Jan': 9.33,
+      'Feb': 10.66,
+      'Mar': 12,
+      'Apr': 13.5,
+      'May': 14.66,
+      'Jun': 15.5,
+      'Jul': 15,
+      'Aug': 14.9,
+      'Sep': 12.5,
+      'Oct': 11,
+      'Nov': 9.66,
+      'Dec': 9
+    };
+
+    // Colour scale for temperature (blue to white to orange)
+    const temperatureColourScale = d3.scaleLinear()
+      .domain([-20, 0, 20])
+      .range(['#0066ff', '#ffffff', '#ff4500']);
+    
+    const regressionColours = {
+      'Age at time of death, 0 to 44 years': '#aaa',
+      'Age at time of death, 45 to 64 years': '#aaa',
+      'Age at time of death, 65 years and over': '#ff8c00'
+    };
+
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const monthLengths = [31,28,31,30,31,30,31,31,30,31,30,31]; // non-leap, good for positioning
+    const monthMidDOY = monthLengths.reduce((acc, len, i) => {
+      const prev = i === 0 ? 0 : acc[i-1].end;
+      const start = prev + 1;
+      const end = prev + len;
+      const mid = Math.round((start + end) / 2);
+      acc.push({ start, end, mid });
+      return acc;
+    }, []);
+
+    const xScale = d3.scaleLinear().range([0, width]);
+    const yScale = d3.scaleLinear().range([height, 0]);
+
+
+    // Compute monthly averages from temperature CSV (across all locations)
+    function computeMonthlyTempAverages(tempRows) {
+      const sums = Object.fromEntries(months.map(m => [m, 0]));
+      const counts = Object.fromEntries(months.map(m => [m, 0]));
+      tempRows.forEach(row => {
+        months.forEach(m => {
+          const v = parseFloat(row[m]);
+          if (!isNaN(v)) { sums[m] += v; counts[m] += 1; }
+        });
+      });
+      const avgs = Object.fromEntries(months.map((m, i) => [m, counts[m] ? sums[m] / counts[m] : NaN]));
+      return avgs;
+    }
+
+    // Compute monthly average weekly deaths across all years for each age group
+    function computeMonthlyDeathsAverages(deathRows, ageGroupsWanted) {
+      const result = {};
+      ageGroupsWanted.forEach(ag => { result[ag] = months.map(() => ({ sum: 0, n: 0 })); });
+
+      deathRows.forEach(d => {
+        const v = +d.VALUE;
+        if (isNaN(v)) return;
+        const ag = d['Age at time of death'];
+        
+        // Combine 65-84 and 85+ into 65+
+        let mappedAg = ag;
+        if (ag === 'Age at time of death, 65 to 84 years' || ag === 'Age at time of death, 85 years and over') {
+          mappedAg = 'Age at time of death, 65 years and over';
+        }
+        
+        if (!result.hasOwnProperty(mappedAg)) return;
+        const date = new Date(d.REF_DATE);
+        const m = date.getMonth(); // 0..11
+        result[mappedAg][m].sum += v;
+        result[mappedAg][m].n += 1;
+      });
+
+      const avgs = {};
+      Object.keys(result).forEach(ag => {
+        avgs[ag] = result[ag].map(x => x.n ? x.sum / x.n : NaN);
+      });
+      return avgs; // { ageGroup: [12 monthly avgs] }
+    }
+
+    function getDayOfYearMidForMonth(mIndex) { return monthMidDOY[mIndex].mid; }
+    
+    // Calculate linear regression
+    function linearRegression(points) {
+      const n = points.length;
+      let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0, sumYY = 0;
+      
+      points.forEach(p => {
+        sumX += p.x;
+        sumY += p.y;
+        sumXY += p.x * p.y;
+        sumXX += p.x * p.x;
+        sumYY += p.y * p.y;
+      });
+      
+      const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+      const intercept = (sumY - slope * sumX) / n;
+      
+      // Calculate R (correlation coefficient)
+      const numerator = n * sumXY - sumX * sumY;
+      const denominator = Math.sqrt((n * sumXX - sumX * sumX) * (n * sumYY - sumY * sumY));
+      const r = numerator / denominator;
+      
+      return { slope, intercept, r };
+    }
+
+    // Render function
+    function makeChart(dataPoints, selectedAgeGroups, tempExtent) {
+      // y domain, fixed to 0-3000
+      yScale.domain([0, 3000]);
+
+      // x domain, daylight hours
+      xScale.domain([8.5, 16]);
+
+      // grid (y only)
+      const grid = d3.axisLeft(yScale).tickValues([0, 500, 1000, 1500, 2000, 2500, 3000]).tickSize(-width).tickFormat('');
+      gridG.call(grid);
+
+      // axes
+      const xAxis = d3.axisBottom(xScale);
+      xAxisG.call(xAxis);
+      xAxisG.select('.domain').remove(); // remove x-axis line
+
+      const yAxis = d3.axisLeft(yScale).tickValues([0, 500, 1000, 1500, 2000, 2500, 3000]);
+      yAxisG.call(yAxis);
+      yAxisG.select('.domain').remove(); // Remove y-axis line
+
+      // join
+      const dots = dotsG.selectAll('.dot').data(dataPoints, d => `${d.ageGroup}-${d.month}`);
+      dots.exit().remove();
+
+      const enter = dots.enter().append('circle')
+        .attr('class', 'dot')
+        .attr('r', 8)
+        .attr('fill', d => temperatureColourScale(d.tempAvg));
+
+      enter.merge(dots)
+        .attr('cx', d => xScale(daylightData[d.month]))
+        .attr('cy', d => yScale(d.deathsAvg))
+        .on('mouseover', (event, d) => {
+          tooltip.style('opacity', 1)
+            .html(`${d.month} — ${d.ageGroup.replace('Age at time of death, ', '')}<br>` +
+                  `Avg daylight: ${daylightData[d.month].toFixed(1)}h<br>` +
+                  `Avg weekly deaths: ${d.deathsAvg.toFixed(0)}<br>` +
+                  `Temp: ${d.tempAvg.toFixed(1)}°C`)
+            .style('left', (event.pageX + 12) + 'px')
+            .style('top', (event.pageY - 28) + 'px');
+        })
+        .on('mouseout', () => tooltip.style('opacity', 0));
+
+      // Add month labels for Jan, Dec, Jun, Jul
+      const monthLabelsG = g.selectAll('.month-labels').data([null]);
+      const monthLabelsEnter = monthLabelsG.enter().append('g').attr('class', 'month-labels');
+      const monthLabelsNode = monthLabelsEnter.merge(monthLabelsG);
+      
+      monthLabelsNode.selectAll('*').remove();
+      
+      const labeledMonths = ['Jan', 'Dec', 'Jun', 'Jul'];
+      dataPoints.filter(d => labeledMonths.includes(d.month) && d.ageGroup === 'Age at time of death, 65 years and over').forEach(d => {
+        monthLabelsNode.append('text')
+          .attr('x', xScale(daylightData[d.month]))
+          .attr('y', yScale(d.deathsAvg) - 12)
+          .attr('text-anchor', 'middle')
+          .attr('fill', temperatureColourScale(d.tempAvg))
+          .attr('font-size', '22px')
+          .attr('font-weight', 'bold')
+          .text(d.month);
+      });
+
+
+
+
+      // Calculate and draw regression lines for each age group
+      regressionG.selectAll('*').remove();
+      labelsG.selectAll('*').remove();
+      
+      selectedAgeGroups.forEach(ag => {
+        const agPoints = dataPoints.filter(d => d.ageGroup === ag);
+        if (agPoints.length < 2) return;
+        
+        // Daylight regression (now the x-axis)
+        const regressionPoints = agPoints.map(d => ({ x: daylightData[d.month], y: d.deathsAvg }));
+        const { slope, intercept, r } = linearRegression(regressionPoints);
+        
+        // Temperature regression
+        const tempPoints = agPoints.map(d => ({ x: d.tempAvg, y: d.deathsAvg }));
+        const tempRegression = linearRegression(tempPoints);
+        
+        // Get x range for this age group and extend it
+        const xExtent = d3.extent(agPoints, d => daylightData[d.month]);
+        const xRange = xExtent[1] - xExtent[0];
+        const extension = xRange * 0.05; // Extend by 5% on each side
+        const lineData = [
+          { x: xExtent[0] - extension, y: slope * (xExtent[0] - extension) + intercept },
+          { x: xExtent[1] + extension, y: slope * (xExtent[1] + extension) + intercept }
+        ];
+        
+
+        // Draw regression line
+        regressionG.append('line')
+          .attr('x1', xScale(lineData[0].x))
+          .attr('y1', yScale(lineData[0].y))
+          .attr('x2', xScale(lineData[1].x))
+          .attr('y2', yScale(lineData[1].y))
+          .attr('stroke', regressionColours[ag])
+          .attr('stroke-width', 3);
+        
+
+        // Add label at the end of the line
+        const labelX = xScale(lineData[1].x) + 8;
+        const labelY = yScale(lineData[1].y);
+        
+        // Format label text
+        let labelText;
+        if (ag === 'Age at time of death, 0 to 44 years') {
+          labelText = '0-44 years';
+        } else if (ag === 'Age at time of death, 45 to 64 years') {
+          labelText = '45-64 years';
+        } else if (ag === 'Age at time of death, 65 years and over') {
+          labelText = '65+ years';
+        }
+        
+        labelsG.append('text')
+          .attr('x', labelX)
+          .attr('y', labelY)
+          .attr('dy', '0.35em')
+          .attr('fill', regressionColours[ag])
+          .attr('font-size', '24px')
+          .attr('font-weight', 'bold')
+          .text(labelText);
+      });
+
+      renderLegends(selectedAgeGroups, tempExtent);
+    }
+
+    // Load CSVs
+    Promise.all([
+      d3.csv('canada-temperature-filtered-data.csv'),
+      d3.csv('canada-deaths-ages-filtered-data.csv')
+    ]).then(([tempRows, deathRows]) => {
+      // temperature monthly averages across all locations
+      const tempMonthlyAvg = computeMonthlyTempAverages(tempRows); // {Jan: x, ...}
+      const tempExtent = d3.extent(Object.values(tempMonthlyAvg));
+
+      // restrict deaths to the four age groups and valid values
+      const targetAgeGroups = [
+        'Age at time of death, 0 to 44 years',
+        'Age at time of death, 45 to 64 years',
+        'Age at time of death, 65 years and over'
+      ];
+      const cleanDeaths = deathRows.filter(d =>
+        d.VALUE && d.VALUE !== '..' && !isNaN(+d.VALUE) && 
+        (d['Age at time of death'] === 'Age at time of death, 0 to 44 years' ||
+         d['Age at time of death'] === 'Age at time of death, 45 to 64 years' ||
+         d['Age at time of death'] === 'Age at time of death, 65 to 84 years' ||
+         d['Age at time of death'] === 'Age at time of death, 85 years and over')
+      );
+
+      const deathsMonthlyAvgByAG = computeMonthlyDeathsAverages(cleanDeaths, targetAgeGroups); // {ag: [12]}
+
+      // Build data points (per month per ageGroup)
+      const allPoints = [];
+      targetAgeGroups.forEach(ag => {
+        months.forEach((m, mi) => {
+          const tempAvg = tempMonthlyAvg[m];
+          const deathsAvg = deathsMonthlyAvgByAG[ag][mi];
+          if (isNaN(tempAvg) || isNaN(deathsAvg)) return;
+          allPoints.push({
+            month: m,
+            monthIndex: mi,
+            dayOfYear: getDayOfYearMidForMonth(mi),
+            tempAvg,
+            deathsAvg,
+            ageGroup: ag
+          });
+        });
+      });
+
+      function getSelectedAgeGroups() {
+        return targetAgeGroups; // All groups selected by default
+      }
+
+      function update() {
+        const selectedAG = getSelectedAgeGroups();
+        const filtered = allPoints.filter(d => selectedAG.includes(d.ageGroup));
+        makeChart(filtered, selectedAG, tempExtent);
+      }
+
+      update();
+    }).catch(err => {});
+  </script>
+</body>
+</html>

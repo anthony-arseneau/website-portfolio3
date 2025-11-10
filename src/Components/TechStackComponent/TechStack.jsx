@@ -46,7 +46,7 @@ const techStacks = {
     return(
     <div className='row' id="tech-stack">
         <div className="col-md-8 offset-md-2 tech-stack-container display">
-            <h1 className='header'>Tech Stack</h1>
+            <h1 className='header'>{t('tech-stack-title')}</h1>
             <div className='row justify-content-center'>
                 {Object.entries(techStacks).map(([category, tools]) => (
                 <div key={category} className="tech-column">

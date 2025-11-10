@@ -17,17 +17,21 @@
     text-align: right;
 }
 
+/* Base profile image (no permanent border now) */
 .profile {
-    width: 100px;
-    border-radius: 50%;
-    border: 2px solid rgb(255, 255, 255);
-    margin-right: -60px;
+  width: 100px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2; /* stays above glow */
+  border: 2px solid #fff;
 }
+
 
 .info {
     flex: 0 0 auto;
     margin-top: 20px;
-    margin-left: 50px;
+    margin-left: 0px;
+    z-index: 10;
 }
 
 .info-location h3 {
@@ -37,6 +41,19 @@
 .info-location h3:hover {
     color: #fff;
     text-decoration: underline;
+}
+
+.hero-content {
+    z-index: 100; /* Above DiamondOverlay (z-index: 1) */
+}
+
+.profile {
+    z-index: 100; /* Above DiamondOverlay (z-index: 1) */
+}
+
+
+.squares {
+    z-index: 0; /* Above DiamondOverlay (z-index: 1) */
 }
 
 .hero-card {
@@ -117,6 +134,7 @@
 .flag {
     margin-left: 5px;
     transition: transform 0.2s ease-in-out;
+    z-index: 10;
 }
 
 /* Animation when the parent h3 is hovered

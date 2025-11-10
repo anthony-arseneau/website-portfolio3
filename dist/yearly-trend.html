@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Rubik', Arial, sans-serif;
+            background-color: #000;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #000;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .chart-container {
+            position: relative;
+        }
+        
+        .axis {
+            font-size: 14px;
+            font-family: 'Rubik', Arial, sans-serif;
+        }
+        
+        .axis text {
+            fill: white;
+        }
+        
+        .line {
+            fill: none;
+            stroke: #aaa;
+            stroke-width: 1;
+            opacity: 1;
+        }
+        
+        .line:hover {
+            stroke-width: 2;
+            opacity: 1;
+        }
+        
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="chart-container">
+            <svg id="chart"></svg>
+        </div>
+        
+        <div class="tooltip"></div>
+    </div>
+
+    <script>
+        // set up dimensions
+        const margin = {top: 20, right: 300, bottom: 60, left: 80};
+        const width = 1400 - margin.left - margin.right;
+        const height = 340 - margin.bottom - margin.top;
+
+    
+        const svg = d3.select("#chart")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+
+
+        // Define gradient for trendline
+        const defs = svg.append('defs');
+        const gradient = defs.append('linearGradient')
+            .attr('id', 'trendline-gradient')
+            .attr('x1', '0%')
+            .attr('x2', '100%');
+        gradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', '#0f3ba9');
+        gradient.append('stop')
+            .attr('offset', '25%')
+            .attr('stop-color', '#ffffff');
+        gradient.append('stop')
+            .attr('offset', '50%')
+            .attr('stop-color', '#ff6f26');
+        gradient.append('stop')
+            .attr('offset', '75%')
+            .attr('stop-color', '#ffffff');
+        gradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', '#4a84c7');
+        // define gradient for legend
+        const legendGradient = defs.append('linearGradient')
+            .attr('id', 'legend-gradient')
+            .attr('x1', '0%')
+            .attr('x2', '100%');
+        legendGradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', '#0f3ba9');
+        legendGradient.append('stop')
+            .attr('offset', '50%')
+            .attr('stop-color', '#ffffff');
+        legendGradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', '#ff6f26');
+
+        const yearOpacity = d3.scaleLinear()
+            .range([0.4, 1.0]);
+
+        // scales
+        const xScale = d3.scaleLinear().range([0, width]);
+        const yScale = d3.scaleLinear().range([height, 0]);
+
+        // Line generator
+        const line = d3.line()
+            .x(d => xScale(d.dayOfYear))
+            .y(d => yScale(d.value))
+            .curve(d3.curveMonotoneX);
+
+        // toltip
+        const tooltip = d3.select(".tooltip");
+
+        // Function for polyynomial regression
+        function polynomialRegression(data, degree) {
+            const n = data.length;
+            const A = [];
+            const B = [];
+            
+            // create matrix A and vector B for normal equations
+            for (let i = 0; i <= degree; i++) {
+                A[i] = [];
+                for (let j = 0; j <= degree; j++) {
+                    A[i][j] = 0;
+                    for (let k = 0; k < n; k++) {
+                        A[i][j] += Math.pow(data[k].x, i + j);
+                    }
+                }
+                B[i] = 0;
+                for (let k = 0; k < n; k++) {
+                    B[i] += data[k].y * Math.pow(data[k].x, i);
+                }
+            }
+            
+            // Solve the system using gaussian elimination
+            for (let i = 0; i <= degree; i++) {
+                for (let j = i + 1; j <= degree; j++) {
+                    if (Math.abs(A[i][i]) < Math.abs(A[j][i])) {
+                        [A[i], A[j]] = [A[j], A[i]];
+                        [B[i], B[j]] = [B[j], B[i]];
+                    }
+                }
+                
+                for (let j = i + 1; j <= degree; j++) {
+                    const ratio = A[j][i] / A[i][i];
+                    for (let k = i; k <= degree; k++) {
+                        A[j][k] -= ratio * A[i][k];
+                    }
+                    B[j] -= ratio * B[i];
+                }
+            }
+            
+            const coefficients = new Array(degree + 1);
+            for (let i = degree; i >= 0; i--) {
+                coefficients[i] = B[i];
+                for (let j = i + 1; j <= degree; j++) {
+                    coefficients[i] -= A[i][j] * coefficients[j];
+                }
+                coefficients[i] /= A[i][i];
+            }
+            
+            return coefficients;
+        }
+
+        function evaluatePolynomial(coefficients, x) {
+            let result = 0;
+            for (let i = 0; i < coefficients.length; i++) {
+                result += coefficients[i] * Math.pow(x, i);
+            }
+            return result;
+        }
+
+        // Month labels for x-axis
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        
+        // Function to get day of year
+        function getDayOfYear(date) {
+             const start = new Date(date.getFullYear(), 0, 0);
+            const diff = date - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            return Math.floor(diff / oneDay);
+        }
+
+        // Function to get approximate month from day of year
+        function getMonthFromDayOfYear(dayOfYear) {
+            const daysInMonth = [31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
+            for (let i = 0; i < daysInMonth.length; i++) {
+                if (dayOfYear <= daysInMonth[i]) {
+                    return i;}
+            }
+
+            return 11;
+        }
+
+        // Load and process data
+        d3.csv("canada-deaths-ages-filtered-data.csv").then(function(data) {
+            // Filter and process data - only "all ages"
+            const processedData = data.filter(d => 
+                d.VALUE && d.VALUE !== ".." && !isNaN(+d.VALUE) &&
+                d["Age at time of death"] === "Age at time of death, all ages"
+            ).map(d => {
+                const date = new Date(d.REF_DATE);
+
+                return {
+                    date: date,
+                    year: date.getFullYear(),
+                    dayOfYear: getDayOfYear(date),
+                    ageGroup: d["Age at time of death"],
+                    value: +d.VALUE
+                };
+            });
+
+            // scales
+            xScale.domain([1, 365]);
+            yScale.domain([4000, d3.max(processedData, d => d.value)]);
+
+            // axes
+            const xAxis = g.append("g")
+                .attr("class", "axis")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(xScale)
+                    .tickValues([15, 46, 74, 105, 135, 166, 196, 227, 258, 288, 319, 349])
+                    .tickFormat((d, i) => monthNames[i]));
+
+            const yAxis = g.append("g")
+                .attr("class", "axis")
+                .call(d3.axisLeft(yScale)
+                    .tickValues(d3.range(4000, d3.max(processedData, d => d.value) + 1000, 1000))
+                    .tickFormat(d3.format("d")));
+
+            // add gradient legend at top center
+            const legendWidth = 200;
+            const legendHeight = 15;
+            const legendX = width/2 - legendWidth/2;
+            const legendY = -20;
+            
+            const legendG = g.append('g')
+                .attr('class', 'gradient-legend')
+                .attr('transform', `translate(${legendX}, ${legendY})`);
+            
+            legendG.append('rect')
+                .attr('width', legendWidth)
+                .attr('height', legendHeight)
+                .style('fill', 'url(#legend-gradient)');
+
+            // Add temperature labels below the gradient
+            legendG.append('text')
+                .attr('x', 0)
+                .attr('y', legendHeight + 15)
+                .attr('text-anchor', 'middle')
+                .attr('fill', 'white')
+                .attr('font-size', '12px')
+                .text('-20°C');
+
+            legendG.append('text')
+                .attr('x', legendWidth / 2)
+                .attr('y', legendHeight + 15)
+                .attr('text-anchor', 'middle')
+                .attr('fill', 'white')
+                .attr('font-size', '12px')
+                .text('0°C');
+
+            legendG.append('text')
+                .attr('x', legendWidth)
+                .attr('y', legendHeight + 15)
+                .attr('text-anchor', 'middle')
+                .attr('fill', 'white')
+                .attr('font-size', '12px')
+                .text('20°C');
+
+            // Create line groups
+            const lineContainer = g.append("g").attr("class", "lines");
+
+            // Group data by year
+            const groupedData = d3.group(processedData, d => d.year);
+
+            // Convert to array format for D3
+            const lineData = Array.from(groupedData, ([year, values]) => {
+                return {
+                    key: year,
+                    year: year,
+                    values: values.sort((a, b) => a.dayOfYear - b.dayOfYear)
+                };
+            });
+
+            // Create lines for all years
+            const lines = lineContainer.selectAll(".line")
+                .data(lineData)
+                .enter()
+                .append("path")
+                .attr("class", "line")
+                .attr("d", d => line(d.values))
+                .on("mouseover", function(event, d) {
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html(`All ages<br/>Year: ${d.year}`)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+
+            // Calculate 3rd degree polynomial regression for all data points
+            const allPoints = processedData.map(d => ({ x: d.dayOfYear, y: d.value }));
+            const coefficients = polynomialRegression(allPoints, 3);
+            
+            // Generate trendline data
+            const trendlineData = [];
+            for (let x = 1; x <= 365; x += 1) {
+                const y = evaluatePolynomial(coefficients, x);
+                trendlineData.push({ x: x, y: y });
+            }
+            
+            // Create trendline
+            const trendline = d3.line()
+                .x(d => xScale(d.x))
+                .y(d => yScale(d.y))
+                .curve(d3.curveMonotoneX);
+            
+            g.append("path")
+                .datum(trendlineData)
+                .attr("class", "trendline")
+                .attr("d", trendline)
+                .style("fill", "none")
+                .style("stroke", "url(#trendline-gradient)")
+                .style("stroke-width", 3)
+
+            // blue dot at end
+            const lastPoint = trendlineData[trendlineData.length - 1];
+            g.append("circle")
+                .attr("cx", xScale(lastPoint.x))
+                .attr("cy", yScale(lastPoint.y))
+                .attr("r", 3)
+                .attr("fill", "#6bb0f3")
+                .attr("stroke", "none");
+
+            // Add "deaths Trend" label above the last point of the trendline in blue
+            g.append("text")
+                .attr("x", xScale(lastPoint.x))
+                .attr("y", yScale(lastPoint.y) - 8)
+                .attr("text-anchor", "middle")
+                .attr("fill", "#6bb0f3")
+                .attr("font-size", "14px")
+                .attr("font-weight", "bold")
+                .text("Deaths Trend");
+
+        }).catch(function(error) {
+            console.error("Error loading data:", error);
+            d3.select(".container").append("div")
+                .style("color", "red")
+                .style("text-align", "center")
+                .style("margin-top", "50px")
+                .text("Error loading data. Please make sure the CSV file is in the correct location.");
+        });
+    </script>
+</body>
+</html>

@@ -2,6 +2,7 @@
   "home": "Accueil",
   "experience_": "Expérience",
   "tech-stack": "Technologies",
+  "tech-stack-title": "Technologies",
   "location": "Fredericton NB, Canada",
   "locationDescription": "Voir l'emplacement sur Google Maps",
   "studentTitle": "Étudiant en Génie Mécanique",
@@ -88,5 +89,6 @@
   },
   "web_development_frontend": "Développement Web & Front-End",
   "software_engineering": "Ingénierie logicielle",
-  "systems_engineering": "Systèmes & Ingénierie"
+  "systems_engineering": "Systèmes & Ingénierie",
+  "last_updated": "Dernière mise à jour: 27 septembre 2025"
 }

@@ -71,6 +71,21 @@ a {
     top: 20px;
 }
 
+@media (max-width: 500px) {
+  .nav-wrapper {
+    left: 0;
+    transform: none;
+    width: 100%;
+  }
+
+  .language-toggle {
+    position: absolute;
+    top: 75px;   /* below navbar */
+    right: 20px; /* now relative to screen edge */
+    left: auto;
+  }
+}
+
 /* Button styling */
 .lang-btn {
     padding: 21px 20px;

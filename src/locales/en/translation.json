@@ -2,6 +2,7 @@
   "home": "Home",
   "experience_": "Experience",
   "tech-stack": "Technologies",
+  "tech-stack-title": "Tech Stack",
   "location": "Fredericton NB, Canada",
   "locationDescription": "See location on Google Maps",
   "studentTitle": "MEng ME Student",
@@ -49,10 +50,10 @@
       "item1": {
         "date": "May – August 2025",
         "title": "Meter Services Intern",
-        "description": "NB Power summer student internship. Position starting soon."
+        "description": "NB Power summer student internship."
       },
       "item2": {
-        "date": "Mai 2024 – Présent",
+        "date": "May 2024 – Present",
         "title": "Web Developer",
         "description": "Developed a high-performance website using HTML, CSS, and JavaScript, increasing client visibility and user engagement by over 10x, attracting more than 1,500 unique users per month. Collaborated closely with the client to provide comprehensive assistance throughout the domain registration process, management of the hosting setup, and migration of the website to the new platform. Monitored website traffic and performance metrics through advanced analytics tools, such as Cloudflare, which contributed to a 33% improvement in website loading speed, overall security, and user experience." 
       },
@@ -82,5 +83,6 @@
   },
   "web_development_frontend": "Web Development & Front-End",
   "software_engineering": "Software Engineering & Back-End",
-  "systems_engineering": "Systems & Engineering Tools"
+  "systems_engineering": "Systems & Engineering Tools",
+  "last_updated": "Last updated: September 27, 2025"
 }

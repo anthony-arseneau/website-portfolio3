@@ -25,8 +25,12 @@ p {
 #projects:checked ~ .label-1,
 #experience:checked ~ .label-2,
 #education:checked ~ .label-3{
-    background-color: #1b2129;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #1f2a38, #3b4b61);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff; /* ensures text is readable */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    
 }
 
 .center-wrapper {
@@ -42,6 +46,7 @@ p {
     margin: 20px 20px auto 20px;
     padding: 8px;
     width: fit-content;
+    box-shadow: 1px 1px 10px #c5c8dd85;
 }
 
 .experience-buttons {
@@ -62,6 +67,7 @@ p {
     background-color: transparent;
     border: none;
     transition: 0.2s ease-in-out;
+    border: 1px solid rgba(255, 255, 255, 0);
 }
 
 .btn-secondary:hover {
