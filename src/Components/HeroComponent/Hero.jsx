@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHoverText } from '../../hooks/useHoverText';
 import './Hero.css'; // Make sure to update Hero.css
-import profile from '../../assets/profile5.png';
+import profile from '../../assets/profile.jpg';
 import canadaFlag from '../../assets/canada_flag.png';
 import videoBg from '../../assets/background4.mp4';
 import { Links } from '../../Components/component_import.js';
@@ -47,7 +47,7 @@ function Hero() {
                 <div className={isVisible ? 'fade-down profile-info hero-content' : 'profile-info hero-content'}>
                     <div className='profile-container'>
                         <div className="neon-ring">
-                        <img src={profile} className="profile" alt="AI generated profile picture. See Linkedin or github profiles to see actual picture." />
+                        <img src={profile} className="profile" alt="profile picture. See Linkedin or github profiles to see actual picture." />
                         </div>
                     </div>
                     <div className='info'>
@@ -81,14 +81,14 @@ function Hero() {
                 <div className='row hero-content'>
                     <h1 className={isVisible ? 'fade-up hero-title col-md-8 offset-md-2' : 'hero-title col-md-8 offset-md-2'}>
                         {t('studentTitle')}
-                        <img
+                        {/* <img
                             src={worker}
                             alt="worker icon"
                             className="icon"
                             onMouseMove={(e) => handleMouseMove(e, t('engineeringDegree'))}
                             onMouseLeave={handleMouseLeave}
-                        />
-                        <br />
+                        /> */}
+                        {/* <br />
                         {t('degreeTitle')}
                         <img
                             src={computer}
@@ -96,7 +96,7 @@ function Hero() {
                             className="icon"
                             onMouseMove={(e) => handleMouseMove(e, t('computerScienceDegree'))}
                             onMouseLeave={handleMouseLeave}
-                        />
+                        /> */}
                     </h1>
                 </div>
 

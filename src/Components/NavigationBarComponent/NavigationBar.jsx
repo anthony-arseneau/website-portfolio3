@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import './NavigationBar.css';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
+import { useTheme } from '../../context/ThemeContext';
+import './NavigationBar.css';
 
 export const NavigationBar = () => {
     const { t, i18n } = useTranslation();
     const [language, setLanguage] = useState('EN');
+    const { isDarkMode, toggleTheme } = useTheme();
 
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
@@ -46,7 +48,10 @@ export const NavigationBar = () => {
                     </ul>
                 </section>
             </nav>
-            <div className="language-toggle">
+            <div className="toggle-buttons">
+                <button className="theme-btn" onClick={toggleTheme} title={isDarkMode ? 'Light Mode' : 'Dark Mode'}>
+                    {isDarkMode ? '☀️' : '🌙'}
+                </button>
                 <button className="lang-btn" onClick={toggleLanguage}>
                     {language === 'EN' ? 'FR' : 'EN'}
                 </button>

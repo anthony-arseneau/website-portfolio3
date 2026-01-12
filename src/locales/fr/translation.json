@@ -47,11 +47,17 @@
       }
     },
     "work": {
+      "item5": {
+        "date": "Mai – Août 2026",
+        "title": "Stage de planification à la centrale électrique de Belledune",
+        "subtitle": "NB Power | Belledune (NB)",
+        "description": "Stage d’été étudiant chez NB Power. Le poste débutera prochainement."
+      },
       "item1": {
         "date": "Mai – Août 2025",
-        "title": "Stagiaire services de compteur",
+        "title": "Stage en services de compteur",
         "subtitle": "NB Power | Bathurst (NB)",
-        "description": "Stage d’été étudiant chez NB Power. Le poste débutera prochainement."
+        "description": "Stage d’été étudiant chez NB Power."
       },
       "item2": {
         "date": "Mai 2024 – Présent",
@@ -75,20 +81,20 @@
     "education": {
       "item1": {
         "date": "Septembre 2025",
-        "title": "MEng Génie mécanique",
+        "title": "MEng Génie Mécanique",
         "subtitle": "University of New Brunswick | Fredericton (NB)",
-        "description": "Admission au programme de MEng à l’UNB."
+        "description": "Étudiant en maîtrise en Génie Mécanique à l'UNB. Devrait obtenir le diplôme en décembre 2027. Moyenne cumulative de 4,3/4,3."
       },
       "item2": {
         "date": "Classe de 2025",
         "title": "BSc Informatique",
         "subtitle": "Mount Allison University | Sackville (NB)",
-        "description": "Baccalauréat en sciences, majeure Informatique, mineure Mathématiques. Moyenne cumulative de 3,7 / 4,3."
+        "description": "Baccalauréat en sciences, majeure en Informatique, mineure en Mathématiques. Moyenne cumulative de 3,7/4,3."
       }
     }
   },
   "web_development_frontend": "Développement Web & Front-End",
   "software_engineering": "Ingénierie logicielle",
   "systems_engineering": "Systèmes & Ingénierie",
-  "last_updated": "Dernière mise à jour: 27 septembre 2025"
+  "last_updated": "Dernière mise à jour: 12 janvier 2026"
 }

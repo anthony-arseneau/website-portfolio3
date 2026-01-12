@@ -1,17 +1,93 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-:root {
+/* Dark theme (default) - GitHub dark colors */
+:root,
+[data-theme="dark"] {
+  /* Background layers (darker = further back) */
+  --bg-primary: #02040A;           /* Main page background */
+  --bg-secondary: #0E1117;         /* Cards, sections */
+  --bg-tertiary: #151B23;          /* Elevated elements, details */
+  --bg-elevated: #1f2a38;          /* Highest elevation */
+  
+  /* Border colors */
+  --border-primary: #3C444D;
+  --border-secondary: rgba(255, 255, 255, 0.2);
+  --border-highlight: rgba(255, 255, 255, 0.3);
+  
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #f2f2f2;
+  --text-muted: #bababa;
+  --text-subtle: #ddd;
+  
+  /* Interactive elements */
+  --hover-bg: #181e25;
+  --hover-shadow: rgba(255, 255, 255, 0.5);
+  --box-shadow: rgba(0, 0, 0, 0.2);
+  --glow-shadow: #c5c8dd85;
+  
+  /* Button/tag colors */
+  --tag-border: #3C444D;
+  --tag-text: #3C444D;
+  --tag-hover-border: #fff;
+  --tag-hover-text: #fff;
+  
+  /* Navbar specific */
+  --navbar-border: rgba(255, 255, 255, 0.18);
+  --navbar-shadow-inset: rgba(255, 255, 255, 0.2);
+  --menu-link-color: #f2f2f2;
+  --menu-hover-shadow: rgba(255, 255, 255, 0.5);
+
   font-family: "Roboto", serif !important;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
+  color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light theme - GitHub light colors */
+[data-theme="light"] {
+  /* Background layers (lighter = further back, darker = elevated) */
+  --bg-primary: #ffffff;           /* Main page background */
+  --bg-secondary: #f6f8fa;         /* Cards, sections */
+  --bg-tertiary: #eaeef2;          /* Elevated elements, details */
+  --bg-elevated: #d0d7de;          /* Highest elevation */
+  
+  /* Border colors */
+  --border-primary: #d0d7de;
+  --border-secondary: rgba(31, 35, 40, 0.15);
+  --border-highlight: rgba(31, 35, 40, 0.25);
+  
+  /* Text colors */
+  --text-primary: #1f2328;
+  --text-secondary: #24292f;
+  --text-muted: #656d76;
+  --text-subtle: #57606a;
+  
+  /* Interactive elements */
+  --hover-bg: #eaeef2;
+  --hover-shadow: rgba(31, 35, 40, 0.12);
+  --box-shadow: rgba(31, 35, 40, 0.12);
+  --glow-shadow: rgba(31, 35, 40, 0.15);
+  
+  /* Button/tag colors */
+  --tag-border: #d0d7de;
+  --tag-text: #656d76;
+  --tag-hover-border: #1f2328;
+  --tag-hover-text: #1f2328;
+  
+  /* Navbar specific */
+  --navbar-border: rgba(31, 35, 40, 0.15);
+  --navbar-shadow-inset: rgba(31, 35, 40, 0.08);
+  --menu-link-color: #24292f;
+  --menu-hover-shadow: rgba(31, 35, 40, 0.12);
+
+  color-scheme: light;
+  color: #1f2328;
 }
 
 html, body {
@@ -32,9 +108,10 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.3s, color 0.3s;
 }
 button:hover {
   border-color: #646cff;

@@ -1,0 +1,19 @@
+# Crontab entry for automatic SSL certificate renewal
+# This runs the renewal script weekly on Sunday at 3:00 AM
+# Certbot will only renew certificates that are within 30 days of expiry
+
+# Run once a week on Sunday at 3:00 AM
+0 3 * * 0 /bin/bash /path/to/renew-ssl-certs.sh
+
+# To install this crontab:
+# 1. Make the script executable:
+#    chmod +x /path/to/renew-ssl-certs.sh
+#
+# 2. Edit your crontab:
+#    sudo crontab -e
+#
+# 3. Add the desired line from above (update the path to your script location)
+#
+# 4. Save and exit
+#
+# Note: Use sudo crontab since certbot requires root privileges

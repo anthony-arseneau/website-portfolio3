@@ -7,18 +7,19 @@
 }
 
 .tech-column {
-    background-color: #151B23;
+    background-color: var(--bg-tertiary);
     border-radius: 4px;
     margin: 12px;
     padding: 12px;
     flex: 1;
     min-width: 250px;
     max-width: 400px;
+    transition: background-color 0.3s ease;
 }
 
 .tech-column h3 {
     text-align: center;
-    color: #fff;
+    color: var(--text-primary);
     margin: 20px auto 0 auto;
 }
 
@@ -27,24 +28,24 @@
     display: flex;
     padding: 6px 8px 6px 6px;
     margin-right: 8px;
-    border: 1px solid #3C444D;
+    border: 1px solid var(--tag-border);
     border-radius: 18px;
     height: 36px;
     font-size: 1em;
     font-weight: bolder;
-    color: #3C444D;
+    color: var(--tag-text);
     font-size: 1rem;
     transition: ease-in-out 0.2s;
     cursor: pointer;
 }
 
 .tech-tag2:hover {
-    border-color: #fff;
-    color: #fff;
+    border-color: var(--tag-hover-border);
+    color: var(--tag-hover-text);
 }
 
 .header {
     margin: 20px auto 10px auto;
     font-size: 2em;
-    color: #fff;
+    color: var(--text-primary);
 }

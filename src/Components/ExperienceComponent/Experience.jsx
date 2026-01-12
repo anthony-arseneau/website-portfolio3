@@ -339,6 +339,22 @@ export const Experience = () => {
                             <li className="__item">
                                 <div className="card-component">
                                     <h2 className="__year">
+                                        {t('experience.work.item5.date')}
+                                    </h2>
+                                    <h1 className="__title">
+                                        {t('experience.work.item5.title')}
+                                    </h1>
+                                    <div className='details'>
+                                        <h3 className="__subtitle"><a href='https://www.nbpower.com/' target='_blank' className='link'>NB Power</a> | <a href='https://www.google.com/maps/place/Belledune,+NB/data=!4m2!3m1!1s0x4c985bc5ce1896df:0xbf841944ab742f8a?sa=X&ved=1t:242&ictx=111' target='_blank' className='link'>Belledune, NB</a></h3>
+                                        <p className="__text">
+                                            {t('experience.work.item5.description')}
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="__item">
+                                <div className="card-component">
+                                    <h2 className="__year">
                                         {t('experience.work.item1.date')}
                                     </h2>
                                     <h1 className="__title">
@@ -439,22 +455,6 @@ export const Experience = () => {
                                                 <span className='tech-name'>3D Printing</span>
                                             </div>
                                         </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.work.item4.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.work.item4.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <h3 className="__subtitle"><a href='https://mta.ca/' target='_blank' className='link'>Mount Allison University</a> | <a href='https://www.google.com/maps?sca_esv=c62d8c7ed5b74a5b&output=search&q=sackville&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpIgVFCTcbZI9VMGzNoV0iOZkckJJygdiLH6_g992ly-N3ZhTu1MHW3iZwH0a8xO8HZ5pNA7P1FP69xfs9dsZrpVtvYRlslfTiGgyLPI14HArMPvNAyR4_7szs0rY5DvThj6Rri2i4JggIDc-s9lYlJSzeOhba9FqUqpnBe0PRKj4cq4boj5Qwss4eSS7aEKBzI2TyEw&entry=mc&ved=1t:200715&ictx=111' target='_blank' className='link'>Sackville, NB</a></h3>
-                                        <p className="__text">
-                                            {t('experience.work.item4.description')}
-                                        </p>
                                     </div>
                                 </div>
                             </li>

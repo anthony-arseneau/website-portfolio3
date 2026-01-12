@@ -6,23 +6,24 @@
 }
 
 body {
-  background-color: #02040A;
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease;
 }
 
 
 p {
-    color: #fff;
+    color: var(--text-primary);
 }
 
 h1 {
-    color: #fff;
+    color: var(--text-primary);
     font-family: "Roboto", serif;
     font-weight: 800;
     font-size: 72px;
 }
 
 h2 {
-    color: #fff;
+    color: var(--text-primary);
     font-family: "Roboto", serif;
     font-weight: 800;
     font-size: 24px;
@@ -34,7 +35,7 @@ h2 {
 }
 
 h3 {
-    color: #bababa;
+    color: var(--text-muted);
     font-family: "Roboto", serif;
     font-weight: 600;
     font-size: 17.5px;
