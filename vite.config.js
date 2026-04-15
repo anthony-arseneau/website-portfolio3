@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { readFileSync, existsSync, copyFileSync, mkdirSync } from 'fs'
-import { join, dirname } from 'path'
+import { existsSync, readFileSync } from 'fs'
+import { join } from 'path'
+import { defineConfig } from 'vite'
 
 // Custom plugin to serve HTML files in dev and copy them for build
 const htmlFilesPlugin = () => {
@@ -72,7 +73,7 @@ export default defineConfig({
     assetsDir: 'assets',
     copyPublicDir: true
   },
-  plugins: [react(), htmlFilesPlugin()],
+  plugins: [react(), tailwindcss(), htmlFilesPlugin()],
   // Ensure static assets are properly served
   publicDir: 'public',
 })

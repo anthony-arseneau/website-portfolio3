@@ -1,8 +1,19 @@
 {
   "home": "Home",
   "experience_": "Experience",
-  "tech-stack": "Technologies",
+  "tech-stack": "Tech Stack",
   "tech-stack-title": "Tech Stack",
+  "hero_title": "Mech Eng Grad Student",
+  "hero_cta": "Explore Engineering Portfolio",
+  "propulsion_label": "Engineering Focus",
+  "propulsion_heading": "Systems Propulsion Design & Analysis",
+  "propulsion_body": "Focused on advanced mechanical systems, propulsion design, and computational analysis. Integrating CAD modeling, finite element analysis, and systems-level engineering to develop high-performance solutions for complex thermal-fluid and structural challenges.",
+  "propulsion_diagram_label": "Full-Cycle Engine Schematic",
+  "stat_gpa": "GPA (MEng)",
+  "stat_cad": "CAD / Systems Projects",
+  "stat_internships": "Tech Internships",
+  "tech_cad_title": "CAD & Engineering Tools",
+  "tech_software_title": "Software & Programming",
   "location": "Fredericton NB, Canada",
   "locationDescription": "See location on Google Maps",
   "studentTitle": "Mech Eng Grad Student",
@@ -31,7 +42,7 @@
         "date": "September - December 2024",
         "title": "Sight Reading Application",
         "subtitle": "University Project, Software Design",
-        "description": "Knowin’ Notes is an application that aids users in learning to sight read for piano. Users achieve their sight reading ambitions by correctly identifying musical notation (notes, chords, and arpeggiated patterns) with a MIDI keyboard or their device screen. As the user’s sight reading skills improve, they will be prompted with notation of increasing difficulty. Those who teach music, music students, and pianists that want to improve their sight reading abilities are demographics for which we expect Knowin’ Notes to have the greatest impact."
+        "description": "Knowin' Notes is an application that aids users in learning to sight read for piano. Users achieve their sight reading ambitions by correctly identifying musical notation (notes, chords, and arpeggiated patterns) with a MIDI keyboard or their device screen. As the user's sight reading skills improve, they will be prompted with notation of increasing difficulty. Those who teach music, music students, and pianists that want to improve their sight reading abilities are demographics for which we expect Knowin' Notes to have the greatest impact."
       },
       "item3": {
         "date": "January - April 2024",
@@ -56,39 +67,42 @@
       "item1": {
         "date": "May – August 2025",
         "title": "Meter Services Intern",
+        "subtitle": "NB Power | Bathurst (NB)",
         "description": "NB Power summer student internship."
       },
       "item2": {
         "date": "May 2024 – Present",
         "title": "Web Developer",
-        "description": "Developed a high-performance website using HTML, CSS, and JavaScript, increasing client visibility and user engagement by over 10x, attracting more than 1,500 unique users per month. Collaborated closely with the client to provide comprehensive assistance throughout the domain registration process, management of the hosting setup, and migration of the website to the new platform. Monitored website traffic and performance metrics through advanced analytics tools, such as Cloudflare, which contributed to a 33% improvement in website loading speed, overall security, and user experience." 
+        "subtitle": "Contract",
+        "description": "Developed a high-performance website using HTML, CSS, and JavaScript, increasing client visibility and user engagement by over 10x, attracting more than 1,500 unique users per month. Collaborated closely with the client to provide comprehensive assistance throughout the domain registration process, management of the hosting setup, and migration of the website to the new platform. Monitored website traffic and performance metrics through advanced analytics tools, such as Cloudflare, which contributed to a 33% improvement in website loading speed, overall security, and user experience."
       },
       "item3": {
         "date": "Summers 2018 – 2024",
         "title": "Maintenance Worker and Technician",
-        "description": "Gathered over 35,000 views on Google Street View by capturing and processing 360-degree footage using image stitching software and geospatial data engineering techniques, increasing client engagement and boosting online visibility. Assisted in the installation of new machinery, ensuring compliance with safety and engineering standards. Designed mechanical parts for broken or missing components using CAD software like Autodesk Fusion 360. Operated heavy machinery to assist with construction and performed basic maintenance tasks, including cleaning, painting, and minor repairs to maintain safe and efficient operations." 
+        "subtitle": "Madisco Apartments | Bathurst (NB)",
+        "description": "Gathered over 35,000 views on Google Street View by capturing and processing 360-degree footage using image stitching software and geospatial data engineering techniques, increasing client engagement and boosting online visibility. Assisted in the installation of new machinery, ensuring compliance with safety and engineering standards. Designed mechanical parts for broken or missing components using CAD software like Autodesk Fusion 360. Operated heavy machinery to assist with construction and performed basic maintenance tasks, including cleaning, painting, and minor repairs to maintain safe and efficient operations."
       },
       "item4": {
         "date": "September 2023 – April 2024",
         "title": "President of Residence",
-        "description": "Spearheaded a wide array of successful events, fostering inclusive community within the Thornton House residence. Orchestrated seamless communication between the residence and the university, serving as the primary liaison to ensure residents’ needs, and delegated responsibilities to an executive team, ensuring smooth execution of initiatives." 
+        "subtitle": "Mount Allison University | Sackville (NB)",
+        "description": "Spearheaded a wide array of successful events, fostering inclusive community within the Thornton House residence. Orchestrated seamless communication between the residence and the university, serving as the primary liaison to ensure residents' needs, and delegated responsibilities to an executive team, ensuring smooth execution of initiatives."
       }
     },
     "education": {
       "item1": {
         "date": "September 2025",
         "title": "MEng Mechanical Engineering",
+        "subtitle": "University of New Brunswick | Fredericton (NB)",
         "description": "Master's of Engineering (MEng) in Mechanical Engineering student at UNB. Expected to graduate December 2027. Cumulative GPA: 4.3/4.3."
       },
       "item2": {
         "date": "Class of 2025",
         "title": "BSc Computer Science",
+        "subtitle": "Mount Allison University | Sackville (NB)",
         "description": "BSc. Major in Computer Science, Minor in Mathematics. Cumulative GPA of 3.7/4.3."
       }
     }
   },
-  "web_development_frontend": "Web Development & Front-End",
-  "software_engineering": "Software Engineering & Back-End",
-  "systems_engineering": "Systems & Engineering Tools",
   "last_updated": "Last updated: January 12, 2026"
 }

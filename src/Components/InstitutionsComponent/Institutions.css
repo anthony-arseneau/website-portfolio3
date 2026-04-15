@@ -1,16 +1,1 @@
-.institutions-content {
-    display: flex;
-    background-color: #fff;
-    justify-content: center;
-    align-items: center;
-    padding: 15px 0;
-}
 
-.academic_link {
-    margin: auto 15px;
-}
-
-.academic_logo {
-    height: 70px;
-    padding: 10px 0;
-}

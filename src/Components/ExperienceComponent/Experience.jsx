@@ -1,511 +1,232 @@
-import React, { useState } from 'react';
-import '../../../node_modules/bootstrap/dist/css/bootstrap.css'; // Import bootstrap for styling
-
-
-import './Experience.css';
-import { useTranslation } from 'react-i18next'; 
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
-    vite, react, jsx, js, css, cloudflare, bash, ubuntu, npm, springboot,
-    gradle, java, json, figma, scrum, javafx, rsa, aes, sha256, cpp,
-    arduino, fusion, dremel, html, googlestreet, knowinnotes, SPGC, baller
-  } from '../../assets/logos_import';
+    aes,
+    arduino,
+    baller,
+    bash,
+    cloudflare,
+    cpp,
+    css,
+    dremel,
+    figma,
+    fusion,
+    gradle, java,
+    javafx,
+    js,
+    knowinnotes,
+    npm,
+    react,
+    rsa,
+    scrum,
+    sha256,
+    SPGC,
+    springboot,
+    ubuntu,
+    vite
+} from '../../assets/logos_import';
 
+const TechTag = ({ name, logo, url }) => (
+  <a href={url} target="_blank" rel="noopener noreferrer"
+    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/[0.06]
+               text-gray-400 text-xs hover:border-white/25 hover:text-white
+               transition-all duration-200 no-underline"
+  >
+    {logo && <img src={logo} alt={name} className="w-4 h-4 object-contain rounded-sm" />}
+    <span>{name}</span>
+  </a>
+);
+
+const ExperienceCard = ({ item, index, isAlternate = false, children, media = null }) => {
+  const isEven = index % 2 === 0;
+  const layoutReversed = isAlternate && !isEven;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className={`
+        bg-[#080808] border border-white/[0.05]
+        rounded-sm overflow-hidden
+        transition-colors duration-300
+        mb-5 sm:mb-6
+      `}
+    >
+      <div className={`flex flex-col ${isAlternate ? (layoutReversed ? 'md:flex-row-reverse' : 'md:flex-row') : ''}`}>
+        {media && (
+          <div className="md:w-2/5 bg-[#060606] flex items-center justify-center p-4 sm:p-6">
+            {media}
+          </div>
+        )}
+        <div className={`p-5 sm:p-8 ${media ? 'md:w-3/5' : 'w-full'}`}>
+          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-gray-400">{item.date}</span>
+          <h3 className="text-lg sm:text-xl font-bold text-white mt-2 tracking-wide">{item.title}</h3>
+          {item.subtitle && (
+            <p className="text-sm text-gray-400 mt-1">{item.subtitle}</p>
+          )}
+          <p className="text-base leading-relaxed text-gray-300 mt-3 sm:mt-4">{item.description}</p>
+          {children && <div className="flex flex-wrap gap-2 mt-4 sm:mt-5">{children}</div>}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 export const Experience = () => {
-    const[display, setDisplay] = useState("experience");
-    const { t } = useTranslation(); 
+  const [display, setDisplay] = useState('experience');
+  const { t } = useTranslation();
 
-    return (
-        <>
-            {/* Experience selection */}
-            <div className="center-wrapper" id="experience1">
-                <div className="selection">
-                    <div className="experience-buttons">
-                        <div className="button-wrapper">
-                            <input type="radio" id="projects" name="experience" value="projects" className="radio" onClick={() => setDisplay("projects")} />
-                            <label className="btn btn-secondary label label-1" htmlFor="projects">{t('experience.selection.projects')}</label>
-                        </div>
-                        <div className="button-wrapper">
-                            <input type="radio" id="experience" name="experience" value="experience" className="radio" onClick={() => setDisplay("experience")} defaultChecked />
-                            <label className="btn btn-secondary label label-2" htmlFor="experience">{t('experience.selection.work')}</label>
-                        </div>
-                        <div className="button-wrapper">
-                            <input type="radio" id="education" name="experience" value="education" className="radio" onClick={() => setDisplay("education")} />
-                            <label className="btn btn-secondary label label-3" htmlFor="education">{t('experience.selection.education')}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  const tabs = [
+    { id: 'projects', label: t('experience.selection.projects') },
+    { id: 'experience', label: t('experience.selection.work') },
+    { id: 'education', label: t('experience.selection.education') },
+  ];
 
+  return (
+    <section id="experience1" className="py-20 sm:py-28 px-4 sm:px-6 bg-black">
+      <div className="max-w-4xl mx-auto">
+        {/* Tab Selector */}
+        <div className="flex justify-center mb-10 sm:mb-14">
+          <div className="inline-flex bg-[#080808] border border-white/[0.06] rounded-full p-1">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setDisplay(tab.id)}
+                className={`
+                  px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-[0.15em] font-medium
+                  transition-all duration-300 cursor-pointer border-none
+                  ${display === tab.id
+                    ? 'bg-white text-black'
+                    : 'bg-transparent text-gray-300 hover:text-white'}
+                `}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-            {display == "projects" &&
-                <div className='row'>
-                    <div className='col-md-8 offset-md-2 display'>
-                        <div className="vl"/>
-                        <ul className="list-component">
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.projects.item1.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.projects.item1.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <h3 className="__subtitle">
-                                            {t('experience.projects.item1.subtitle')}
-                                        </h3>
-                                        <div className='row'>
-                                            <p className="__text">
-                                                {t('experience.projects.item1.description')}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="tech-tags">
-                                        <a href='https://vite.dev/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={vite}/>
-                                                <span className='tech-name'>Vite</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://react.dev/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={react}/>
-                                                <span className='tech-name'>React</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://legacy.reactjs.org/docs/introducing-jsx.html' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={jsx}/>
-                                                <span className='tech-name'>JavaScript XML</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.javascript.com/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={js}/>
-                                                <span className='tech-name'>JavaScript</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://developer.mozilla.org/en-US/docs/Web/CSS' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={css}/>
-                                                <span className='tech-name'>CSS</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.cloudflare.com/en-ca/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={cloudflare}/>
-                                                <span className='tech-name'>Cloudflare</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://mywiki.wooledge.org/BashGuide' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={bash}/>
-                                                <span className='tech-name'>Bash Scripting</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://design.ubuntu.com/brand' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={ubuntu}/>
-                                                <span className='tech-name'>Ubuntu Server</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.npmjs.com/' target='_blank'>
-                                            <div className='tech-tag' style={{paddingLeft: '12px', paddingBottom: '5px'}}>
-                                                <img className='tech-logo' src={npm}/>
-                                                <span className='tech-name'>npm</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.projects.item2.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.projects.item2.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <div className='row'>
-                                            <div className='col-md-8'>
-                                                <h3 className="__subtitle">
-                                                    {t('experience.projects.item2.subtitle')}
-                                                </h3>
-                                                <p className="__text">
-                                                    {t('experience.projects.item2.description')}
-                                                </p>
-                                            </div>
-                                            <div className='col-md-4'>
-                                                <img src={knowinnotes} style={{width: '100%'}}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="tech-tags">
-                                        <a href='https://spring.io/projects/spring-boot' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={springboot}/>
-                                                <span className='tech-name'>Spring Boot</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://gradle.org/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={gradle}/>
-                                                <span className='tech-name'>Gradle</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.java.com/en/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={java}/>
-                                                <span className='tech-name'>Java</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.json.org/json-en.html' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={json}/>
-                                                <span className='tech-name'>JSON</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://vite.dev/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={vite}/>
-                                                <span className='tech-name'>Vite</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://react.dev/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={react}/>
-                                                <span className='tech-name'>React</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://legacy.reactjs.org/docs/introducing-jsx.html' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={jsx}/>
-                                                <span className='tech-name'>JavaScript XML</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.javascript.com/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={js}/>
-                                                <span className='tech-name'>JavaScript</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.npmjs.com/' target='_blank'>
-                                            <div className='tech-tag' style={{paddingLeft: '12px', paddingBottom: '5px'}}>
-                                                <img className='tech-logo' src={npm}/>
-                                                <span className='tech-name'>npm</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.figma.com/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={figma}/>
-                                                <span className='tech-name'>Figma</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.scrum.org/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={scrum}/>
-                                                <span className='tech-name'>Scrum</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://developer.mozilla.org/en-US/docs/Web/CSS' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={css}/>
-                                                <span className='tech-name'>CSS</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.projects.item3.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.projects.item3.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <div className='row'>
-                                            <div className='col-md-8'>
-                                                <h3 className="__subtitle">
-                                                    {t('experience.projects.item3.subtitle')}
-                                                </h3>
-                                                <p className="__text">
-                                                    {t('experience.projects.item3.description')}
-                                                </p>
-                                            </div>
-                                            <div className='col-md-4'>
-                                                <img src={SPGC} style={{width: '100%'}}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="tech-tags">
-                                        <a href='https://openjfx.io/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={javafx}/>
-                                                <span className='tech-name'>JavaFX</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.java.com/en/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={java}/>
-                                                <span className='tech-name'>Java</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.devglan.com/online-tools/rsa-encryption-decryption' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' style={{ height: '80%', marginTop: '2%'}} src={rsa}/>
-                                                <span className='tech-name'>RSA</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.devglan.com/online-tools/aes-encryption-decryption' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={aes}/>
-                                                <span className='tech-name'>AES</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.devglan.com/online-tools/hmac-sha256-online' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={sha256}/>
-                                                <span className='tech-name'>SHA-256</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.projects.item4.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.projects.item4.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <div className='row'>
-                                            <div className='col-md-8'>
-                                                <h3 className="__subtitle">
-                                                    {t('experience.projects.item4.subtitle')}
-                                                </h3>
-                                                <p className="__text">
-                                                    {t('experience.projects.item4.description')}
-                                                </p>
-                                            </div>
-                                            <div className='col-md-4'>
-                                                <video src={baller} style={{width: '100%'}} autoPlay loop muted/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="tech-tags">
-                                        <a href='https://cplusplus.com/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={cpp}/>
-                                                <span className='tech-name'>C++</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.arduino.cc/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo' src={arduino}/>
-                                                <span className='tech-name'>Arduino</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.autodesk.com/ca-en/products/fusion-360/personal' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={fusion}/>
-                                                <span className='tech-name'>Fusion 360 CAD</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.dremel.com/gn/en/digilab' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={dremel}/>
-                                                <span className='tech-name'>3D Printing</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            }
+        {/* Content */}
+        <AnimatePresence mode="wait">
+          {display === 'projects' && (
+            <motion.div key="projects" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+              <ExperienceCard index={0} item={{
+                date: t('experience.projects.item1.date'),
+                title: t('experience.projects.item1.title'),
+                subtitle: t('experience.projects.item1.subtitle'),
+                description: t('experience.projects.item1.description'),
+              }}>
+                <TechTag name="Vite" logo={vite} url="https://vite.dev/" />
+                <TechTag name="React" logo={react} url="https://react.dev/" />
+                <TechTag name="JavaScript" logo={js} url="https://www.javascript.com/" />
+                <TechTag name="CSS" logo={css} url="https://developer.mozilla.org/en-US/docs/Web/CSS" />
+                <TechTag name="Cloudflare" logo={cloudflare} url="https://www.cloudflare.com/" />
+                <TechTag name="Bash" logo={bash} url="https://mywiki.wooledge.org/BashGuide" />
+                <TechTag name="Ubuntu Server" logo={ubuntu} url="https://design.ubuntu.com/brand" />
+                <TechTag name="npm" logo={npm} url="https://www.npmjs.com/" />
+              </ExperienceCard>
 
-            {display == "experience" &&
-                <div className='row'>
-                    <div className='col-md-8 offset-md-2 display'>
-                        <div className="vl"/>
-                        <ul className="list-component">
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.work.item5.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.work.item5.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <h3 className="__subtitle"><a href='https://www.nbpower.com/' target='_blank' className='link'>NB Power</a> | <a href='https://www.google.com/maps/place/Belledune,+NB/data=!4m2!3m1!1s0x4c985bc5ce1896df:0xbf841944ab742f8a?sa=X&ved=1t:242&ictx=111' target='_blank' className='link'>Belledune, NB</a></h3>
-                                        <p className="__text">
-                                            {t('experience.work.item5.description')}
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.work.item1.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.work.item1.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <h3 className="__subtitle"><a href='https://www.nbpower.com/' target='_blank' className='link'>NB Power</a> | <a href='https://www.google.com/maps?sca_esv=c39eac78d6ed00f6&output=search&q=bathurst&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpIgVFCTcbZI9VMGzNoV0iOZkckJJygdiLH6_g992ly-N3ZhTu1MHW3iZwH0a8xO8HGQfhZCtTE10EUDitcgLyPOPgcSN_kPyxmSMtP_k3VNkASaNYrGV87kHm_owanoPH3SM7ecLF7zpM_p1r5dQqP1vt46Of1Kso6kmAQmTbuei57KiiUCLyE_uV5d0FyAOsEKynGw&entry=mc&ved=1t:200715&ictx=111' target='_blank' className='link'>Bathurst, NB</a></h3>
-                                        <p className="__text">
-                                            {t('experience.work.item1.description')}
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.work.item2.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                    {t('experience.work.item2.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <h3 className="__subtitle"><a href='https://ranz-bontogon.com/' target='_blank' className='link'>RB Personal Contract</a> | <a href='https://www.google.com/maps/place/Moncton,+NB/@46.1131365,-64.9654078,11z/data=!3m1!4b1!4m6!3m5!1s0x4ca0b92918d41765:0xdc10a333a4e63c4!8m2!3d46.0878165!4d-64.7782313!16zL20vMDRfbGI?entry=ttu&g_ep=EgoyMDI1MDIwOS4wIKXMDSoASAFQAw%3D%3D' target='_blank' className='link'>Moncton, NB</a></h3>
-                                        <p className="__text">
-                                            {t('experience.work.item2.description')}
-                                        </p>
-                                    </div>
-                                    <div className="tech-tags">
-                                            <a href='https://www.w3schools.com/howto/howto_make_a_website.asp' target='_blank'>
-                                                <div className='tech-tag'>
-                                                    <img className='tech-logo corner' src={html}/>
-                                                    <span className='tech-name'>HTML</span>
-                                                </div>
-                                            </a>
-                                            <a href='https://www.javascript.com/' target='_blank'>
-                                                <div className='tech-tag'>
-                                                    <img className='tech-logo corner' src={js}/>
-                                                    <span className='tech-name'>JavaScript</span>
-                                                </div>
-                                            </a>
-                                            <a href='https://developer.mozilla.org/en-US/docs/Web/CSS' target='_blank'>
-                                                <div className='tech-tag'>
-                                                    <img className='tech-logo corner' src={css}/>
-                                                    <span className='tech-name'>CSS</span>
-                                                </div>
-                                            </a>
-                                            <a href='https://www.cloudflare.com/en-ca/' target='_blank'>
-                                                <div className='tech-tag'>
-                                                    <img className='tech-logo corner' src={cloudflare}/>
-                                                    <span className='tech-name'>Cloudflare</span>
-                                                </div>
-                                            </a>
-                                            <a href='https://mywiki.wooledge.org/BashGuide' target='_blank'>
-                                                <div className='tech-tag'>
-                                                    <img className='tech-logo corner' src={bash}/>
-                                                    <span className='tech-name'>Bash Scripting</span>
-                                                </div>
-                                            </a>
-                                            <a href='https://design.ubuntu.com/brand' target='_blank'>
-                                                <div className='tech-tag'>
-                                                    <img className='tech-logo corner' src={ubuntu}/>
-                                                    <span className='tech-name'>Ubuntu Server</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                </div>
-                            </li>
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.work.item3.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.work.item3.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <h3 className="__subtitle"><a href='https://madisco.ca/' target='_blank' className='link'>Madisco Apartments</a> | <a href='https://www.google.com/maps?sca_esv=c62d8c7ed5b74a5b&output=search&q=bathurst&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpIgVFCTcbZI9VMGzNoV0iOZkckJJygdiLH6_g992ly-N56ueDsJ8PHmDNZqG8FmCe3GaMsJKZsLO8dQHXAa6ktp1Q-Ppm9Ty0oP3Vd8j148johs55TxuqqFtA_OuhVduB_ZaOlhwqZcpgdCmdxVKDjWMZtnYxAD8fUZ4o0y0NeFMuyYJZKylpMlFR_x_1-ojk1sLn1A&entry=mc&ved=1t:200715&ictx=111' target='_blank' className='link'>Bathurst, NB</a></h3>
-                                        <p className="__text">
-                                            {t('experience.work.item3.description')}
-                                        </p>
-                                    </div>
-                                    <div className="tech-tags">
-                                        <a href='https://www.google.com/streetview/' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={googlestreet}/>
-                                                <span className='tech-name'>Google Street View</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.autodesk.com/ca-en/products/fusion-360/personal' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={fusion}/>
-                                                <span className='tech-name'>Fusion 360 CAD</span>
-                                            </div>
-                                        </a>
-                                        <a href='https://www.dremel.com/gn/en/digilab' target='_blank'>
-                                            <div className='tech-tag'>
-                                                <img className='tech-logo corner' src={dremel}/>
-                                                <span className='tech-name'>3D Printing</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            }
+              <ExperienceCard index={1} isAlternate item={{
+                date: t('experience.projects.item2.date'),
+                title: t('experience.projects.item2.title'),
+                subtitle: t('experience.projects.item2.subtitle'),
+                description: t('experience.projects.item2.description'),
+              }} media={<img src={knowinnotes} alt="Knowin Notes" className="w-full rounded-md" />}>
+                <TechTag name="Spring Boot" logo={springboot} url="https://spring.io/projects/spring-boot" />
+                <TechTag name="Gradle" logo={gradle} url="https://gradle.org/" />
+                <TechTag name="Java" logo={java} url="https://www.java.com/" />
+                <TechTag name="React" logo={react} url="https://react.dev/" />
+                <TechTag name="Vite" logo={vite} url="https://vite.dev/" />
+                <TechTag name="Figma" logo={figma} url="https://www.figma.com/" />
+                <TechTag name="Scrum" logo={scrum} url="https://www.scrum.org/" />
+                <TechTag name="CSS" logo={css} url="https://developer.mozilla.org/en-US/docs/Web/CSS" />
+              </ExperienceCard>
 
-            {display == "education" &&
-                <div className='row'>
-                    <div className='col-md-8 offset-md-2 display'>
-                        <div className="vl"/>
-                        <ul className="list-component">
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.education.item1.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.education.item1.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <h3 className="__subtitle"><a href='https://www.unb.ca/' target='_blank' className='link'>University of New Brunswick</a> | <a href='https://www.google.com/maps/place/Fredericton,+NB/@45.9453436,-66.8310588,11z/data=!3m1!4b1!4m6!3m5!1s0x4ca4220ba498fb2b:0xe7de2f297a415db4!8m2!3d45.9635895!4d-66.6431151!16zL20vMDJ3NzA?entry=ttu&g_ep=EgoyMDI1MDMwMy4wIKXMDSoASAFQAw%3D%3D' target='_blank' className='link'>Fredericton, NB</a></h3>
-                                        <p className="__text">
-                                            {t('experience.education.item1.description')}
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="__item">
-                                <div className="card-component">
-                                    <h2 className="__year">
-                                        {t('experience.education.item2.date')}
-                                    </h2>
-                                    <h1 className="__title">
-                                        {t('experience.education.item2.title')}
-                                    </h1>
-                                    <div className='details'>
-                                        <h3 className="__subtitle"><a href='https://mta.ca/' target='_blank' className='link'>Mount Allison University</a> | <a href='https://www.google.com/maps?sca_esv=c62d8c7ed5b74a5b&output=search&q=sackville&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpIgVFCTcbZI9VMGzNoV0iOZkckJJygdiLH6_g992ly-N3ZhTu1MHW3iZwH0a8xO8HZ5pNA7P1FP69xfs9dsZrpVtvYRlslfTiGgyLPI14HArMPvNAyR4_7szs0rY5DvThj6Rri2i4JggIDc-s9lYlJSzeOhba9FqUqpnBe0PRKj4cq4boj5Qwss4eSS7aEKBzI2TyEw&entry=mc&ved=1t:200715&ictx=111' target='_blank' className='link'>Sackville, NB</a></h3>
-                                        <p className="__text">
-                                            {t('experience.education.item2.description')}
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            }
-        </>
-    )
-}
+              <ExperienceCard index={2} isAlternate item={{
+                date: t('experience.projects.item3.date'),
+                title: t('experience.projects.item3.title'),
+                subtitle: t('experience.projects.item3.subtitle'),
+                description: t('experience.projects.item3.description'),
+              }} media={<img src={SPGC} alt="Encrypted Messaging" className="w-full rounded-md" />}>
+                <TechTag name="JavaFX" logo={javafx} url="https://openjfx.io/" />
+                <TechTag name="Java" logo={java} url="https://www.java.com/" />
+                <TechTag name="RSA" logo={rsa} url="https://www.devglan.com/online-tools/rsa-encryption-decryption" />
+                <TechTag name="AES" logo={aes} url="https://www.devglan.com/online-tools/aes-encryption-decryption" />
+                <TechTag name="SHA-256" logo={sha256} url="https://www.devglan.com/online-tools/hmac-sha256-online" />
+              </ExperienceCard>
 
-export default Experience
+              <ExperienceCard index={3} isAlternate item={{
+                date: t('experience.projects.item4.date'),
+                title: t('experience.projects.item4.title'),
+                subtitle: t('experience.projects.item4.subtitle'),
+                description: t('experience.projects.item4.description'),
+              }} media={<video src={baller} className="w-full rounded-md" autoPlay loop muted playsInline />}>
+                <TechTag name="C++" logo={cpp} url="https://cplusplus.com/" />
+                <TechTag name="Arduino" logo={arduino} url="https://www.arduino.cc/" />
+                <TechTag name="Fusion 360" logo={fusion} url="https://www.autodesk.com/ca-en/products/fusion-360/personal" />
+                <TechTag name="3D Printing" logo={dremel} url="https://www.dremel.com/gn/en/digilab" />
+              </ExperienceCard>
+            </motion.div>
+          )}
+
+          {display === 'experience' && (
+            <motion.div key="experience" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+              <ExperienceCard index={0} item={{
+                date: t('experience.work.item5.date'),
+                title: t('experience.work.item5.title'),
+                subtitle: t('experience.work.item5.subtitle'),
+                description: t('experience.work.item5.description'),
+              }} />
+              <ExperienceCard index={1} item={{
+                date: t('experience.work.item1.date'),
+                title: t('experience.work.item1.title'),
+                subtitle: t('experience.work.item1.subtitle') || 'NB Power | Bathurst (NB)',
+                description: t('experience.work.item1.description'),
+              }} />
+              <ExperienceCard index={2} item={{
+                date: t('experience.work.item2.date'),
+                title: t('experience.work.item2.title'),
+                subtitle: t('experience.work.item2.subtitle') || '',
+                description: t('experience.work.item2.description'),
+              }} />
+              <ExperienceCard index={3} item={{
+                date: t('experience.work.item3.date'),
+                title: t('experience.work.item3.title'),
+                subtitle: t('experience.work.item3.subtitle') || '',
+                description: t('experience.work.item3.description'),
+              }} />
+              <ExperienceCard index={4} item={{
+                date: t('experience.work.item4.date'),
+                title: t('experience.work.item4.title'),
+                subtitle: t('experience.work.item4.subtitle') || '',
+                description: t('experience.work.item4.description'),
+              }} />
+            </motion.div>
+          )}
+
+          {display === 'education' && (
+            <motion.div key="education" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+              <ExperienceCard index={0} item={{
+                date: t('experience.education.item1.date'),
+                title: t('experience.education.item1.title'),
+                subtitle: t('experience.education.item1.subtitle') || 'University of New Brunswick | Fredericton (NB)',
+                description: t('experience.education.item1.description'),
+              }} />
+              <ExperienceCard index={1} item={{
+                date: t('experience.education.item2.date'),
+                title: t('experience.education.item2.title'),
+                subtitle: t('experience.education.item2.subtitle') || 'Mount Allison University | Sackville (NB)',
+                description: t('experience.education.item2.description'),
+              }} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+};
+
+export default Experience;

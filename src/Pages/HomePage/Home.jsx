@@ -1,25 +1,23 @@
-import { useState } from 'react'
-import '../../../node_modules/bootstrap/dist/css/bootstrap.css' // Import bootstrap for styling
-import './Home.css'
-import { Hero, NavigationBar, Experience, Institutions, Footer } from '../../Components/component_import.js'
-import TechStack from '../../Components/TechStackComponent/TechStack.jsx'
+import Experience from '../../Components/ExperienceComponent/Experience.jsx';
+import Footer from '../../Components/FooterComponent/Footer.jsx';
+import Hero from '../../Components/HeroComponent/Hero.jsx';
+import Institutions from '../../Components/InstitutionsComponent/Institutions.jsx';
+import NavigationBar from '../../Components/NavigationBarComponent/NavigationBar.jsx';
+import PropulsionMetrics from '../../Components/PropulsionComponent/PropulsionMetrics.jsx';
+import TechStack from '../../Components/TechStackComponent/TechStack.jsx';
 
 function Home() {
-    return (
-        <>
-                <NavigationBar/>
-
-                <Hero/>
-
-                <Institutions/>
-
-                <Experience/>
-
-                <TechStack/>
-
-                <Footer/>
-        </>
-    )
+  return (
+    <div className="min-h-screen bg-black">
+      <NavigationBar />
+      <Hero />
+      <PropulsionMetrics />
+      <Experience />
+      <TechStack />
+      <Institutions />
+      <Footer />
+    </div>
+  );
 }
 
 export default Home;

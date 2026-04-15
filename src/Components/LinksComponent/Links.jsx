@@ -67,7 +67,7 @@ export const Links = () => {
                             </a>
                         </li>
                         <li className="links-menu-list-rotate">
-                            <a onClick={() => window.location = 'mailto:contact@anthonyarseneau'} 
+                            <a onClick={() => window.location = 'mailto:contact@anthonyarseneau.ca'} 
                             className="links-menu-link bigger"
                             onMouseMove={(e) => handleMouseMove(e, t('hoverEmailMe'))}
                             onMouseLeave={handleMouseLeave}>
