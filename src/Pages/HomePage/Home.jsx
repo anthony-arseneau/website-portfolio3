@@ -8,7 +8,7 @@ import TechStack from '../../Components/TechStackComponent/TechStack.jsx';
 
 function Home() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-bg-base">
       <NavigationBar />
       <Hero />
       <PropulsionMetrics />

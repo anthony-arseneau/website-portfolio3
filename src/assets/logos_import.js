@@ -18,6 +18,9 @@ import json from './json.png';
 import springboot from './springboot.png';
 import scrum from './scrum.png';
 import javafx from './javafx.webp';
+import mysql from './mysql-logo.png';
+import python from './python-logo.png';
+import typescript from './Typescript.png';
 
 // Security / Cryptography
 import aes from './aes.png';
@@ -29,6 +32,8 @@ import cpp from './cpp.png';
 import arduino from './arduino.svg';
 import dremel from './dremel.jpg';
 import fusion from './fusion.png';
+import autocad from './autocad-icon.webp';
+import matlab from './Matlab_Logo.png';
 
 // Misc / Projects
 import baller from './baller2.mp4';
@@ -38,7 +43,7 @@ import googlestreet from './googlestreet.png';
 
 export {
   // Web Development
-  bash, cloudflare, css, html, js, jsx, react, ubuntu, vite, npm, figma,
+  bash, cloudflare, css, html, js, jsx, react, ubuntu, vite, npm, figma, mysql, python, typescript,
 
   // Software Engineering
   gradle, java, json, springboot, scrum, javafx,
@@ -47,7 +52,7 @@ export {
   aes, rsa, sha256,
 
   // Systems
-  cpp, arduino, dremel, fusion,
+  cpp, arduino, dremel, fusion, autocad, matlab,
 
   // Projects / Misc
   baller, SPGC, knowinnotes, googlestreet,

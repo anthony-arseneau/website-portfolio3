@@ -1,11 +1,10 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
-import unb from '../../assets/unb_logo.png';
+import icpc from '../../assets/ICPC Logo.png';
 import mountallison from '../../assets/mount_allison_logo.png';
 import nbpower from '../../assets/nbpower_logo.png';
 import scienceatlantic from '../../assets/Science Atlantic Logo.png';
-import icpc from '../../assets/ICPC Logo.png';
+import unb from '../../assets/unb_logo.png';
 
 const institutions = [
   { name: 'University of New Brunswick', logo: unb, url: 'https://www.unb.ca/' },
@@ -16,33 +15,43 @@ const institutions = [
 ];
 
 const Institutions = () => {
+  // Duplicate logos for seamless infinite scroll
+  const doubled = [...institutions, ...institutions];
+
   return (
-    <section className="py-10 sm:py-14 px-4 sm:px-6 bg-white">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex flex-wrap justify-center items-center gap-10 sm:gap-14 md:gap-20">
-          {institutions.map((inst, i) => (
-            <motion.a
-              key={inst.name}
+    <section className="py-10 sm:py-14 bg-bg-base overflow-hidden">
+      <div className="relative w-full">
+        <motion.div
+          className="flex w-max"
+          animate={{ x: ['0%', '-50%'] }}
+          transition={{
+            x: {
+              repeat: Infinity,
+              repeatType: 'loop',
+              duration: 40,
+              ease: 'linear',
+            },
+          }}
+        >
+          {doubled.map((inst, i) => (
+            <a
+              key={`${inst.name}-${i}`}
               href={inst.url}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.4 }}
-              className="group"
+              className="flex-shrink-0 px-10 sm:px-12"
             >
               <img
                 src={inst.logo}
                 alt={inst.name}
-                className="h-8 sm:h-10 md:h-12 object-contain
-                           grayscale opacity-30
-                           group-hover:grayscale-0 group-hover:opacity-100
-                           transition-all duration-300"
+                className="h-12 sm:h-14 md:h-16 w-auto object-contain
+                           theme-invert theme-logo-glow opacity-70
+                           hover:opacity-100
+                           transition-all duration-300 cursor-pointer"
               />
-            </motion.a>
+            </a>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

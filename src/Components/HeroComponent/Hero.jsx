@@ -15,7 +15,7 @@ function Hero() {
   };
 
   return (
-    <section id="home" className="relative w-full min-h-screen flex flex-col items-center justify-center bg-black px-4">
+    <section id="home" className="relative w-full min-h-screen flex flex-col items-center justify-center bg-bg-base px-4">
       {/* Row 1: PFP + Name & Location */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -26,17 +26,17 @@ function Hero() {
         <img
           src={profilePic}
           alt="Anthony Arseneau"
-          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-white/10 shrink-0"
+          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-border-subtle shrink-0"
         />
         <div>
-          <h2 className="text-xl sm:text-2xl font-semibold text-white tracking-wide">
+          <h2 className="text-xl sm:text-2xl font-semibold text-text-primary tracking-wide">
             Anthony Arseneau
           </h2>
           <a
             href="https://www.google.com/maps/place/Fredericton,+NB/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 mt-1 text-gray-400 hover:text-white
+            className="inline-flex items-center gap-1.5 mt-1 text-text-muted hover:text-text-primary
                        transition-colors duration-200 no-underline"
           >
             <span className="text-sm tracking-wide">{t('location')}</span>
@@ -50,7 +50,7 @@ function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.35 }}
-        className="relative z-10 text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-wide uppercase mt-8 sm:mt-10 max-w-5xl"
+        className="relative z-10 text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary tracking-wide uppercase mt-8 sm:mt-10 max-w-5xl"
       >
         {t('hero_title')}
       </motion.h1>
@@ -64,8 +64,8 @@ function Hero() {
       >
         <button
           onClick={() => scrollTo('propulsion')}
-          className="px-8 sm:px-10 py-3 border border-white/25 text-white text-[11px] sm:text-xs uppercase tracking-[0.35em]
-                     bg-transparent hover:bg-white hover:text-black transition-all duration-300 cursor-pointer font-medium"
+          className="px-8 sm:px-10 py-3 border border-border-default text-text-primary text-[11px] sm:text-xs uppercase tracking-[0.35em]
+                     bg-transparent hover:bg-accent-bg hover:text-accent-text transition-all duration-300 cursor-pointer font-medium"
         >
           {t('hero_cta')}
         </button>
@@ -85,7 +85,7 @@ function Hero() {
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
-            className="w-6 h-6 mx-auto text-gray-400"
+            className="w-6 h-6 mx-auto text-text-muted"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
           </motion.svg>
@@ -93,7 +93,7 @@ function Hero() {
       </motion.div>
 
       {/* Subtle bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-[1]" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bg-base to-transparent z-[1]" />
     </section>
   );
 }

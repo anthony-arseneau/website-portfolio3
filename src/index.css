@@ -2,6 +2,7 @@
 
 @theme {
   --font-sans: "Inter", "Roboto", system-ui, -apple-system, sans-serif;
+  --breakpoint-xs: 26rem;
   --color-bg-base: #000000;
   --color-bg-section: #0a0a0a;
   --color-bg-card: #111111;
@@ -11,6 +12,8 @@
   --color-text-primary: #ffffff;
   --color-text-secondary: #a0a0a0;
   --color-text-muted: #666666;
+  --color-accent-bg: #ffffff;
+  --color-accent-text: #000000;
 }
 
 @layer base {
@@ -33,21 +36,18 @@
     overflow-x: hidden;
   }
 
-  [data-theme="light"] body {
-    background-color: #f5f5f5;
-    color: #1a1a1a;
-  }
-
   [data-theme="light"] {
     --color-bg-base: #f5f5f5;
-    --color-bg-section: #eeeeee;
-    --color-bg-card: #e0e0e0;
-    --color-bg-elevated: #d5d5d5;
-    --color-border-subtle: #cccccc;
-    --color-border-default: #bbbbbb;
+    --color-bg-section: #f0f0f0;
+    --color-bg-card: #ffffff;
+    --color-bg-elevated: #f5f5f5;
+    --color-border-subtle: #e0e0e0;
+    --color-border-default: #cccccc;
     --color-text-primary: #0a0a0a;
     --color-text-secondary: #444444;
     --color-text-muted: #777777;
+    --color-accent-bg: #0a0a0a;
+    --color-accent-text: #f5f5f5;
   }
 
   #root {
@@ -62,5 +62,26 @@
   [data-theme="light"] ::selection {
     background-color: rgba(0, 0, 0, 0.15);
     color: #000;
+  }
+
+  /* Logo filter: white in dark mode, dark in light mode */
+  .theme-invert {
+    filter: brightness(0) invert(1);
+  }
+  [data-theme="light"] .theme-invert {
+    filter: brightness(0);
+  }
+
+  /* Darken white logos in light mode */
+  [data-theme="light"] .theme-dark-on-light {
+    filter: brightness(0);
+  }
+
+  /* Institution logo hover glow */
+  .theme-logo-glow:hover {
+    filter: brightness(0) invert(1) drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+  }
+  [data-theme="light"] .theme-logo-glow:hover {
+    filter: brightness(0) drop-shadow(0 0 12px rgba(0, 0, 0, 0.4));
   }
 }

@@ -37,7 +37,7 @@ function CountUp({ end, duration = 2, decimals = 0, suffix = '', prefix = '' }) 
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6 }}
     >
-      <span className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
+      <span className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text-primary">
         {prefix}{decimals > 0 ? count.toFixed(decimals) : Math.round(count)}{suffix}
       </span>
     </motion.div>

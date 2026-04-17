@@ -2,35 +2,41 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    aes,
-    arduino,
-    baller,
-    bash,
-    cloudflare,
-    cpp,
-    css,
-    dremel,
-    figma,
-    fusion,
-    gradle, java,
-    javafx,
-    js,
-    knowinnotes,
-    npm,
-    react,
-    rsa,
-    scrum,
-    sha256,
-    SPGC,
-    springboot,
-    ubuntu,
-    vite
+  aes,
+  arduino,
+  baller,
+  bash,
+  cloudflare,
+  cpp,
+  css,
+  dremel,
+  figma,
+  fusion,
+  gradle, java,
+  javafx,
+  js,
+  knowinnotes,
+  npm,
+  react,
+  rsa,
+  scrum,
+  sha256,
+  SPGC,
+  springboot,
+  ubuntu,
+  vite
 } from '../../assets/logos_import';
+
+import madisco from '../../assets/madisco-logo.png';
+import mountallison from '../../assets/mount_allison_logo.png';
+import nbpower from '../../assets/nbpower_logo.png';
+import ranzbontogon from '../../assets/ranz_bontogon_logo.png';
+import unb from '../../assets/unb_logo.png';
 
 const TechTag = ({ name, logo, url }) => (
   <a href={url} target="_blank" rel="noopener noreferrer"
-    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/[0.06]
-               text-gray-400 text-xs hover:border-white/25 hover:text-white
+    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border-subtle
+               text-text-muted text-xs hover:border-border-default hover:text-text-primary
                transition-all duration-200 no-underline"
   >
     {logo && <img src={logo} alt={name} className="w-4 h-4 object-contain rounded-sm" />}
@@ -38,7 +44,7 @@ const TechTag = ({ name, logo, url }) => (
   </a>
 );
 
-const ExperienceCard = ({ item, index, isAlternate = false, children, media = null }) => {
+const ExperienceCard = ({ item, index, isAlternate = false, children, media = null, logo = null }) => {
   const isEven = index % 2 === 0;
   const layoutReversed = isAlternate && !isEven;
 
@@ -49,7 +55,7 @@ const ExperienceCard = ({ item, index, isAlternate = false, children, media = nu
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={`
-        bg-[#080808] border border-white/[0.05]
+        bg-bg-card border border-border-subtle
         rounded-sm overflow-hidden
         transition-colors duration-300
         mb-5 sm:mb-6
@@ -57,17 +63,28 @@ const ExperienceCard = ({ item, index, isAlternate = false, children, media = nu
     >
       <div className={`flex flex-col ${isAlternate ? (layoutReversed ? 'md:flex-row-reverse' : 'md:flex-row') : ''}`}>
         {media && (
-          <div className="md:w-2/5 bg-[#060606] flex items-center justify-center p-4 sm:p-6">
+          <div className="md:w-2/5 bg-bg-section flex items-center justify-center p-4 sm:p-6">
             {media}
           </div>
         )}
         <div className={`p-5 sm:p-8 ${media ? 'md:w-3/5' : 'w-full'}`}>
-          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-gray-400">{item.date}</span>
-          <h3 className="text-lg sm:text-xl font-bold text-white mt-2 tracking-wide">{item.title}</h3>
-          {item.subtitle && (
-            <p className="text-sm text-gray-400 mt-1">{item.subtitle}</p>
-          )}
-          <p className="text-base leading-relaxed text-gray-300 mt-3 sm:mt-4">{item.description}</p>
+          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-text-muted">{item.date}</span>
+          <div className="flex items-center justify-between gap-4 mt-2">
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl font-bold text-text-primary tracking-wide">{item.title}</h3>
+              {item.subtitle && (
+                <p className="text-sm text-text-muted mt-1">{item.subtitle}</p>
+              )}
+            </div>
+            {logo && (
+              <img
+                src={logo}
+                alt=""
+                className="h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 flex-shrink-0"
+              />
+            )}
+          </div>
+          <p className="text-base leading-relaxed text-text-secondary mt-3 sm:mt-4">{item.description}</p>
           {children && <div className="flex flex-wrap gap-2 mt-4 sm:mt-5">{children}</div>}
         </div>
       </div>
@@ -86,11 +103,25 @@ export const Experience = () => {
   ];
 
   return (
-    <section id="experience1" className="py-20 sm:py-28 px-4 sm:px-6 bg-black">
+    <section id="experience1" className="py-20 sm:py-28 px-4 sm:px-6 bg-bg-base">
       <div className="max-w-4xl mx-auto">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-14 sm:mb-18"
+        >
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-[0.12em] uppercase text-text-primary">
+            Experience
+          </h2>
+          <div className="h-px w-12 bg-text-primary/55 mx-auto mt-4 sm:mt-5" />
+        </motion.div>
+
         {/* Tab Selector */}
         <div className="flex justify-center mb-10 sm:mb-14">
-          <div className="inline-flex bg-[#080808] border border-white/[0.06] rounded-full p-1">
+          <div className="inline-flex bg-bg-card border border-border-subtle rounded-full p-1">
             {tabs.map(tab => (
               <button
                 key={tab.id}
@@ -99,8 +130,8 @@ export const Experience = () => {
                   px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-[0.15em] font-medium
                   transition-all duration-300 cursor-pointer border-none
                   ${display === tab.id
-                    ? 'bg-white text-black'
-                    : 'bg-transparent text-gray-300 hover:text-white'}
+                    ? 'bg-accent-bg text-accent-text'
+                    : 'bg-transparent text-text-secondary hover:text-text-primary'}
                 `}
               >
                 {tab.label}
@@ -174,31 +205,31 @@ export const Experience = () => {
 
           {display === 'experience' && (
             <motion.div key="experience" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-              <ExperienceCard index={0} item={{
+              <ExperienceCard index={0} logo={nbpower} item={{
                 date: t('experience.work.item5.date'),
                 title: t('experience.work.item5.title'),
                 subtitle: t('experience.work.item5.subtitle'),
                 description: t('experience.work.item5.description'),
               }} />
-              <ExperienceCard index={1} item={{
+              <ExperienceCard index={1} logo={nbpower} item={{
                 date: t('experience.work.item1.date'),
                 title: t('experience.work.item1.title'),
                 subtitle: t('experience.work.item1.subtitle') || 'NB Power | Bathurst (NB)',
                 description: t('experience.work.item1.description'),
               }} />
-              <ExperienceCard index={2} item={{
+              <ExperienceCard index={2} logo={ranzbontogon} item={{
                 date: t('experience.work.item2.date'),
                 title: t('experience.work.item2.title'),
                 subtitle: t('experience.work.item2.subtitle') || '',
                 description: t('experience.work.item2.description'),
               }} />
-              <ExperienceCard index={3} item={{
+              <ExperienceCard index={3} logo={madisco} item={{
                 date: t('experience.work.item3.date'),
                 title: t('experience.work.item3.title'),
                 subtitle: t('experience.work.item3.subtitle') || '',
                 description: t('experience.work.item3.description'),
               }} />
-              <ExperienceCard index={4} item={{
+              <ExperienceCard index={4} logo={mountallison} item={{
                 date: t('experience.work.item4.date'),
                 title: t('experience.work.item4.title'),
                 subtitle: t('experience.work.item4.subtitle') || '',
@@ -209,13 +240,13 @@ export const Experience = () => {
 
           {display === 'education' && (
             <motion.div key="education" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-              <ExperienceCard index={0} item={{
+              <ExperienceCard index={0} logo={unb} item={{
                 date: t('experience.education.item1.date'),
                 title: t('experience.education.item1.title'),
                 subtitle: t('experience.education.item1.subtitle') || 'University of New Brunswick | Fredericton (NB)',
                 description: t('experience.education.item1.description'),
               }} />
-              <ExperienceCard index={1} item={{
+              <ExperienceCard index={1} logo={mountallison} item={{
                 date: t('experience.education.item2.date'),
                 title: t('experience.education.item2.title'),
                 subtitle: t('experience.education.item2.subtitle') || 'Mount Allison University | Sackville (NB)',
