@@ -32,11 +32,29 @@
       "education": "Education"
     },
     "projects": {
+      "nozzle": {
+        "date": "April 2026",
+        "title": "Supersonic Nozzle",
+        "subtitle": "Applied Fluid Mechanics Personal Project",
+        "description": "Engineered a highly precise, equation-driven 3D CAD model of a converging-diverging (de Laval) rocket nozzle. Utilized SolidWorks to construct complex surface sweeps and revolves based on theoretical aerodynamic profiles."
+      },
+      "itemEB": {
+        "date": "March 2025 – Present",
+        "title": "Global Carbon Systems Dashboard",
+        "subtitle": "Personal Thermodynamic Project",
+        "description": "A computational modeling platform engineered to track the depletion of the world's remaining CO₂e budget before surpassing the +2.0ºC thermodynamic threshold. By translating massive global emissions datasets into a real-time interactive dashboard, this project demonstrates my ability to analyze complex macro-energy systems and develop robust, data-driven engineering software."
+      },
+      "item0": {
+        "date": "September – December 2025",
+        "title": "Digital Twinning for Efficient Path Finding Algorithms to Reduce Energy Consumption with Autonomous Mobile Robots",
+        "subtitle": "University Project, Digital Twinning",
+        "description": "Engineered a high-fidelity Digital Twin framework for Autonomous Mobile Robots (AMRs) to optimize fleet navigation, safety, and operational efficiency. By bridging physical hardware with complex Gazebo simulations via real-time MQTT and ROS synchronization, I established a live, bidirectional testbed for advanced path-planning and collision-avoidance algorithms (SLAM, A*, DWA). This system acts as a robust pipeline for virtual commissioning, significantly reducing physical deployment times while validating tangible improvements in path execution and fleet utilization."
+      },
       "item1": {
         "date": "January 2024 – Present",
         "title": "Portfolio Website",
         "subtitle": "Personal Project",
-        "description": "Developed a responsive portfolio website hosted on a personal server to showcase projects, skills, images, and videos, attracting over 600 unique users per month. Enhanced security and performance with HTTPS integration, optimized media load times, and a seamless cross-device experience."
+        "description": "Developed a responsive portfolio website hosted on a personal server to showcase projects, skills, images, and videos, attracting over 2.85k unique users per month. Enhanced security and performance with HTTPS integration, optimized media load times, and a seamless cross-device experience."
       },
       "item2": {
         "date": "September - December 2024",

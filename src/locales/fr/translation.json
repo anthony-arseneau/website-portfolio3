@@ -32,11 +32,29 @@
       "education": "Éducation"
     },
     "projects": {
+      "nozzle": {
+        "date": "Avril 2026",
+        "title": "Tuyère Supersonique",
+        "subtitle": "Projet personnel de la mécanique des fluides appliqué",
+        "description": "Conception d'un modèle CAO 3D très précis et basé sur les équations d'une tuyère de fusée à convergence-divergence (de Laval). Utilisation de SolidWorks pour construire des surfaces complexes par balayage et révolution, fondées sur des profils aérodynamiques théoriques."
+      },
+      "itemEB": {
+        "date": "Mars 2025 – Présent",
+        "title": "Tableau de bord mondial des systèmes carbone",
+        "subtitle": "Projet personnel",
+        "description": "Une plateforme de modélisation computationnelle conçue pour suivre l'épuisement du budget mondial restant de CO₂e avant de dépasser le seuil thermodynamique de +2,0 ºC. En transformant d'énormes ensembles de données d'émissions mondiales en un tableau de bord interactif en temps réel, ce projet démontre ma capacité à analyser des macro-systèmes énergétiques complexes et à développer des logiciels d'ingénierie robustes et axés sur les données."
+      },
+      "item0": {
+        "date": "Septembre – Décembre 2025",
+        "title": "Jumelage numérique pour des algorithmes de recherche de chemin efficaces afin de réduire la consommation d'énergie des robots mobiles autonomes",
+        "subtitle": "Project universitaire, Jumelage numérique",
+        "description": "Conception d'un cadre de jumelage numérique haute fidélité pour robots mobiles autonomes (AMR) afin d'optimiser la navigation de flotte, la sécurité et l'efficacité opérationnelle. En reliant le matériel physique à des simulations Gazebo complexes via une synchronisation MQTT et ROS en temps réel, j'ai établi un banc d'essai bidirectionnel en direct pour des algorithmes avancés de planification de chemin et d'évitement de collision (SLAM, A*, DWA). Ce système sert de pipeline robuste pour la mise en service virtuelle, réduisant considérablement les temps de déploiement physique tout en validant des améliorations tangibles dans l'exécution des trajectoires et l'utilisation de la flotte."
+      },
       "item1": {
         "date": "Janvier 2024 – Présent",
         "title": "Site portfolio",
         "subtitle": "Projet personnel",
-        "description": "Développement d'un site web portfolio réactif hébergé sur un serveur personnel pour présenter projets, compétences, images et vidéos, attirant plus de 600 utilisateurs uniques par mois. Sécurité et performances améliorées grâce à l'intégration HTTPS, à l'optimisation des temps de chargement des médias et à une expérience fluide sur tous les appareils."
+        "description": "Développement d'un site web portfolio réactif hébergé sur un serveur personnel pour présenter projets, compétences, images et vidéos, attirant plus de 2850 utilisateurs uniques par mois. Sécurité et performances améliorées grâce à l'intégration HTTPS, à l'optimisation des temps de chargement des médias et à une expérience fluide sur tous les appareils."
       },
       "item2": {
         "date": "Septembre – Décembre 2024",

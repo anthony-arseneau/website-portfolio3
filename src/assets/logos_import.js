@@ -34,6 +34,9 @@ import dremel from './dremel.jpg';
 import fusion from './fusion.png';
 import autocad from './autocad-icon.webp';
 import matlab from './Matlab_Logo.png';
+import sim20 from './sim20-logo.webp'
+import solidworks from './SolidWorks_Logo.png'
+import kicad from './kicad-logo.png'
 
 // Misc / Projects
 import baller from './baller2.mp4';
@@ -52,7 +55,7 @@ export {
   aes, rsa, sha256,
 
   // Systems
-  cpp, arduino, dremel, fusion, autocad, matlab,
+  cpp, arduino, dremel, fusion, autocad, matlab, sim20, solidworks, kicad,
 
   // Projects / Misc
   baller, SPGC, knowinnotes, googlestreet,

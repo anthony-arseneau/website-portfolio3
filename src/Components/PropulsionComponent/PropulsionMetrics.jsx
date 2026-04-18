@@ -14,7 +14,7 @@ function PropulsionMetrics() {
 
   return (
     <section id="propulsion" className="relative bg-bg-base overflow-hidden">
-      <div className="relative max-w-7xl mx-auto px-6 lg:pl-24 py-16">
+      <div className="relative max-w-7xl mx-auto px-6 lg:pl-24 pt-16 lg:py-16">
         {/* Left: Text – stays in place */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}

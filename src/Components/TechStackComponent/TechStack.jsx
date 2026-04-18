@@ -12,11 +12,14 @@ import {
   js,
   json,
   jsx,
+  kicad,
   matlab,
   mysql,
   npm,
   python,
   react,
+  sim20,
+  solidworks,
   springboot,
   typescript,
   ubuntu,
@@ -24,16 +27,19 @@ import {
 } from '../../assets/logos_import';
 
 const TechStack = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const cadEngineering = [
     // { name: 'CATIA', url: 'https://www.3ds.com/products-services/catia/', logo: null, placeholder: 'CATIA' },
     // { name: 'ANSYS', url: 'https://www.ansys.com/', logo: null, placeholder: 'ANSYS' },
-    { name: 'MATLAB & Simulink', url: 'https://www.mathworks.com/products/matlab.html', logo: matlab, placeholder: 'MATLAB' },
+    { name: 'MATLAB & Simulink', url: 'https://www.mathworks.com/products/matlab.html', logo: matlab },
     { name: 'Fusion 360', url: 'https://www.autodesk.com/ca-en/products/fusion-360/personal', logo: fusion },
-    { name: 'AutoCAD', url: 'https://www.autodesk.com/products/autocad/overview', logo: autocad, placeholder: 'AutoCAD' },
+    { name: 'AutoCAD', url: 'https://www.autodesk.com/products/autocad/overview', logo: autocad, },
+    { name: '20-sim', url: 'https://www.20sim.com/', logo: sim20, },
+    { name: 'SolidWorks', url: 'https://www.solidworks.com/', logo: solidworks, },
     { name: 'Arduino', url: 'https://www.arduino.cc/', logo: arduino },
     { name: '3D Printing', url: 'https://www.dremel.com/gn/en/digilab', logo: dremel },
+    { name: 'KiCad', url: 'https://www.kicad.org/', logo: kicad },
   ];
 
   const software = [
@@ -79,7 +85,7 @@ const TechStack = () => {
         ${large ? 'p-5 sm:p-7' : 'p-4 sm:p-5'}
       `}
     >
-      <div className={`flex items-center justify-center mb-2 sm:mb-3 transition-all duration-300 opacity-80 group-hover:opacity-100 ${large ? 'w-12 h-12 sm:w-16 sm:h-16' : 'w-9 h-9 sm:w-11 sm:h-11'}`}>
+      <div className={`flex items-center justify-center mb-2 sm:mb-3 transition-all duration-300 ${large ? 'w-12 h-12 sm:w-16 sm:h-16' : 'w-9 h-9 sm:w-11 sm:h-11'}`}>
         {item.logo ? (
           <img src={item.logo} alt={item.name} className={`max-w-full max-h-full object-contain ${item.invertOnLight ? 'theme-dark-on-light' : ''}`} />
         ) : (
@@ -98,6 +104,7 @@ const TechStack = () => {
     <section id="tech-stack" className="pt-10 sm:pt-14 pb-20 sm:pb-28 px-4 sm:px-6 bg-bg-base">
       <div className="max-w-5xl mx-auto">
         <motion.div
+          key={`title-${i18n.language}`}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
@@ -121,11 +128,12 @@ const TechStack = () => {
             {t('tech_cad_title')}
           </motion.h3>
           <motion.div
+            key={`cad-${i18n.language}`}
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3"
+            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2.5 sm:gap-3"
           >
             {cadEngineering.map((item) => (
               <TechItem key={item.name} item={item} large />
@@ -144,6 +152,7 @@ const TechStack = () => {
             {t('tech_software_title')}
           </motion.h3>
           <motion.div
+            key={`sw-${i18n.language}`}
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
