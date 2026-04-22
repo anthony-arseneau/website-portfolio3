@@ -10,8 +10,8 @@
   "propulsion_body": "Focused on advanced mechanical systems, propulsion design, and computational analysis. Integrating CAD modeling, finite element analysis, and systems-level engineering to develop high-performance solutions for complex thermal-fluid and structural challenges.",
   "propulsion_diagram_label": "Full-Cycle Engine Schematic",
   "stat_gpa": "CGPA",
-  "stat_cad": "CAD / Systems Projects",
-  "stat_internships": "Power Generation Internships",
+  "stat_cad": "Projects",
+  "stat_internships": "Internships",
   "tech_cad_title": "CAD & Engineering Tools",
   "tech_software_title": "Software & Programming",
   "location": "Fredericton NB, Canada",
@@ -122,5 +122,5 @@
       }
     }
   },
-  "last_updated": "Last updated: January 12, 2026"
+  "last_updated": "Last updated: April 21, 2026"
 }

@@ -23,7 +23,8 @@ import {
   springboot,
   typescript,
   ubuntu,
-  vite
+  vite,
+  linux
 } from '../../assets/logos_import';
 
 const TechStack = () => {
@@ -32,34 +33,36 @@ const TechStack = () => {
   const cadEngineering = [
     // { name: 'CATIA', url: 'https://www.3ds.com/products-services/catia/', logo: null, placeholder: 'CATIA' },
     // { name: 'ANSYS', url: 'https://www.ansys.com/', logo: null, placeholder: 'ANSYS' },
-    { name: 'MATLAB & Simulink', url: 'https://www.mathworks.com/products/matlab.html', logo: matlab },
-    { name: 'Fusion 360', url: 'https://www.autodesk.com/ca-en/products/fusion-360/personal', logo: fusion },
-    { name: 'AutoCAD', url: 'https://www.autodesk.com/products/autocad/overview', logo: autocad, },
-    { name: '20-sim', url: 'https://www.20sim.com/', logo: sim20, },
+    
     { name: 'SolidWorks', url: 'https://www.solidworks.com/', logo: solidworks, },
+    { name: 'MATLAB & Simulink', url: 'https://www.mathworks.com/products/matlab.html', logo: matlab },
+    { name: '20-sim', url: 'https://www.20sim.com/', logo: sim20, },
     { name: 'Arduino', url: 'https://www.arduino.cc/', logo: arduino },
-    { name: '3D Printing', url: 'https://www.dremel.com/gn/en/digilab', logo: dremel },
     { name: 'KiCad', url: 'https://www.kicad.org/', logo: kicad },
+    { name: 'AutoCAD', url: 'https://www.autodesk.com/products/autocad/overview', logo: autocad, },
+    { name: 'Fusion 360', url: 'https://www.autodesk.com/ca-en/products/fusion-360/personal', logo: fusion },
+    { name: '3D Printing', url: 'https://www.dremel.com/gn/en/digilab', logo: dremel },
   ];
 
   const software = [
     { name: 'Python', url: 'https://www.python.org/', logo: python },
     { name: 'C++', url: 'https://cplusplus.com/', logo: cpp },
-    { name: 'MySQL', url: 'https://www.mysql.com/', logo: mysql, placeholder: 'SQL' },
     { name: 'Java', url: 'https://www.java.com/en/', logo: java },
-    { name: 'React', url: 'https://react.dev/', logo: react },
     { name: 'JavaScript', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript', logo: js },
     { name: 'TypeScript', url: 'https://www.typescriptlang.org/', logo: typescript },
-    { name: 'Bash', url: 'https://mywiki.wooledge.org/BashGuide', logo: bash, invertOnLight: true },
-    { name: 'Ubuntu', url: 'https://design.ubuntu.com/brand', logo: ubuntu },
-    { name: 'Spring Boot', url: 'https://spring.io/projects/spring-boot', logo: springboot },
-    { name: 'JavaFX', url: 'https://openjfx.io/', logo: javafx },
+    { name: 'React', url: 'https://react.dev/', logo: react },
     { name: 'Vite', url: 'https://vite.dev/', logo: vite },
+    { name: 'Linux', url: 'https://www.linux.org/', logo: linux },
+    { name: 'Ubuntu', url: 'https://design.ubuntu.com/brand', logo: ubuntu },
+    { name: 'Bash', url: 'https://mywiki.wooledge.org/BashGuide', logo: bash, invertOnLight: true },
+    { name: 'Spring Boot', url: 'https://spring.io/projects/spring-boot', logo: springboot },
     { name: 'Gradle', url: 'https://gradle.org/', logo: gradle, invertOnLight: true },
     { name: 'Cloudflare', url: 'https://www.cloudflare.com/', logo: cloudflare },
-    { name: 'JavaScript XML', url: 'https://legacy.reactjs.org/docs/introducing-jsx.html', logo: jsx },
     { name: 'npm', url: 'https://www.npmjs.com/', logo: npm },
+    { name: 'MySQL', url: 'https://www.mysql.com/', logo: mysql, placeholder: 'SQL' },
     { name: 'JSON', url: 'https://www.json.org/json-en.html', logo: json },
+    { name: 'JavaScript XML', url: 'https://legacy.reactjs.org/docs/introducing-jsx.html', logo: jsx },
+    { name: 'JavaFX', url: 'https://openjfx.io/', logo: javafx },
   ];
 
   const containerVariants = {
@@ -133,7 +136,7 @@ const TechStack = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2.5 sm:gap-3"
+            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 gap-2.5 sm:gap-3"
           >
             {cadEngineering.map((item) => (
               <TechItem key={item.name} item={item} large />

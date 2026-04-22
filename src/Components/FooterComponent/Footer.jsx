@@ -61,7 +61,7 @@ const Footer = () => {
             <LuSend size={13} />
           </a>
         </div>
-        <p className="text-[10px] text-text-primary/80 tracking-[0.2em] uppercase">
+        <p className="text-[10px] text-text-primary/80 tracking-[0.2em]">
           {t('last_updated')}
         </p>
       </div>

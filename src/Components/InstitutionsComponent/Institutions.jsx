@@ -45,7 +45,7 @@ const Institutions = () => {
                 src={inst.logo}
                 alt={inst.name}
                 className="h-12 sm:h-14 md:h-16 w-auto object-contain
-                           theme-invert theme-logo-glow opacity-70
+                           theme-invert opacity-70
                            hover:opacity-100
                            transition-all duration-300 cursor-pointer"
               />

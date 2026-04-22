@@ -21,6 +21,7 @@ import javafx from './javafx.webp';
 import mysql from './mysql-logo.png';
 import python from './python-logo.png';
 import typescript from './Typescript.png';
+import linux from './linux.webp'
 
 // Security / Cryptography
 import aes from './aes.png';
@@ -46,7 +47,7 @@ import googlestreet from './googlestreet.png';
 
 export {
   // Web Development
-  bash, cloudflare, css, html, js, jsx, react, ubuntu, vite, npm, figma, mysql, python, typescript,
+  bash, cloudflare, css, html, js, jsx, react, ubuntu, vite, npm, figma, mysql, python, typescript, linux,
 
   // Software Engineering
   gradle, java, json, springboot, scrum, javafx,
