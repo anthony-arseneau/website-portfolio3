@@ -163,6 +163,9 @@ const ExperienceCard = ({ item, index, isAlternate = false, children, media = nu
             {logo && (
               logoUrl ? (
                 <a href={logoUrl} target="_blank" rel="noopener noreferrer" title={logoLabel ?? undefined} aria-label={logoLabel ? `Visit ${logoLabel} website` : undefined} className="flex-shrink-0 hover:opacity-80 transition-opacity duration-200">
+                  <img
+                    src={logo}
+                    alt={`${item.title} company logo - Anthony Arseneau`}
                     className={`h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 ${logo === vestcor ? 'max-w-[100px]' : ''}`}
                   />
                 </a>
