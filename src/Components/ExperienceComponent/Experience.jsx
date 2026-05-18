@@ -120,9 +120,17 @@ const TechTag = ({ name, logo, url, invertOnLight }) => (
   </a>
 );
 
-const ExperienceCard = ({ item, index, isAlternate = false, children, media = null, logo = null }) => {
+const PREVIEW_LENGTH = 140;
+
+const ExperienceCard = ({ item, index, isAlternate = false, children, media = null, logo = null, logoUrl = null, logoLabel = null }) => {
   const isEven = index % 2 === 0;
   const layoutReversed = isAlternate && !isEven;
+  const [expanded, setExpanded] = useState(false);
+
+  const desc = item.description || '';
+  const needsTruncation = desc.length > PREVIEW_LENGTH;
+  const previewText = needsTruncation ? desc.slice(0, desc.lastIndexOf(' ', PREVIEW_LENGTH)) : desc;
+  const restText = needsTruncation ? desc.slice(previewText.length) : '';
 
   return (
     <div
@@ -153,14 +161,41 @@ const ExperienceCard = ({ item, index, isAlternate = false, children, media = nu
               )}
             </div>
             {logo && (
-              <img
-                src={logo}
-                alt={`${item.title} company logo - Anthony Arseneau`}
-                className={`h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 flex-shrink-0 ${logo === vestcor ? 'max-w-[100px]' : ''}`}
-              />
+              logoUrl ? (
+                <a href={logoUrl} target="_blank" rel="noopener noreferrer" title={logoLabel ?? undefined} aria-label={logoLabel ? `Visit ${logoLabel} website` : undefined} className="flex-shrink-0 hover:opacity-80 transition-opacity duration-200">
+                    className={`h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 ${logo === vestcor ? 'max-w-[100px]' : ''}`}
+                  />
+                </a>
+              ) : (
+                <img
+                  src={logo}
+                  alt={`${item.title} company logo - Anthony Arseneau`}
+                  className={`h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 flex-shrink-0 ${logo === vestcor ? 'max-w-[100px]' : ''}`}
+                />
+              )
             )}
           </div>
-          <p className="text-base leading-relaxed text-text-secondary mt-3 sm:mt-4">{item.description}</p>
+          <p className="text-base leading-relaxed text-text-secondary mt-3 sm:mt-4">
+            {previewText}
+            {needsTruncation && !expanded && (
+              <button
+                onClick={() => setExpanded(true)}
+                className="text-text-muted cursor-pointer bg-transparent border-none p-0 ml-1 inline text-base hover:text-text-secondary transition-colors duration-200"
+              >
+                ... more
+              </button>
+            )}
+            {needsTruncation && expanded && (
+              <>{restText}{' '}
+                <button
+                  onClick={() => setExpanded(false)}
+                  className="text-text-muted cursor-pointer bg-transparent border-none p-0 ml-1 inline text-base hover:text-text-secondary transition-colors duration-200"
+                >
+                  ... hide
+                </button>
+              </>
+            )}
+          </p>
           {children && <div className="flex flex-wrap gap-2 mt-2">{children}</div>}
         </div>
         {media && (
@@ -197,13 +232,28 @@ const BlogPostCard = ({ post, index }) => {
             )}
           </div>
           {post.logo && (
-            post.logoText ? (
+            post.logoUrl ? (
+              <a href={post.logoUrl} target="_blank" rel="noopener noreferrer" title={post.logoLabel ?? undefined} aria-label={post.logoLabel ? `Visit ${post.logoLabel} website` : undefined} className="flex-shrink-0 hover:opacity-80 transition-opacity duration-200">
+                {post.logoText ? (
+                  <div className="flex items-stretch gap-2 theme-invert opacity-60 h-10 sm:h-12">
+                    <img src={post.logo} alt={`Logo for ${post.title} - Anthony Arseneau`} className="h-full w-auto object-contain" />
+                    <div className="flex flex-col justify-center gap-1">
+                      {post.logoText.map((line, i) => (
+                        <span key={i} className="font-serif text-xs sm:text-sm leading-none">{line}</span>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={post.logo}
+                    alt={`Logo for ${post.title} - Anthony Arseneau`}
+                    className={`h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 ${post.logo === vestcor ? 'max-w-[100px]' : ''}`}
+                  />
+                )}
+              </a>
+            ) : post.logoText ? (
               <div className="flex items-stretch gap-2 flex-shrink-0 theme-invert opacity-60 h-10 sm:h-12">
-                <img
-                  src={post.logo}
-                  alt={`Logo for ${post.title} - Anthony Arseneau`}
-                  className="h-full w-auto object-contain"
-                />
+                <img src={post.logo} alt={`Logo for ${post.title} - Anthony Arseneau`} className="h-full w-auto object-contain" />
                 <div className="flex flex-col justify-center gap-1">
                   {post.logoText.map((line, i) => (
                     <span key={i} className="font-serif text-xs sm:text-sm leading-none">{line}</span>
@@ -499,7 +549,7 @@ export const Experience = () => {
 
           {display === 'experience' && (
             <motion.div key="experience" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-              <ExperienceCard index={0} logo={nbpower} item={{
+              <ExperienceCard index={0} logo={nbpower} logoUrl="https://www.nbpower.com/" logoLabel="NB Power" item={{
                 date: t('experience.work.item5.date'),
                 title: t('experience.work.item5.title'),
                 subtitle: t('experience.work.item5.subtitle'),
@@ -509,28 +559,28 @@ export const Experience = () => {
                 <TechTag name="SAP" logo={sap} url="https://www.sap.com/" />
                 <TechTag name="AutoSketch" logo={autodesk} url="https://www.autodesk.com/" />
               </ExperienceCard>
-              <ExperienceCard index={1} logo={nbpower} item={{
+              <ExperienceCard index={1} logo={nbpower} logoUrl="https://www.nbpower.com/" logoLabel="NB Power" item={{
                 date: t('experience.work.item1.date'),
                 title: t('experience.work.item1.title'),
                 subtitle: t('experience.work.item1.subtitle') || 'NB Power | Bathurst (NB)',
                 subtitleUrl: 'https://maps.google.com/?q=Bathurst,+NB,+Canada',
                 description: t('experience.work.item1.description'),
               }} />
-              <ExperienceCard index={2} logo={ranzbontogon} item={{
+              <ExperienceCard index={2} logo={ranzbontogon} logoUrl="https://ranz-bontogon.com/" logoLabel="Ranz Bontogon" item={{
                 date: t('experience.work.item2.date'),
                 title: t('experience.work.item2.title'),
                 subtitle: t('experience.work.item2.subtitle') || '',
                 subtitleUrl: 'https://maps.google.com/?q=Moncton,+NB,+Canada',
                 description: t('experience.work.item2.description'),
               }} />
-              <ExperienceCard index={3} logo={madisco} item={{
+              <ExperienceCard index={3} logo={madisco} logoUrl="https://madisco.ca/" logoLabel="Madisco" item={{
                 date: t('experience.work.item3.date'),
                 title: t('experience.work.item3.title'),
                 subtitle: t('experience.work.item3.subtitle') || '',
                 subtitleUrl: 'https://maps.google.com/?q=Bathurst,+NB,+Canada',
                 description: t('experience.work.item3.description'),
               }} />
-              <ExperienceCard index={4} logo={mountallison} item={{
+              <ExperienceCard index={4} logo={mountallison} logoUrl="https://www.mta.ca/" logoLabel="Mount Allison University" item={{
                 date: t('experience.work.item4.date'),
                 title: t('experience.work.item4.title'),
                 subtitle: t('experience.work.item4.subtitle') || '',
@@ -542,14 +592,14 @@ export const Experience = () => {
 
           {display === 'education' && (
             <motion.div key="education" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-              <ExperienceCard index={0} logo={unb} item={{
+              <ExperienceCard index={0} logo={unb} logoUrl="https://www.unb.ca/" logoLabel="University of New Brunswick" item={{
                 date: t('experience.education.item1.date'),
                 title: t('experience.education.item1.title'),
                 subtitle: t('experience.education.item1.subtitle') || 'University of New Brunswick | Fredericton (NB)',
                 subtitleUrl: 'https://maps.google.com/?q=Fredericton,+NB,+Canada',
                 description: t('experience.education.item1.description'),
               }} />
-              <ExperienceCard index={1} logo={mountallison} item={{
+              <ExperienceCard index={1} logo={mountallison} logoUrl="https://www.mta.ca/" logoLabel="Mount Allison University" item={{
                 date: t('experience.education.item2.date'),
                 title: t('experience.education.item2.title'),
                 subtitle: t('experience.education.item2.subtitle') || 'Mount Allison University | Sackville (NB)',
@@ -575,6 +625,8 @@ export const Experience = () => {
                   expanded: t('experience.posts.post2.expanded'),
                   images: [postDataviz],
                   logo: vestcor,
+                  logoUrl: 'https://vestcor.org/en/',
+                  logoLabel: 'Vestcor',
                   tags: [
                     <TechTag name="Power BI" logo={powerbi} url="https://powerbi.microsoft.com/" />,
                     <TechTag name="JavaScript" logo={js} url="https://developer.mozilla.org/en-US/docs/Web/JavaScript" />
@@ -590,6 +642,8 @@ export const Experience = () => {
                   expanded: t('experience.posts.post3.expanded'),
                   images: [postDeansList],
                   logo: mountallison,
+                  logoUrl: 'https://www.mta.ca/',
+                  logoLabel: 'Mount Allison University',
                 },
                 {
                   date: t('experience.posts.post4.date'),
@@ -602,6 +656,8 @@ export const Experience = () => {
                   images: [postToronto1, postToronto2, postToronto3],
                   link: { href: 'https://www.instagram.com/p/DGWbMvCRFbY/?img_index=1' },
                   logo: commerceSociety,
+                  logoUrl: 'https://www.instagram.com/mta_commercesociety/',
+                  logoLabel: 'Mount Allison Commerce Society',
                   logoText: ['Mount Allison', 'Commerce Society'],
                   expandedContent: (
                     <p>We had the incredible chance to visit{
@@ -639,6 +695,8 @@ export const Experience = () => {
                   images: [commercetrip1],
                   link: { href: 'https://www.instagram.com/p/DCVfp6ORc0Y/?img_index=1' },
                   logo: commerceSociety,
+                  logoUrl: 'https://www.instagram.com/mta_commercesociety/',
+                  logoLabel: 'Mount Allison Commerce Society',
                   logoText: ['Mount Allison', 'Commerce Society'],
                   expandedContent: (
                     <p>We had the incredible chance to visit{
@@ -674,6 +732,8 @@ export const Experience = () => {
                   expanded: t('experience.posts.post1.expanded'),
                   images: [postAcceptanceLetter],
                   logo: unb,
+                  logoUrl: 'https://www.unb.ca/',
+                  logoLabel: 'University of New Brunswick',
                 },
                 {
                   date: t('experience.posts.post5.date'),
@@ -689,6 +749,8 @@ export const Experience = () => {
                   images: [postScienceAtlantic, postScienceAtlantic2, postScienceAtlantic3],
                   link: { href: 'https://scienceatlantic.ca/news/cs-2024-award-winners/' },
                   logo: scienceAtlantic,
+                  logoUrl: 'https://scienceatlantic.ca/',
+                  logoLabel: 'Science Atlantic',
                   tags: [
                     <TechTag name="Python" logo={python} url="https://www.python.org/" />,
                     <TechTag name="Java" logo={java} url="https://www.java.com/" />
