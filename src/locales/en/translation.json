@@ -62,7 +62,10 @@
         "title": "Commerce Society Trip",
         "subtitle": "Toronto (ON)",
         "brief": "I am thrilled to have had the opportunity to travel to Toronto with the Mount Allison Commerce Society.",
-        "expanded": "We had the incredible chance to visit CIBC Square, Deloitte, Bell Media, and Paradigm Capital expanding our professional networks and learning directly from industry leaders in the heart of the financial district."
+        "expanded": "We had the incredible chance to visit CIBC Square, Deloitte, Bell Media, and Paradigm Capital expanding our professional networks and learning directly from industry leaders in the heart of the financial district.",
+        "expandedPre": "We had the incredible chance to visit",
+        "expandedPost": ", expanding our professional networks and learning directly from industry leaders in the heart of the financial district.",
+        "listLastSep": ", and "
       },
       "post5": {
         "date": "October 2024",
@@ -80,7 +83,12 @@
         "title": "Commerce Society Trip",
         "subtitle": "Halifax (NS)",
         "brief": "I am thrilled to have had the opportunity to travel to Halifax with the Mount Allison Commerce Society.",
-        "expanded": "We had the incredible chance to visit Emera, Pier 21, and Dalhousie University, expanding our professional networks and learning from industry and cultural leaders in the heart of Halifax."
+        "expanded": "We had the incredible chance to visit Emera, Pier 21, and Dalhousie University, expanding our professional networks and learning from industry and cultural leaders in the heart of Halifax.",
+        "expandedPre": "We had the incredible chance to visit",
+        "expandedPost": ", expanding our professional networks and learning from industry and cultural leaders in the heart of Halifax.",
+        "listLastSep": ", and ",
+        "company_pier21": "Pier 21",
+        "company_dal": "Dalhousie University"
       }
     },
     "projects": {

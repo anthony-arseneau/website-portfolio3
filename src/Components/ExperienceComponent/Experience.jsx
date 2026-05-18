@@ -120,7 +120,7 @@ const TechTag = ({ name, logo, url, invertOnLight }) => (
   </a>
 );
 
-const PREVIEW_LENGTH = 140;
+const PREVIEW_LENGTH = 138;
 
 const ExperienceCard = ({ item, index, isAlternate = false, children, media = null, logo = null, logoUrl = null, logoLabel = null }) => {
   const isEven = index % 2 === 0;
@@ -663,14 +663,14 @@ export const Experience = () => {
                   logoLabel: 'Mount Allison Commerce Society',
                   logoText: ['Mount Allison', 'Commerce Society'],
                   expandedContent: (
-                    <p>We had the incredible chance to visit{
+                    <p>{t('experience.posts.post4.expandedPre')}{
                       [['CIBC Square', 'https://www.cibc.com/', cibc, null, 'CIBC – Canadian Imperial Bank of Commerce'],
                        ['Deloitte', 'https://www.deloitte.com/', deloitte, null, 'Deloitte – Professional services firm'],
                        ['Bell Media', 'https://www.bellmedia.ca/', bellmedia, null, 'Bell Media – Canadian media company'],
                        ['Paradigm Capital', 'https://www.paradigmcap.com/', paradigmcapital, null, 'Paradigm Capital – Investment dealer']
                       ].map(([name, url, logo, domain, title], i, arr) => (
                         <React.Fragment key={name}>
-                          {i === arr.length - 1 ? ', and ' : ', '}
+                          {i === arr.length - 1 ? t('experience.posts.post4.listLastSep') : ', '}
                           <a href={url} target="_blank" rel="noopener noreferrer"
                             title={title}
                             aria-label={`Visit ${name} website`}
@@ -684,7 +684,7 @@ export const Experience = () => {
                           </a>
                         </React.Fragment>
                       ))
-                    }, expanding our professional networks and learning directly from industry leaders in the heart of the financial district.</p>
+                    }{t('experience.posts.post4.expandedPost')}</p>
                   ),
                 },
                 {
@@ -702,27 +702,27 @@ export const Experience = () => {
                   logoLabel: 'Mount Allison Commerce Society',
                   logoText: ['Mount Allison', 'Commerce Society'],
                   expandedContent: (
-                    <p>We had the incredible chance to visit{
-                      [['Emera', 'https://www.emera.com/', emera, null, 'Emera – Energy company'],
-                       ['Pier 21', 'https://pier21.ca/', pier21, null, 'Pier 21 – Canadian Museum of Immigration'],
-                       ['Dalhousie University', 'https://www.dal.ca/', dalhousieuniversity, null, 'Dalhousie University – Halifax, NS']
-                      ].map(([name, url, logo, domain, title], i, arr) => (
+                    <p>{t('experience.posts.post6.expandedPre')}{
+                      [['Emera', 'https://www.emera.com/', emera, null, 'Emera – Energy company', 'Emera'],
+                       ['Pier 21', 'https://pier21.ca/', pier21, null, 'Pier 21 – Canadian Museum of Immigration', t('experience.posts.post6.company_pier21')],
+                       ['Dalhousie University', 'https://www.dal.ca/', dalhousieuniversity, null, 'Dalhousie University – Halifax, NS', t('experience.posts.post6.company_dal')]
+                      ].map(([name, url, logo, domain, title, displayName], i, arr) => (
                         <React.Fragment key={name}>
-                          {i === arr.length - 1 ? ', and ' : ', '}
+                          {i === arr.length - 1 ? t('experience.posts.post6.listLastSep') : ', '}
                           <a href={url} target="_blank" rel="noopener noreferrer"
                             title={title}
-                            aria-label={`Visit ${name} website`}
+                            aria-label={`Visit ${displayName} website`}
                             className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle"
                           >
                             {logo
-                              ? <img src={logo} alt={`${name} logo`} className="inline h-4 w-auto object-contain theme-invert-dark" />
-                              : <img src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`} alt={`${name} favicon`} className="inline h-4 w-4 object-contain" />
+                              ? <img src={logo} alt={`${displayName} logo`} className="inline h-4 w-auto object-contain theme-invert-dark" />
+                              : <img src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`} alt={`${displayName} favicon`} className="inline h-4 w-4 object-contain" />
                             }
-                            <span className="underline underline-offset-2">{name}</span>
+                            <span className="underline underline-offset-2">{displayName}</span>
                           </a>
                         </React.Fragment>
                       ))
-                    }, expanding our professional networks and learning from industry and cultural leaders in the heart of Halifax.</p>
+                    }{t('experience.posts.post6.expandedPost')}</p>
                   ),
                 },
                 {
