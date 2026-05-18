@@ -14,7 +14,7 @@
   "stat_internships": "Stages",
   "tech_cad_title": "Outils CAO & Ingénierie",
   "tech_software_title": "Logiciel & Programmation",
-  "location": "Fredericton NB, Canada",
+  "location": "Frédéricton N.-B., Canada",
   "locationDescription": "Voir l'emplacement sur Google Maps",
   "studentTitle": "Étudiant en Génie Mécanique",
   "degreeTitle": "BSc CS",
@@ -29,7 +29,59 @@
     "selection": {
       "projects": "Projets",
       "work": "Travail",
-      "education": "Éducation"
+      "education": "Éducation",
+      "posts": "Publications"
+    },
+    "posts": {
+      "post1": {
+        "date": "Janvier 2025",
+        "title": "Admis au programme MEng",
+        "subtitle": "Frédéricton (N.-B.)",
+        "brief": "Je suis ravi de partager que j'ai été accepté dans le programme de maîtrise en génie mécanique à l'Université du Nouveau-Brunswick !",
+        "expanded": "Cela marque un nouveau chapitre passionnant dans mon parcours universitaire. J'ai hâte de déménager à Frédéricton et d'approfondir mon expertise technique grâce à ce programme intensif, me rapprochant ainsi de mes objectifs dans les secteurs de l'aérospatiale et de la fabrication avancée."
+      },
+      "post2": {
+        "date": "Décembre 2025",
+        "title": "Finaliste au Data Challenge",
+        "subtitle": "Frédéricton (N.-B.)",
+        "brief": "Je suis heureux que mon équipe et moi ayons été sélectionnés pour participer au concours Data Challenge à l’UNB, présenté par Vestcor.",
+        "briefPre": "Je suis heureux que mon équipe et moi ayons été sélectionnés pour participer au concours",
+        "briefMid": "à l’UNB, présenté par",
+        "briefVestcor": "Vestcor",
+        "expanded": "En concourant parmi les 10 meilleures équipes, nous avons eu l'occasion de présenter nos modèles analytiques à des analystes quantitatifs de Vestcor, démontrant notre capacité à fusionner des ensembles de données complexes en informations exploitables."
+      },
+      "post3": {
+        "date": "Juin 2025",
+        "title": "Diplômé avec distinction",
+        "subtitle": "Sackville (N.-B.)",
+        "brief": "J'ai officiellement obtenu un baccalauréat en sciences informatiques avec une mineure en mathématiques avec distinction !",
+        "expanded": "Je suis incroyablement reconnaissant de terminer mon parcours de premier cycle sur la liste du doyen. Un grand merci à mes professeurs, collègues, amis et famille pour leur soutien alors que je me prépare à commencer ma maîtrise en génie mécanique."
+      },
+      "post4": {
+        "date": "Février 2025",
+        "title": "Voyage avec le club de commerce",
+        "subtitle": "Toronto (ON)",
+        "brief": "Je suis ravi d'avoir eu l'occasion de voyager à Toronto avec la Société commerciale de Mount Allison.",
+        "expanded": "Nous avons eu l'incroyable chance de visiter CIBC Square, Deloitte, Bell Media et Paradigm Capital en élargissant nos réseaux professionnels et en apprenant directement auprès de leaders de l'industrie au cœur du quartier financier."
+      },
+      "post5": {
+        "date": "Octobre 2024",
+        "title": "Compétition de programmation Science Atlantique",
+        "subtitle": "Wolfville (N.-É.)",
+        "brief": "Mon équipe et moi avons obtenu la 3e place à la compétition de programmation Science Atlantique 2024 à l'Université Acadia !",
+        "briefPreSA": "Mon équipe et moi avons obtenu la 3e place à la compétition de programmation",
+        "briefPostSA": "2024 à l'",
+        "briefPreLink": "Mon équipe et moi avons obtenu la 3e place à la compétition de programmation Science Atlantique 2024 à l'",
+        "briefUniversity": "Université Acadia",
+        "expanded": "Nous avons concouru contre des universités de premier plan à travers l'Atlantique lors de la conférence Mathématiques, Statistiques et Informatique (MSCS). Reconnue comme l'équipe la plus performante de l'Université Mount Allison, cette expérience a été une excellente opportunité de démontrer des compétences analytiques et de résolution de problèmes avancées en programmation compétitive."
+      },
+      "post6": {
+        "date": "Novembre 2024",
+        "title": "Voyage avec le club de commerce",
+        "subtitle": "Halifax (N.-É.)",
+        "brief": "Je suis ravi d'avoir eu l'occasion de voyager à Halifax avec la Société commerciale de Mount Allison.",
+        "expanded": "Nous avons eu l'incroyable chance de visiter Emera, le Pier 21 et l'Université Dalhousie, en élargissant nos réseaux professionnels et en apprenant auprès de leaders de l'industrie et de la culture au cœur d'Halifax."
+      }
     },
     "projects": {
       "nozzle": {
@@ -79,31 +131,31 @@
       "item5": {
         "date": "Mai – Août 2026",
         "title": "Stage de planification à la centrale électrique de Belledune",
-        "subtitle": "NB Power | Belledune (NB)",
-        "description": "Stage d'été étudiant chez NB Power. Le poste débutera prochainement."
+        "subtitle": "Belledune (N.-B.)",
+        "description": "Stage d'été étudiant chez NB Power."
       },
       "item1": {
         "date": "Mai – Août 2025",
         "title": "Stage en services de compteur",
-        "subtitle": "NB Power | Bathurst (NB)",
+        "subtitle": "Bathurst (N.-B.)",
         "description": "Stage d'été étudiant chez NB Power."
       },
       "item2": {
         "date": "Mai 2024 – Présent",
         "title": "Développeur Web",
-        "subtitle": "Contrat personnel RB | Moncton (NB)",
+        "subtitle": "Moncton (N.-B.)",
         "description": "Création d'un site haute performance en HTML, CSS et JavaScript, augmentant la visibilité du client et l'engagement de plus de 1 500 utilisateurs uniques par mois. Collaboration étroite pour l'enregistrement de domaine, la gestion de l'hébergement et la migration de la plateforme. Surveillance du trafic et optimisation (Cloudflare), améliorant de 33 % la vitesse de chargement, la sécurité et l'expérience utilisateur."
       },
       "item3": {
         "date": "Été 2018 – 2024",
         "title": "Ouvrier d'entretien et technicien",
-        "subtitle": "Madisco Apartments | Bathurst (NB)",
+        "subtitle": "Bathurst (N.-B.)",
         "description": "Plus de 35 000 vues sur Google Street View via la capture et le traitement de séquences à 360° avec logiciel d'assemblage et techniques de géodonnées, augmentant l'engagement client. Installation de machines, respect des normes de sécurité et de génie. Conception de pièces mécaniques manquantes via CAO (Fusion 360). Opérations de machinerie lourde et maintenance (nettoyage, peinture, réparations mineures)."
       },
       "item4": {
         "date": "Septembre 2023 – Avril 2024",
         "title": "Président de résidence",
-        "subtitle": "Mount Allison University | Sackville (NB)",
+        "subtitle": "Sackville (N.-B.)",
         "description": "Organisation d'événements variés favorisant l'inclusion au sein de la résidence Thornton House. Communication fluide entre la résidence et l'université, délégation des responsabilités à l'équipe exécutive pour assurer le succès des initiatives."
       }
     },
@@ -111,13 +163,13 @@
       "item1": {
         "date": "Septembre 2025",
         "title": "MEng Génie Mécanique",
-        "subtitle": "University of New Brunswick | Fredericton (NB)",
-        "description": "Étudiant en maîtrise en Génie Mécanique à l'UNB. Devrait obtenir le diplôme en décembre 2027. Moyenne cumulative de 4,3/4,3."
+        "subtitle": "Frédéricton (N.-B.)",
+        "description": "Étudiant en maîtrise en Génie Mécanique à l'UNB. Devrait obtenir le diplôme en décembre 2027. Moyenne cumulative de 3,8/4,3."
       },
       "item2": {
         "date": "Classe de 2025",
         "title": "BSc Informatique",
-        "subtitle": "Mount Allison University | Sackville (NB)",
+        "subtitle": "Sackville (N.-B.)",
         "description": "Baccalauréat en sciences, majeure en Informatique, mineure en Mathématiques. Moyenne cumulative de 3,7/4,3."
       }
     }

@@ -29,7 +29,59 @@
     "selection": {
       "projects": "Projects",
       "work": "Work",
-      "education": "Education"
+      "education": "Education",
+      "posts": "Posts"
+    },
+    "posts": {
+      "post1": {
+        "date": "January 2025",
+        "title": "Accepted to MEng Program",
+        "subtitle": "Fredericton (NB)",
+        "brief": "I'm excited to share that I've been accepted into the Master of Engineering in Mechanical Engineering program at the University of New Brunswick!",
+        "expanded": "This marks an exciting new chapter in my academic journey. I am looking forward to moving to Fredericton and deepening my technical expertise through this coursework-intensive program, bringing me one step closer to my goals in the aerospace and advanced manufacturing sectors."
+      },
+      "post2": {
+        "date": "December 2025",
+        "title": "Data Challenge Finalist",
+        "subtitle": "Fredericton (NB)",
+        "brief": "I'm glad for my team and I to have been selected to compete at the Data Challenge competition at UNB, presented by Vestcor.",
+        "briefPre": "I'm glad for my team and I to have been selected to compete at the",
+        "briefMid": "competition at UNB, presented by",
+        "briefVestcor": "Vestcor",
+        "expanded": "Competing among the top 10 best-performing teams, we had the opportunity to present our analytical models to quantitative analysts from Vestcor, demonstrating our ability to merge complex data sets with actionable insights."
+      },
+      "post3": {
+        "date": "June 2025",
+        "title": "Graduating with Distinction",
+        "subtitle": "Sackville (NB)",
+        "brief": "I officially graduated with a Bachelor of Science in Computer Science and a Minor in Mathematics with Distinction!",
+        "expanded": "I'm incredibly grateful to close out my undergraduate journey on the Dean's List. A huge thank you to my professors, classmates, friends, and family for their support as I prepare to start my Master of Engineering in Mechanical Engineering."
+      },
+      "post4": {
+        "date": "February 2025",
+        "title": "Commerce Society Trip",
+        "subtitle": "Toronto (ON)",
+        "brief": "I am thrilled to have had the opportunity to travel to Toronto with the Mount Allison Commerce Society.",
+        "expanded": "We had the incredible chance to visit CIBC Square, Deloitte, Bell Media, and Paradigm Capital expanding our professional networks and learning directly from industry leaders in the heart of the financial district."
+      },
+      "post5": {
+        "date": "October 2024",
+        "title": "Science Atlantic Programming Competition",
+        "subtitle": "Wolfville (NS)",
+        "brief": "My team and I achieved 3rd place at the 2024 Science Atlantic Programming Competition at Acadia University!",
+        "briefPreSA": "My team and I achieved 3rd place at the 2024",
+        "briefPostSA": "Programming Competition at",
+        "briefPreLink": "My team and I achieved 3rd place at the 2024 Science Atlantic Programming Competition at",
+        "briefUniversity": "Acadia University",
+        "expanded": "We competed against leading universities across the Atlantic at the Mathematics, Statistics and Computer Science (MSCS) Conference. Recognized as the top-performing team from Mount Allison University, this experience was a great opportunity to demonstrate advanced analytical and problem-solving skills in competitive programming."
+      },
+      "post6": {
+        "date": "November 2024",
+        "title": "Commerce Society Trip",
+        "subtitle": "Halifax (NS)",
+        "brief": "I am thrilled to have had the opportunity to travel to Halifax with the Mount Allison Commerce Society.",
+        "expanded": "We had the incredible chance to visit Emera, Pier 21, and Dalhousie University, expanding our professional networks and learning from industry and cultural leaders in the heart of Halifax."
+      }
     },
     "projects": {
       "nozzle": {
@@ -79,31 +131,31 @@
       "item5": {
         "date": "May – August 2026",
         "title": "Planning at Belledune Generating Station Intern",
-        "subtitle": "NB Power | Belledune (NB)",
-        "description": "NB Power summer student internship. Position will start soon."
+        "subtitle": "Belledune (NB)",
+        "description": "NB Power summer student internship."
       },
       "item1": {
         "date": "May – August 2025",
         "title": "Meter Services Intern",
-        "subtitle": "NB Power | Bathurst (NB)",
+        "subtitle": "Bathurst (NB)",
         "description": "NB Power summer student internship."
       },
       "item2": {
         "date": "May 2024 – Present",
         "title": "Web Developer",
-        "subtitle": "Contract",
+        "subtitle": "Moncton (NB)",
         "description": "Developed a high-performance website using HTML, CSS, and JavaScript, increasing client visibility and user engagement by over 10x, attracting more than 1,500 unique users per month. Collaborated closely with the client to provide comprehensive assistance throughout the domain registration process, management of the hosting setup, and migration of the website to the new platform. Monitored website traffic and performance metrics through advanced analytics tools, such as Cloudflare, which contributed to a 33% improvement in website loading speed, overall security, and user experience."
       },
       "item3": {
         "date": "Summers 2018 – 2024",
         "title": "Maintenance Worker and Technician",
-        "subtitle": "Madisco Apartments | Bathurst (NB)",
+        "subtitle": "Bathurst (NB)",
         "description": "Gathered over 35,000 views on Google Street View by capturing and processing 360-degree footage using image stitching software and geospatial data engineering techniques, increasing client engagement and boosting online visibility. Assisted in the installation of new machinery, ensuring compliance with safety and engineering standards. Designed mechanical parts for broken or missing components using CAD software like Autodesk Fusion 360. Operated heavy machinery to assist with construction and performed basic maintenance tasks, including cleaning, painting, and minor repairs to maintain safe and efficient operations."
       },
       "item4": {
         "date": "September 2023 – April 2024",
         "title": "President of Residence",
-        "subtitle": "Mount Allison University | Sackville (NB)",
+        "subtitle": "Sackville (NB)",
         "description": "Spearheaded a wide array of successful events, fostering inclusive community within the Thornton House residence. Orchestrated seamless communication between the residence and the university, serving as the primary liaison to ensure residents' needs, and delegated responsibilities to an executive team, ensuring smooth execution of initiatives."
       }
     },
@@ -111,13 +163,13 @@
       "item1": {
         "date": "September 2025",
         "title": "MEng Mechanical Engineering",
-        "subtitle": "University of New Brunswick | Fredericton (NB)",
-        "description": "Master's of Engineering (MEng) in Mechanical Engineering student at UNB. Expected to graduate December 2027. Cumulative GPA: 4.3/4.3."
+        "subtitle": "Fredericton (NB)",
+        "description": "Master's of Engineering (MEng) in Mechanical Engineering student at UNB. Expected to graduate December 2027. Cumulative GPA: 3.8/4.3."
       },
       "item2": {
         "date": "Class of 2025",
         "title": "BSc Computer Science",
-        "subtitle": "Mount Allison University | Sackville (NB)",
+        "subtitle": "Sackville (NB)",
         "description": "BSc. Major in Computer Science, Minor in Mathematics. Cumulative GPA of 3.7/4.3."
       }
     }

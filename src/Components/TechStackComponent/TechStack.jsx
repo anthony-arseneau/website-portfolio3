@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
   arduino,
   autocad,
+  autodesk,
   bash,
   cloudflare,
   cpp,
@@ -19,6 +20,7 @@ import {
   python,
   react,
   sim20,
+  sap,
   solidworks,
   springboot,
   typescript,
@@ -42,6 +44,8 @@ const TechStack = () => {
     { name: 'AutoCAD', url: 'https://www.autodesk.com/products/autocad/overview', logo: autocad, },
     { name: 'Fusion 360', url: 'https://www.autodesk.com/ca-en/products/fusion-360/personal', logo: fusion },
     { name: '3D Printing', url: 'https://www.dremel.com/gn/en/digilab', logo: dremel },
+    { name: 'SAP', url: 'https://www.sap.com/', logo: sap },
+    { name: 'AutoSketch', url: 'https://www.autodesk.com/', logo: autodesk },
   ];
 
   const software = [

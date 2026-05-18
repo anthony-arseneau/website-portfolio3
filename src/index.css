@@ -72,6 +72,22 @@
     filter: brightness(0);
   }
 
+  /* White in dark mode, natural in light mode */
+  .theme-invert-dark {
+    filter: brightness(0) invert(1);
+  }
+  [data-theme="light"] .theme-invert-dark {
+    filter: none;
+  }
+
+  /* Hover: darken in dark mode, lighten in light mode */
+  .theme-hover-dim:hover {
+    filter: brightness(0.75);
+  }
+  [data-theme="light"] .theme-hover-dim:hover {
+    filter: brightness(1.15);
+  }
+
   /* Darken white logos in light mode */
   [data-theme="light"] .theme-dark-on-light {
     filter: brightness(0);
