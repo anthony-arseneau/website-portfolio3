@@ -81,11 +81,14 @@
   }
 
   /* Hover: darken in dark mode, lighten in light mode */
+  .theme-hover-dim {
+    transition: filter 300ms ease;
+  }
   .theme-hover-dim:hover {
     filter: brightness(0.75);
   }
   [data-theme="light"] .theme-hover-dim:hover {
-    filter: brightness(1.15);
+    filter: brightness(0.75);
   }
 
   /* Darken white logos in light mode */

@@ -140,7 +140,8 @@
         "date": "Mai – Août 2026",
         "title": "Stage de planification à la centrale électrique de Belledune",
         "subtitle": "Belledune (N.-B.)",
-        "description": "Stage d'été étudiant chez NB Power."
+        "description": "Stage d'été étudiant chez NB Power.",
+        "linkCaption": "Projet de carburant propre de Belledune"
       },
       "item1": {
         "date": "Mai – Août 2025",
@@ -149,15 +150,17 @@
         "description": "Stage d'été étudiant chez NB Power."
       },
       "item2": {
-        "date": "Mai 2024 – Présent",
+        "date": "Mai - Août 2024",
         "title": "Développeur Web",
         "subtitle": "Moncton (N.-B.)",
+        "ranzPortfolio": "Portfolio de Ranz Bontogon",
         "description": "Création d'un site haute performance en HTML, CSS et JavaScript, augmentant la visibilité du client et l'engagement de plus de 1 500 utilisateurs uniques par mois. Collaboration étroite pour l'enregistrement de domaine, la gestion de l'hébergement et la migration de la plateforme. Surveillance du trafic et optimisation (Cloudflare), améliorant de 33 % la vitesse de chargement, la sécurité et l'expérience utilisateur."
       },
       "item3": {
         "date": "Été 2018 – 2024",
         "title": "Ouvrier d'entretien et technicien",
         "subtitle": "Bathurst (N.-B.)",
+        "linkCaption": "Google Street View",
         "description": "Plus de 35 000 vues sur Google Street View via la capture et le traitement de séquences à 360° avec logiciel d'assemblage et techniques de géodonnées, augmentant l'engagement client. Installation de machines, respect des normes de sécurité et de génie. Conception de pièces mécaniques manquantes via CAO (Fusion 360). Opérations de machinerie lourde et maintenance (nettoyage, peinture, réparations mineures)."
       },
       "item4": {

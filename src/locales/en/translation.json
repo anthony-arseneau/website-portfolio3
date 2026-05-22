@@ -140,7 +140,8 @@
         "date": "May – August 2026",
         "title": "Planning at Belledune Generating Station Intern",
         "subtitle": "Belledune (NB)",
-        "description": "NB Power summer student internship."
+        "description": "NB Power summer student internship.",
+        "linkCaption": "Belledune Clean Fuel Project"
       },
       "item1": {
         "date": "May – August 2025",
@@ -149,15 +150,17 @@
         "description": "NB Power summer student internship."
       },
       "item2": {
-        "date": "May 2024 – Present",
+        "date": "May – August 2024",
         "title": "Web Developer",
         "subtitle": "Moncton (NB)",
+        "ranzPortfolio": "Ranz Bontogon's Portfolio",
         "description": "Developed a high-performance website using HTML, CSS, and JavaScript, increasing client visibility and user engagement by over 10x, attracting more than 1,500 unique users per month. Collaborated closely with the client to provide comprehensive assistance throughout the domain registration process, management of the hosting setup, and migration of the website to the new platform. Monitored website traffic and performance metrics through advanced analytics tools, such as Cloudflare, which contributed to a 33% improvement in website loading speed, overall security, and user experience."
       },
       "item3": {
         "date": "Summers 2018 – 2024",
         "title": "Maintenance Worker and Technician",
         "subtitle": "Bathurst (NB)",
+        "linkCaption": "Google Street View",
         "description": "Gathered over 35,000 views on Google Street View by capturing and processing 360-degree footage using image stitching software and geospatial data engineering techniques, increasing client engagement and boosting online visibility. Assisted in the installation of new machinery, ensuring compliance with safety and engineering standards. Designed mechanical parts for broken or missing components using CAD software like Autodesk Fusion 360. Operated heavy machinery to assist with construction and performed basic maintenance tasks, including cleaning, painting, and minor repairs to maintain safe and efficient operations."
       },
       "item4": {

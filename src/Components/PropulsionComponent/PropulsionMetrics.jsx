@@ -8,7 +8,7 @@ function PropulsionMetrics() {
 
   const stats = [
     { value: 3.82, decimals: 1, suffix: '', label: t('stat_gpa') },
-    { value: 8, decimals: 0, suffix: '', label: t('stat_cad') },
+    { value: 7, decimals: 0, suffix: '', label: t('stat_cad') },
     { value: 2, decimals: 0, suffix: '', label: t('stat_internships') },
   ];
 

@@ -33,6 +33,7 @@ import {
   vite
 } from '../../assets/logos_import';
 
+import belledune from '../../assets/belledune.png';
 import buckConverter from '../../assets/buck-converter.png';
 import dtamr from '../../assets/DTAMR.png';
 import emissionsbudget from '../../assets/emissionsbudget.png';
@@ -46,6 +47,7 @@ import NozzleSimulationSmall from '../PropulsionComponent/NozzleSimulationSmall'
 
 import commercetrip1 from '../../assets/commercetrip1.png';
 import datachallenge from '../../assets/datachallenge.png';
+import googleStreetView from '../../assets/google_street_view.png';
 import postAcceptanceLetter from '../../assets/posts/acceptance_letter.png';
 import postDataviz from '../../assets/posts/dataviz_competition.png';
 import postDeansList from '../../assets/posts/deans_list.png';
@@ -55,6 +57,7 @@ import postScienceAtlantic3 from '../../assets/posts/Science_atlantic3.png';
 import postToronto1 from '../../assets/posts/toronto1.png';
 import postToronto2 from '../../assets/posts/toronto2.png';
 import postToronto3 from '../../assets/posts/toronto3.png';
+import ranzWebsite from '../../assets/ranz_website.png';
 
 import acadiauniversity from '../../assets/acadiauniversity.png';
 import bellmedia from '../../assets/bellmedia.png';
@@ -282,22 +285,21 @@ const BlogPostCard = ({ post, index }) => {
               ... more
             </button>
           )}
+          {expanded && (
+            <>{' '}{post.expandedContent ?? post.expanded}
+              {post.link && post.link.label && (
+                <>{' '}<a href={post.link.href} target="_blank" rel="noopener noreferrer" className="text-text-primary underline hover:opacity-70 transition-opacity duration-200">{post.link.label}</a>.</>
+              )}
+              {' '}
+              <button
+                onClick={() => setExpanded(false)}
+                className="text-text-muted cursor-pointer bg-transparent border-none p-0 ml-1 inline text-base hover:text-text-secondary transition-colors duration-200"
+              >
+                ... hide
+              </button>
+            </>
+          )}
         </p>
-        {expanded && (
-          <div className="text-base leading-relaxed text-text-secondary mt-2">
-            {post.expandedContent ?? post.expanded}
-            {post.link && post.link.label && (
-              <>{' '}<a href={post.link.href} target="_blank" rel="noopener noreferrer" className="text-text-primary underline hover:opacity-70 transition-opacity duration-200">{post.link.label}</a>.</>
-            )}
-            {' '}
-            <button
-              onClick={() => setExpanded(false)}
-              className="text-text-muted cursor-pointer bg-transparent border-none p-0 ml-1 inline text-base hover:text-text-secondary transition-colors duration-200"
-            >
-              ... hide
-            </button>
-          </div>
-        )}
         {post.tags && (
           <div className="flex flex-wrap gap-2 mt-2 mb-1">
             {post.tags.map((tag, i) => React.cloneElement(tag, { key: i }))}
@@ -315,9 +317,9 @@ const BlogPostCard = ({ post, index }) => {
                 href={post.link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col rounded-xl overflow-hidden border border-border-default no-underline cursor-pointer transition-opacity hover:opacity-90 bg-bg-base w-full max-w-sm"
+                className="flex flex-col rounded-xl overflow-hidden border border-border-default no-underline cursor-pointer bg-bg-base w-full max-w-sm group"
               >
-                <img src={post.images[0]} alt={`${post.title} image - Anthony Arseneau`} className="w-full object-cover" />
+                <img src={post.images[0]} alt={`${post.title} image - Anthony Arseneau`} className="w-full object-cover group-hover:brightness-75 transition-[filter] duration-300" />
                 <div className="p-3 sm:p-4 flex flex-col gap-1 border-t border-border-default">
                   <div className="flex items-center gap-2">
                     <img
@@ -365,9 +367,11 @@ const BlogPostCard = ({ post, index }) => {
                 href={post.link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col rounded-xl overflow-hidden border border-border-default no-underline cursor-pointer transition-opacity hover:opacity-90 bg-bg-base w-full max-w-sm"
+                className="flex flex-col rounded-xl overflow-hidden border border-border-default no-underline cursor-pointer bg-bg-base w-full max-w-sm group"
               >
-                <ImageGrid />
+                <div className="group-hover:brightness-75 transition-[filter] duration-300">
+                  <ImageGrid />
+                </div>
                 <div className="p-3 sm:p-4 flex flex-col gap-1 border-t border-border-default">
                   <div className="flex items-center gap-2">
                     <img
@@ -389,7 +393,9 @@ const BlogPostCard = ({ post, index }) => {
         return (
           <div className="px-5 sm:px-8 pb-5 sm:pb-6 flex flex-col">
             <div className="rounded-xl overflow-hidden flex flex-col">
-              <ImageGrid />
+              <div className="hover:brightness-75 transition-[filter] duration-300">
+                <ImageGrid />
+              </div>
             </div>
           </div>
         );
@@ -400,7 +406,7 @@ const BlogPostCard = ({ post, index }) => {
 
 export const Experience = () => {
   const [display, setDisplay] = useState('experience');
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const tabs = [
     { id: 'projects', label: t('experience.selection.projects') },
@@ -466,7 +472,7 @@ export const Experience = () => {
                 description: t('experience.projects.itemEB.description'),
                 titleUrl: 'https://emissionsbudget.com/',
                 titleUrlText: 'emissionsbudget.com',
-              }} media={<ClickableImage src={emissionsbudget} alt="EmissionsBudget Dashboard" className="w-full object-contain max-h-72 bg-bg-card" />}>
+              }} media={<ClickableImage src={emissionsbudget} alt="EmissionsBudget Dashboard" className="w-full object-cover max-h-72" />}>
                 <TechTag name="Python" logo={python} url="https://www.python.org/" />
                 <TechTag name="JavaScript" logo={js} url="https://www.javascript.com/" />
                 <TechTag name="TypeScript" logo={typescript} url="https://www.typescriptlang.org/" />
@@ -484,8 +490,8 @@ export const Experience = () => {
                 description: t('experience.projects.item0.description'),
               }} media={
                 <div className="flex flex-col gap-px bg-bg-card">
-                  <ClickableImage src={buckConverter} alt="Buck Converter Circuit" className="w-full object-contain max-h-56 bg-bg-card" />
-                  <ClickableImage src={dtamr} alt="AMR Diagram" className="w-full object-contain max-h-56 bg-bg-card" />
+                  <ClickableImage src={buckConverter} alt="Buck Converter Circuit" className="w-full object-cover max-h-56" />
+                  <ClickableImage src={dtamr} alt="AMR Diagram" className="w-full object-cover max-h-56" />
                 </div>
               }>
                 <TechTag name="20-sim" logo={sim20} url="https://www.20sim.com/" />
@@ -512,7 +518,7 @@ export const Experience = () => {
                 title: t('experience.projects.item2.title'),
                 subtitle: t('experience.projects.item2.subtitle'),
                 description: t('experience.projects.item2.description'),
-              }} media={<ClickableImage src={knowinnotes} alt="Knowin Notes" className="w-full object-contain max-h-72 bg-bg-card" />}>
+              }} media={<ClickableImage src={knowinnotes} alt="Knowin Notes" className="w-full object-cover max-h-72" />}>
                 <TechTag name="Spring Boot" logo={springboot} url="https://spring.io/projects/spring-boot" />
                 <TechTag name="Gradle" logo={gradle} url="https://gradle.org/" invertOnLight />
                 <TechTag name="Java" logo={java} url="https://www.java.com/" />
@@ -528,7 +534,7 @@ export const Experience = () => {
                 title: t('experience.projects.item3.title'),
                 subtitle: t('experience.projects.item3.subtitle'),
                 description: t('experience.projects.item3.description'),
-              }} media={<ClickableImage src={SPGC} alt="Encrypted Messaging" className="w-full object-contain max-h-72 bg-bg-card" />}>
+              }} media={<ClickableImage src={SPGC} alt="Encrypted Messaging" className="w-full object-cover max-h-72" />}>
                 <TechTag name="JavaFX" logo={javafx} url="https://openjfx.io/" />
                 <TechTag name="Java" logo={java} url="https://www.java.com/" />
                 <TechTag name="RSA" logo={rsa} url="https://www.devglan.com/online-tools/rsa-encryption-decryption" />
@@ -558,7 +564,30 @@ export const Experience = () => {
                 subtitle: t('experience.work.item5.subtitle'),
                 subtitleUrl: 'https://maps.google.com/?q=Belledune,+NB,+Canada',
                 description: t('experience.work.item5.description'),
-              }}>
+              }} media={
+                <a
+                  href={i18n.language === 'FR'
+                    ? 'https://www.nbpower.com/fr/a-notre-sujet/projets/le-project-carburants-propres-de-belledune'
+                    : 'https://www.nbpower.com/en/about-us/projects/belledune-clean-fuel-project/'
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col rounded-xl overflow-hidden border border-border-default no-underline cursor-pointer bg-bg-base w-full max-w-sm group mx-auto"
+                >
+                  <img src={belledune} alt="Belledune Clean Fuel Project - NB Power" className="w-full object-cover group-hover:brightness-75 transition-[filter] duration-300" />
+                  <div className="p-3 sm:p-4 flex flex-col gap-1 border-t border-border-default">
+                    <div className="flex items-center gap-2">
+                      <img
+                        src="https://www.google.com/s2/favicons?domain=nbpower.com&sz=32"
+                        alt="nbpower.com favicon"
+                        className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-80"
+                      />
+                      <span className="text-[0.7rem] sm:text-xs text-text-muted">nbpower.com</span>
+                    </div>
+                    <div className="text-sm sm:text-base font-bold text-text-primary leading-snug mt-0.5">{t('experience.work.item5.linkCaption')}</div>
+                  </div>
+                </a>
+              }>
                 <TechTag name="SAP" logo={sap} url="https://www.sap.com/" />
                 <TechTag name="AutoSketch" logo={autodesk} url="https://www.autodesk.com/" />
               </ExperienceCard>
@@ -575,14 +604,50 @@ export const Experience = () => {
                 subtitle: t('experience.work.item2.subtitle') || '',
                 subtitleUrl: 'https://maps.google.com/?q=Moncton,+NB,+Canada',
                 description: t('experience.work.item2.description'),
-              }} />
+              }} media={
+                <div className="flex flex-col items-center">
+                  <a
+                    href="https://ranz-bontogon.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col rounded-xl overflow-hidden border border-border-default no-underline cursor-pointer bg-bg-base w-full max-w-sm group"
+                  >
+                    <img src={ranzWebsite} alt="ranz-bontogon.com website preview - Anthony Arseneau" className="w-full object-cover group-hover:brightness-75 transition-[filter] duration-300" />
+                    <div className="p-3 sm:p-4 flex flex-col gap-1 border-t border-border-default">
+                      <div className="flex items-center gap-2">
+                        <img src="https://www.google.com/s2/favicons?domain=ranz-bontogon.com&sz=32" alt="ranz-bontogon.com favicon" className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-80" />
+                        <span className="text-[0.7rem] sm:text-xs text-text-muted">ranz-bontogon.com</span>
+                      </div>
+                      <div className="text-sm sm:text-base font-bold text-text-primary leading-snug mt-0.5">{t('experience.work.item2.ranzPortfolio')}</div>
+                    </div>
+                  </a>
+                </div>
+              } />
               <ExperienceCard index={3} logo={madisco} logoUrl="https://madisco.ca/" logoLabel="Madisco" item={{
                 date: t('experience.work.item3.date'),
                 title: t('experience.work.item3.title'),
                 subtitle: t('experience.work.item3.subtitle') || '',
                 subtitleUrl: 'https://maps.google.com/?q=Bathurst,+NB,+Canada',
                 description: t('experience.work.item3.description'),
-              }} />
+              }} media={
+                <div className="flex flex-col items-center">
+                  <a
+                    href="https://www.google.com/maps/@47.6495087,-65.6752483,3a,75y,335.42h,91.73t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgICuoKeVuQE!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FABJJf50qKEmrXlCH38rUPqEequNTRje5IsttwFVFGj6bwFK9cIg8DkHUonUja1J5ac0XAAk3fbW81vaPA4X3zDmvO-LqteLNJrmKVsRQfjIlNpoG72Gf85lTXLgvUQIGu1kk3KPGFvOc%3Dw900-h600-k-no-pi-1.7343201803450228-ya14.795451124378815-ro0-fo100!7i4096!8i2048?entry=ttu&g_ep=EgoyMDI2MDUyMC4wIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col rounded-xl overflow-hidden border border-border-default no-underline cursor-pointer bg-bg-base w-full max-w-sm group"
+                  >
+                    <img src={googleStreetView} alt="Google Street View – Youghall Dr, Bathurst - Anthony Arseneau" className="w-full object-cover group-hover:brightness-75 transition-[filter] duration-300" />
+                    <div className="p-3 sm:p-4 flex flex-col gap-1 border-t border-border-default">
+                      <div className="flex items-center gap-2">
+                        <img src="https://www.google.com/s2/favicons?domain=google.com&sz=32" alt="google.com favicon" className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-80" />
+                        <span className="text-[0.7rem] sm:text-xs text-text-muted">google.com</span>
+                      </div>
+                      <div className="text-sm sm:text-base font-bold text-text-primary leading-snug mt-0.5">{t('experience.work.item3.linkCaption')}</div>
+                    </div>
+                  </a>
+                </div>
+              } />
               <ExperienceCard index={4} logo={mountallison} logoUrl="https://www.mta.ca/" logoLabel="Mount Allison University" item={{
                 date: t('experience.work.item4.date'),
                 title: t('experience.work.item4.title'),
@@ -623,7 +688,7 @@ export const Experience = () => {
                   subtitleUrl: 'https://maps.google.com/?q=Fredericton,+NB,+Canada',
                   brief: t('experience.posts.post2.brief'),
                   briefContent: (
-                    <>{t('experience.posts.post2.briefPre')} <a href="https://www.unb.ca/fredericton/management/ibec/data-challenge.html" target="_blank" rel="noopener noreferrer" title="UNB Data Challenge – Presented by Vestcor" aria-label="UNB Data Challenge competition page" className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle"><img src={datachallenge} alt="UNB Data Challenge logo" className="inline h-4 w-auto object-contain" /><span className="underline underline-offset-2">Data Challenge</span></a> {t('experience.posts.post2.briefMid')} <a href="https://vestcor.org/en/" target="_blank" rel="noopener noreferrer" title="Vestcor – Institutional investment manager" aria-label="Visit Vestcor website" className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle"><img src={vestcor} alt="Vestcor logo" className="inline h-4 w-auto max-w-[48px] object-contain theme-invert-dark" /><span className="underline underline-offset-2">{t('experience.posts.post2.briefVestcor')}</span></a>.</>
+                    <>{t('experience.posts.post2.briefPre')} <a href="https://www.unb.ca/fredericton/management/ibec/data-challenge.html" target="_blank" rel="noopener noreferrer" title="UNB Data Challenge – Presented by Vestcor" aria-label="UNB Data Challenge competition page" className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle -translate-y-px"><img src={datachallenge} alt="UNB Data Challenge logo" className="inline h-4 w-auto object-contain theme-invert-dark" /><span className="underline underline-offset-2">Data Challenge</span></a> {t('experience.posts.post2.briefMid')} <a href="https://vestcor.org/en/" target="_blank" rel="noopener noreferrer" title="Vestcor – Institutional investment manager" aria-label="Visit Vestcor website" className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle -translate-y-px"><img src={vestcor} alt="Vestcor logo" className="inline h-4 w-auto max-w-[48px] object-contain theme-invert-dark" /><span className="underline underline-offset-2">{t('experience.posts.post2.briefVestcor')}</span></a>.</>
                   ),
                   expanded: t('experience.posts.post2.expanded'),
                   images: [postDataviz],
@@ -663,7 +728,7 @@ export const Experience = () => {
                   logoLabel: 'Mount Allison Commerce Society',
                   logoText: ['Mount Allison', 'Commerce Society'],
                   expandedContent: (
-                    <p>{t('experience.posts.post4.expandedPre')}{
+                    <>{t('experience.posts.post4.expandedPre')}{
                       [['CIBC Square', 'https://www.cibc.com/', cibc, null, 'CIBC – Canadian Imperial Bank of Commerce'],
                        ['Deloitte', 'https://www.deloitte.com/', deloitte, null, 'Deloitte – Professional services firm'],
                        ['Bell Media', 'https://www.bellmedia.ca/', bellmedia, null, 'Bell Media – Canadian media company'],
@@ -674,7 +739,7 @@ export const Experience = () => {
                           <a href={url} target="_blank" rel="noopener noreferrer"
                             title={title}
                             aria-label={`Visit ${name} website`}
-                            className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle"
+                            className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle -translate-y-px"
                           >
                             {logo
                               ? <img src={logo} alt={`${name} logo`} className="inline h-4 w-auto object-contain theme-invert-dark" />
@@ -684,7 +749,7 @@ export const Experience = () => {
                           </a>
                         </React.Fragment>
                       ))
-                    }{t('experience.posts.post4.expandedPost')}</p>
+                    }{t('experience.posts.post4.expandedPost')}</>
                   ),
                 },
                 {
@@ -702,7 +767,7 @@ export const Experience = () => {
                   logoLabel: 'Mount Allison Commerce Society',
                   logoText: ['Mount Allison', 'Commerce Society'],
                   expandedContent: (
-                    <p>{t('experience.posts.post6.expandedPre')}{
+                    <>{t('experience.posts.post6.expandedPre')}{
                       [['Emera', 'https://www.emera.com/', emera, null, 'Emera – Energy company', 'Emera'],
                        ['Pier 21', 'https://pier21.ca/', pier21, null, 'Pier 21 – Canadian Museum of Immigration', t('experience.posts.post6.company_pier21')],
                        ['Dalhousie University', 'https://www.dal.ca/', dalhousieuniversity, null, 'Dalhousie University – Halifax, NS', t('experience.posts.post6.company_dal')]
@@ -712,7 +777,7 @@ export const Experience = () => {
                           <a href={url} target="_blank" rel="noopener noreferrer"
                             title={title}
                             aria-label={`Visit ${displayName} website`}
-                            className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle"
+                            className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle -translate-y-px"
                           >
                             {logo
                               ? <img src={logo} alt={`${displayName} logo`} className="inline h-4 w-auto object-contain theme-invert-dark" />
@@ -722,7 +787,7 @@ export const Experience = () => {
                           </a>
                         </React.Fragment>
                       ))
-                    }{t('experience.posts.post6.expandedPost')}</p>
+                    }{t('experience.posts.post6.expandedPost')}</>
                   ),
                 },
                 {
@@ -746,7 +811,7 @@ export const Experience = () => {
                   subtitleUrl: 'https://maps.google.com/?q=Wolfville,+NS,+Canada',
                   brief: t('experience.posts.post5.brief'),
                   briefContent: (
-                    <>{t('experience.posts.post5.briefPreSA')} <a href="https://scienceatlantic.ca/news/cs-2024-award-winners/" target="_blank" rel="noopener noreferrer" title="Science Atlantic – 2024 CS Award Winners" aria-label="Science Atlantic 2024 CS Award Winners page" className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle"><img src={scienceAtlantic} alt="Science Atlantic logo" className="inline h-5 w-auto object-contain theme-invert-dark" /><span className="underline underline-offset-2">Science Atlantic</span></a> {t('experience.posts.post5.briefPostSA')} <a href="https://www2.acadiau.ca/" target="_blank" rel="noopener noreferrer" title="Acadia University – Wolfville, NS" aria-label="Visit Acadia University website" className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle"><img src={acadiauniversity} alt="Acadia University logo" className="inline h-4 w-auto object-contain theme-invert-dark" /><span className="underline underline-offset-2">{t('experience.posts.post5.briefUniversity')}</span></a>!</>
+                    <>{t('experience.posts.post5.briefPreSA')} <a href="https://scienceatlantic.ca/news/cs-2024-award-winners/" target="_blank" rel="noopener noreferrer" title="Science Atlantic – 2024 CS Award Winners" aria-label="Science Atlantic 2024 CS Award Winners page" className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle -translate-y-px"><img src={scienceAtlantic} alt="Science Atlantic logo" className="inline h-5 w-auto object-contain theme-invert-dark" /><span className="underline underline-offset-2">Science Atlantic</span></a> {t('experience.posts.post5.briefPostSA')} <a href="https://www2.acadiau.ca/" target="_blank" rel="noopener noreferrer" title="Acadia University – Wolfville, NS" aria-label="Visit Acadia University website" className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle -translate-y-px"><img src={acadiauniversity} alt="Acadia University logo" className="inline h-4 w-auto object-contain theme-invert-dark" /><span className="underline underline-offset-2">{t('experience.posts.post5.briefUniversity')}</span></a>!</>
                   ),
                   expanded: t('experience.posts.post5.expanded'),
                   images: [postScienceAtlantic, postScienceAtlantic2, postScienceAtlantic3],
