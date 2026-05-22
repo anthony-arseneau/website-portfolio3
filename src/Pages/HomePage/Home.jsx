@@ -10,11 +10,13 @@ function Home() {
   return (
     <div className="min-h-screen bg-bg-base">
       <NavigationBar />
-      <Hero />
-      <PropulsionMetrics />
-      <Experience />
-      <TechStack />
-      <Institutions />
+      <main>
+        <Hero />
+        <PropulsionMetrics />
+        <Experience />
+        <TechStack />
+        <Institutions />
+      </main>
       <Footer />
     </div>
   );

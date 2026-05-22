@@ -13,7 +13,8 @@ import {
   dremel,
   figma,
   fusion,
-  gradle, java,
+  googlestreet,
+  gradle, html, java,
   javafx,
   js,
   knowinnotes,
@@ -125,15 +126,15 @@ const TechTag = ({ name, logo, url, invertOnLight }) => (
 
 const PREVIEW_LENGTH = 138;
 
-const ExperienceCard = ({ item, index, isAlternate = false, children, media = null, logo = null, logoUrl = null, logoLabel = null }) => {
+const ExperienceCard = ({ item, index, isAlternate = false, children, media = null, logo = null, logoUrl = null, logoLabel = null, descriptionContent = null, descriptionRestContent = null }) => {
   const isEven = index % 2 === 0;
   const layoutReversed = isAlternate && !isEven;
   const [expanded, setExpanded] = useState(false);
 
   const desc = item.description || '';
-  const needsTruncation = desc.length > PREVIEW_LENGTH;
-  const previewText = needsTruncation ? desc.slice(0, desc.lastIndexOf(' ', PREVIEW_LENGTH)) : desc;
-  const restText = needsTruncation ? desc.slice(previewText.length) : '';
+  const needsTruncation = descriptionRestContent != null || (!descriptionContent && desc.length > PREVIEW_LENGTH);
+  const previewText = !descriptionContent ? (needsTruncation ? desc.slice(0, desc.lastIndexOf(' ', PREVIEW_LENGTH)) : desc) : null;
+  const restText = !descriptionContent ? (needsTruncation ? desc.slice(previewText.length) : '') : null;
 
   return (
     <div
@@ -182,7 +183,7 @@ const ExperienceCard = ({ item, index, isAlternate = false, children, media = nu
             )}
           </div>
           <p className="text-base leading-relaxed text-text-secondary mt-3 sm:mt-4">
-            {previewText}
+            {descriptionContent ?? previewText}
             {needsTruncation && !expanded && (
               <button
                 onClick={() => setExpanded(true)}
@@ -192,7 +193,7 @@ const ExperienceCard = ({ item, index, isAlternate = false, children, media = nu
               </button>
             )}
             {needsTruncation && expanded && (
-              <>{restText}{' '}
+              <>{descriptionRestContent ?? restText}{' '}
                 <button
                   onClick={() => setExpanded(false)}
                   className="text-text-muted cursor-pointer bg-transparent border-none p-0 ml-1 inline text-base hover:text-text-secondary transition-colors duration-200"
@@ -416,7 +417,7 @@ export const Experience = () => {
   ];
 
   return (
-    <section id="experience1" className="py-20 sm:py-28 px-4 sm:px-6 bg-bg-base">
+    <section id="experience1" aria-label="Experience" className="py-20 sm:py-28 px-4 sm:px-6 bg-bg-base">
       <div className="max-w-2xl mx-auto">
         {/* Section Header */}
         <div
@@ -622,14 +623,23 @@ export const Experience = () => {
                     </div>
                   </a>
                 </div>
-              } />
+              }>
+                <TechTag name="HTML" logo={html} url="https://developer.mozilla.org/en-US/docs/Web/HTML" />
+                <TechTag name="CSS" logo={css} url="https://developer.mozilla.org/en-US/docs/Web/CSS" />
+                <TechTag name="JavaScript" logo={js} url="https://www.javascript.com/" />
+                <TechTag name="Bash" logo={bash} url="https://mywiki.wooledge.org/BashGuide" invertOnLight />
+                <TechTag name="Ubuntu" logo={ubuntu} url="https://design.ubuntu.com/brand" />
+                <TechTag name="Cloudflare" logo={cloudflare} url="https://www.cloudflare.com/" />
+              </ExperienceCard>
               <ExperienceCard index={3} logo={madisco} logoUrl="https://madisco.ca/" logoLabel="Madisco" item={{
                 date: t('experience.work.item3.date'),
                 title: t('experience.work.item3.title'),
                 subtitle: t('experience.work.item3.subtitle') || '',
                 subtitleUrl: 'https://maps.google.com/?q=Bathurst,+NB,+Canada',
                 description: t('experience.work.item3.description'),
-              }} media={
+              }} descriptionContent={
+                <>{t('experience.work.item3.descPre')}<a href="https://www.google.com/maps/@47.6495087,-65.6752483,3a,75y,335.42h,91.73t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgICuoKeVuQE!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FABJJf50qKEmrXlCH38rUPqEequNTRje5IsttwFVFGj6bwFK9cIg8DkHUonUja1J5ac0XAAk3fbW81vaPA4X3zDmvO-LqteLNJrmKVsRQfjIlNpoG72Gf85lTXLgvUQIGu1kk3KPGFvOc%3Dw900-h600-k-no-pi-1.7343201803450228-ya14.795451124378815-ro0-fo100!7i4096!8i2048?entry=ttu&g_ep=EgoyMDI2MDUyMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" title="Google Street View – Youghall Dr, Bathurst" aria-label="View on Google Street View" className="inline-flex items-center gap-1 no-underline text-blue-600 hover:opacity-75 transition-opacity duration-200 align-middle -translate-y-px"><img src={googlestreet} alt="Google Street View logo" className="inline h-4 w-auto object-contain theme-invert-dark" /><span className="underline underline-offset-2">Google Street View</span></a>{t('experience.work.item3.descMid')}</>
+              } descriptionRestContent={t('experience.work.item3.descRest')} media={
                 <div className="flex flex-col items-center">
                   <a
                     href="https://www.google.com/maps/@47.6495087,-65.6752483,3a,75y,335.42h,91.73t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgICuoKeVuQE!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FABJJf50qKEmrXlCH38rUPqEequNTRje5IsttwFVFGj6bwFK9cIg8DkHUonUja1J5ac0XAAk3fbW81vaPA4X3zDmvO-LqteLNJrmKVsRQfjIlNpoG72Gf85lTXLgvUQIGu1kk3KPGFvOc%3Dw900-h600-k-no-pi-1.7343201803450228-ya14.795451124378815-ro0-fo100!7i4096!8i2048?entry=ttu&g_ep=EgoyMDI2MDUyMC4wIKXMDSoASAFQAw%3D%3D"
@@ -647,7 +657,9 @@ export const Experience = () => {
                     </div>
                   </a>
                 </div>
-              } />
+              }>
+                <TechTag name="Fusion 360" logo={fusion} url="https://www.autodesk.com/ca-en/products/fusion-360/personal" />
+              </ExperienceCard>
               <ExperienceCard index={4} logo={mountallison} logoUrl="https://www.mta.ca/" logoLabel="Mount Allison University" item={{
                 date: t('experience.work.item4.date'),
                 title: t('experience.work.item4.title'),

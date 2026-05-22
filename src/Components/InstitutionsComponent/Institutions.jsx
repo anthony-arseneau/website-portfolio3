@@ -19,7 +19,7 @@ const Institutions = () => {
   const doubled = [...institutions, ...institutions];
 
   return (
-    <section className="py-10 sm:py-14 bg-bg-base overflow-hidden">
+    <section aria-label="Affiliated Institutions" className="py-10 sm:py-14 bg-bg-base overflow-hidden">
       <div className="relative w-full">
         <motion.div
           className="flex w-max"
@@ -44,6 +44,9 @@ const Institutions = () => {
               <img
                 src={inst.logo}
                 alt={inst.name}
+                width="80"
+                height="64"
+                loading="lazy"
                 className="h-12 sm:h-14 md:h-16 w-auto object-contain
                            theme-invert opacity-70
                            hover:opacity-100

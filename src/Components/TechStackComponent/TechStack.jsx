@@ -1,32 +1,32 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
-  arduino,
-  autocad,
-  autodesk,
-  bash,
-  cloudflare,
-  cpp,
-  dremel,
-  fusion,
-  gradle, java, javafx,
-  js,
-  json,
-  jsx,
-  kicad,
-  matlab,
-  mysql,
-  npm,
-  python,
-  react,
-  sim20,
-  sap,
-  solidworks,
-  springboot,
-  typescript,
-  ubuntu,
-  vite,
-  linux
+    arduino,
+    autocad,
+    autodesk,
+    bash,
+    cloudflare,
+    cpp,
+    dremel,
+    fusion,
+    gradle, java, javafx,
+    js,
+    json,
+    jsx,
+    kicad,
+    linux,
+    matlab,
+    mysql,
+    npm,
+    python,
+    react,
+    sap,
+    sim20,
+    solidworks,
+    springboot,
+    typescript,
+    ubuntu,
+    vite
 } from '../../assets/logos_import';
 
 const TechStack = () => {
@@ -108,7 +108,7 @@ const TechStack = () => {
   );
 
   return (
-    <section id="tech-stack" className="pt-10 sm:pt-14 pb-20 sm:pb-28 px-4 sm:px-6 bg-bg-base">
+    <section id="tech-stack" aria-label="Tech Stack" className="pt-10 sm:pt-14 pb-20 sm:pb-28 px-4 sm:px-6 bg-bg-base">
       <div className="max-w-5xl mx-auto">
         <motion.div
           key={`title-${i18n.language}`}

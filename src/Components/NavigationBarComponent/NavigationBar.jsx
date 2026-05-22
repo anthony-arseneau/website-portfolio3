@@ -51,6 +51,7 @@ const NavigationBar = () => {
     const next = language === 'EN' ? 'FR' : 'EN';
     setLanguage(next);
     i18n.changeLanguage(next);
+    document.documentElement.lang = next.toLowerCase();
   };
 
   const handleResume = (e) => {
@@ -72,6 +73,7 @@ const NavigationBar = () => {
 
   return (
     <nav
+      aria-label="Main navigation"
       style={{ transform: visible ? 'translateY(0)' : 'translateY(-100%)' }}
       className="fixed top-0 w-full z-50 bg-bg-base text-text-primary px-4 sm:px-6 py-3 border-b border-border-subtle transition-transform duration-200 ease-out"
     >
