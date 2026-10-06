@@ -32,6 +32,7 @@ import sha256 from './sha256.png';
 
 // Systems & Hardware
 import arduino from './arduino.svg';
+import ansys from './ansys.png';
 import autocad from './autocad-icon.webp';
 import autodesk from './autodesk.png';
 import cpp from './cpp.png';
@@ -51,7 +52,7 @@ import SPGC from './SPGC.jpg';
 export {
 
   // Security
-  aes, arduino, autocad, autodesk,
+  aes, ansys, arduino, autocad, autodesk,
   // Projects / Misc
   baller,
   // Web Development

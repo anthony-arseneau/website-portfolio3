@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
     arduino,
+    ansys,
     autocad,
     autodesk,
     bash,
@@ -34,8 +35,7 @@ const TechStack = () => {
 
   const cadEngineering = [
     // { name: 'CATIA', url: 'https://www.3ds.com/products-services/catia/', logo: null, placeholder: 'CATIA' },
-    // { name: 'ANSYS', url: 'https://www.ansys.com/', logo: null, placeholder: 'ANSYS' },
-    
+    { name: 'ANSYS', url: 'https://www.ansys.com/', logo: ansys },
     { name: 'SolidWorks', url: 'https://www.solidworks.com/', logo: solidworks, },
     { name: 'MATLAB & Simulink', url: 'https://www.mathworks.com/products/matlab.html', logo: matlab },
     { name: '20-sim', url: 'https://www.20sim.com/', logo: sim20, },
