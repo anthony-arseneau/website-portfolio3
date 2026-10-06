@@ -31,8 +31,8 @@ import sap from './sap.png';
 import sha256 from './sha256.png';
 
 // Systems & Hardware
-import arduino from './arduino.svg';
 import ansys from './ansys.png';
+import arduino from './arduino.svg';
 import autocad from './autocad-icon.webp';
 import autodesk from './autodesk.png';
 import cpp from './cpp.png';
@@ -51,15 +51,15 @@ import SPGC from './SPGC.jpg';
 
 export {
 
-  // Security
-  aes, ansys, arduino, autocad, autodesk,
-  // Projects / Misc
-  baller,
-  // Web Development
-  bash, cloudflare,
-  // Systems
-  cpp, css, dremel, figma, fusion, googlestreet,
-  // Software Engineering
-  gradle, html, java, javafx, js, json, jsx, kicad, knowinnotes, linux, matlab, mysql, npm, powerbi, python, react, rsa, sap, scrum, sha256, sim20, solidworks, SPGC, springboot, typescript, ubuntu, vite
+    // Security
+    aes, ansys, arduino, autocad, autodesk,
+    // Projects / Misc
+    baller,
+    // Web Development
+    bash, cloudflare,
+    // Systems
+    cpp, css, dremel, figma, fusion, googlestreet,
+    // Software Engineering
+    gradle, html, java, javafx, js, json, jsx, kicad, knowinnotes, linux, matlab, mysql, npm, powerbi, python, react, rsa, sap, scrum, sha256, sim20, solidworks, SPGC, springboot, typescript, ubuntu, vite
 };
 
