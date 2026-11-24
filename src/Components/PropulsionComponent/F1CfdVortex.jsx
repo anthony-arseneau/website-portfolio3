@@ -21,6 +21,11 @@ import * as THREE from 'three';
 //        and pathlines.bin) and ray-marches in its own local space, so it can
 //        sit inside any moving / yawing group, e.g. next to the streak-line
 //        mesh in F1CfdSimulation's Rig, and it follows the car.
+//   useFlowCycle(active)  timeline for showing the smoke and the streak lines
+//        one after the other: smoke -> nothing -> lines -> nothing -> repeat.
+//        Returns refs: smoke (0..1), lines (0..1) and linesTime (seconds since
+//        the lines came on, -1 while they are off).
+//        tools/f1/vortex-cycle.patch wires it into F1CfdSimulation.jsx.
 //   default  standalone viewer (static car + vortices), for testing.
 //
 // This file is self-contained on purpose: it imports nothing from the
@@ -35,6 +40,29 @@ export const VORTEX_DEFAULTS = {
   advect: 0.006,            // seconds of flow each structure slides per cycle
   cycle: 0.55,              // flow-map cycles per second
 };
+
+// Seconds. The gap is the moment with neither smoke nor lines on screen.
+export const CYCLE = { smokeIn: 1.2, smokeHold: 6.5, fadeOut: 0.6, gap: 0.7, linesHold: 8.5 };
+
+export function useFlowCycle(active = true, timing = CYCLE) {
+  const state = useMemo(() => ({ smoke: { current: 0 }, lines: { current: 0 }, linesTime: { current: -1 }, t: 0 }), []);
+  useFrame((_, rawDt) => {
+    if (!active) return;
+    const { smokeIn, smokeHold, fadeOut, gap, linesHold } = timing;
+    const smokeEnd = smokeIn + smokeHold;          // smoke starts to fade
+    const linesStart = smokeEnd + fadeOut + gap;   // lines start to draw
+    const linesEnd = linesStart + linesHold;       // lines start to fade
+    const total = linesEnd + fadeOut + gap;
+    state.t = (state.t + Math.min(rawDt, 0.05)) % total;
+    const t = state.t;
+    const ease = (x) => { const c = Math.min(Math.max(x, 0), 1); return c * c * (3 - 2 * c); };
+    state.smoke.current = t < smokeEnd ? ease(t / smokeIn) : 1 - ease((t - smokeEnd) / fadeOut);
+    const linesOn = t >= linesStart && t < linesEnd + fadeOut;
+    state.linesTime.current = linesOn ? t - linesStart : -1;
+    state.lines.current = linesOn ? 1 - ease((t - linesEnd) / fadeOut) : 0;
+  });
+  return state;
+}
 
 async function loadVortex() {
   const buf = await (await fetch(`${BASE}f1/vortex.bin`)).arrayBuffer();
@@ -178,7 +206,9 @@ const fragmentShader = /* glsl */ `
   }
 `;
 
-export function VortexIso({ weight, dark = false, iso = VORTEX_DEFAULTS.iso }) {
+export function VortexIso({ weight, dark, iso = VORTEX_DEFAULTS.iso }) {
+  // follows the site theme unless told otherwise
+  const isDark = dark ?? (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark');
   const [vol, setVol] = useState(null);
   useEffect(() => { let ok = true; loadVortex().then((v) => ok && setVol(v)); return () => { ok = false; }; }, []);
   const ref = useRef();
@@ -198,14 +228,14 @@ export function VortexIso({ weight, dark = false, iso = VORTEX_DEFAULTS.iso }) {
         uIso: { value: iso }, uAdvect: { value: VORTEX_DEFAULTS.advect }, uCycle: { value: VORTEX_DEFAULTS.cycle },
         // one colour: cool lavender-grey, lighter rim where a shell turns edge-on
         uCamLocal: { value: new THREE.Vector3() },
-        uColor: { value: new THREE.Vector3(...(dark ? [0.66, 0.68, 0.9] : [0.63, 0.65, 0.84])) },
-        uRim: { value: new THREE.Vector3(...(dark ? [0.92, 0.94, 1.0] : [0.86, 0.87, 0.97])) },
+        uColor: { value: new THREE.Vector3(...(isDark ? [0.66, 0.68, 0.9] : [0.63, 0.65, 0.84])) },
+        uRim: { value: new THREE.Vector3(...(isDark ? [0.92, 0.94, 1.0] : [0.86, 0.87, 0.97])) },
       },
     });
     const size = max.clone().sub(min), centre = max.clone().add(min).multiplyScalar(0.5);
     const geometry = new THREE.BoxGeometry(size.x, size.y, size.z).translate(centre.x, centre.y, centre.z);
     return { material, geometry };
-  }, [vol, dark, iso]);
+  }, [vol, isDark, iso]);
 
   useEffect(() => () => { if (built) { built.material.dispose(); built.geometry.dispose(); } }, [built]);
   useEffect(() => () => { if (vol) { vol.vel.dispose(); vol.q.dispose(); } }, [vol]);
