@@ -28,7 +28,7 @@ const MODES = [
   { key: 'pathlines', title: 'Pathlines', sub: 'Velocity magnitude', range: ['0', '75 m/s'], bar: 'rainbow' },
   { key: 'cp', title: 'Surface pressure', sub: 'Pressure coefficient Cp (from near-wall velocity)', range: ['-1.2', '1.0'], bar: 'rainbow' },
   { key: 'slice', title: 'Velocity field', sub: 'Sweeping cross-section |V|', range: ['0', '75 m/s'], bar: 'rainbow' },
-  { key: 'vortex', title: 'Vortical wake', sub: 'Vorticity |ω| · turbulence k', range: null, bar: null },
+  { key: 'smoke', title: 'Smoke tunnel', sub: 'Streaklines through the flow field · spread by turbulence k', range: null, bar: null },
 ];
 
 const BODY_COLORS = {
@@ -393,6 +393,116 @@ function VortexSmoke({ vol, weight, dark }) {
   );
 }
 
+
+// ── 4. Smoke tunnel: streaklines from a dense rake ───────────
+// streams.bin: 422 streamlines traced through the Fluent velocity field
+// (three.js coords) with arc length s and normalised sqrt(k) per point.
+// Filaments widen, waver and break into puffs in proportion to k.
+async function loadStreams() {
+  const buf = await (await fetch(`${BASE}f1/streams.bin`)).arrayBuffer();
+  const dv = new DataView(buf);
+  const n = dv.getUint32(0, true);
+  const counts = [];
+  for (let i = 0; i < n; i++) counts.push(dv.getUint32(4 + 4 * i, true));
+  const d = new Float32Array(buf, 4 + 4 * n);
+  const total = counts.reduce((a, b) => a + b, 0);
+  const pos = new Float32Array(total * 6), next = new Float32Array(total * 6);
+  const side = new Float32Array(total * 2), sArr = new Float32Array(total * 2);
+  const kArr = new Float32Array(total * 2), rnd = new Float32Array(total * 2);
+  const idx = [];
+  let p = 0, v = 0;
+  counts.forEach((c) => {
+    const r = Math.random();
+    for (let i = 0; i < c; i++, v++) {
+      const o = (p + i) * 5;
+      const j = i < c - 1 ? o + 5 : o - 5;          // neighbour for the tangent
+      const sign = i < c - 1 ? 1 : -1;
+      for (let e = 0; e < 2; e++) {
+        const q = v * 2 + e;
+        pos[q * 3] = d[o]; pos[q * 3 + 1] = d[o + 1]; pos[q * 3 + 2] = d[o + 2];
+        next[q * 3] = d[o] + sign * (d[j] - d[o]);
+        next[q * 3 + 1] = d[o + 1] + sign * (d[j + 1] - d[o + 1]);
+        next[q * 3 + 2] = d[o + 2] + sign * (d[j + 2] - d[o + 2]);
+        side[q] = e ? 1 : -1; sArr[q] = d[o + 3]; kArr[q] = d[o + 4]; rnd[q] = r;
+      }
+      if (i < c - 1) { const a = v * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+    }
+    p += c;
+  });
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setAttribute('aNext', new THREE.BufferAttribute(next, 3));
+  g.setAttribute('aSide', new THREE.BufferAttribute(side, 1));
+  g.setAttribute('aS', new THREE.BufferAttribute(sArr, 1));
+  g.setAttribute('aK', new THREE.BufferAttribute(kArr, 1));
+  g.setAttribute('aRand', new THREE.BufferAttribute(rnd, 1));
+  g.setIndex(idx);
+  return g;
+}
+
+const ribbonVS = /* glsl */ `
+  attribute vec3 aNext; attribute float aSide; attribute float aS; attribute float aK; attribute float aRand;
+  uniform float uTime;
+  varying float vSide; varying float vS; varying float vK; varying float vRand; varying float vX;
+  void main() {
+    vec3 tangent = normalize(aNext - position);
+    float k = smoothstep(0.06, 0.42, aK);
+    float t = uTime;
+    // turbulent wander, grows with k and with distance travelled
+    float amp = k * (0.05 + 0.06 * min(aS / 3.0, 1.0));
+    vec3 ph = position * vec3(2.7, 3.3, 3.1) + aRand * 17.0;
+    vec3 wob = vec3(
+      sin(ph.y - t * 3.1) * sin(ph.x * 0.7 - t * 4.3),
+      sin(ph.z + t * 2.3) * sin(ph.x * 1.1 - t * 5.1 + 1.3),
+      sin(ph.y * 1.3 - t * 2.7) * sin(ph.x * 0.9 - t * 4.7 + 2.1));
+    vec3 p = position + wob * amp;
+    vec3 view = normalize(cameraPosition - (modelMatrix * vec4(p, 1.0)).xyz);
+    vec3 across = normalize(cross(tangent, view));
+    float width = 0.005 + 0.09 * k + 0.003 * min(aS, 4.0);
+    p += across * aSide * width;
+    vSide = aSide; vS = aS; vK = k; vRand = aRand; vX = position.x;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+  }
+`;
+const ribbonFS = /* glsl */ `
+  uniform float uTime; uniform float uOpacity; uniform vec3 uSmoke;
+  varying float vSide; varying float vS; varying float vK; varying float vRand; varying float vX;
+  void main() {
+    float across = pow(max(1.0 - vSide * vSide, 0.0), 1.6);
+    // puffs travelling downstream; in turbulent regions the filament breaks up
+    float ph = vS * 9.0 - uTime * 7.0 + vRand * 40.0;
+    float puff = 0.5 + 0.5 * sin(ph) * sin(ph * 0.43 + 1.7 + vRand * 9.0);
+    float breakup = mix(1.0, smoothstep(0.15, 0.85, puff), vK);
+    float fadeIn = smoothstep(0.0, 0.35, vS);
+    float fadeOut = smoothstep(4.35, 3.2, vX);
+    float a = across * breakup * fadeIn * fadeOut * mix(0.5, 0.16, vK) * uOpacity;
+    if (a < 0.003) discard;
+    gl_FragColor = vec4(uSmoke * (0.92 + 0.08 * puff), a);
+  }
+`;
+
+function SmokeTunnel({ weight, dark }) {
+  const [geometry, setGeometry] = useState(null);
+  useEffect(() => { loadStreams().then(setGeometry); }, []);
+  const mat = useMemo(() => new THREE.ShaderMaterial({
+    vertexShader: ribbonVS, fragmentShader: ribbonFS,
+    transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    blending: dark ? THREE.AdditiveBlending : THREE.NormalBlending,
+    uniforms: {
+      uTime: { value: 0 }, uOpacity: { value: 0 },
+      uSmoke: { value: new THREE.Vector3(...(dark ? [0.85, 0.88, 1.0] : [0.42, 0.45, 0.6])) },
+    },
+  }), [dark]);
+  const ref = useRef();
+  useFrame((_, dt) => {
+    mat.uniforms.uTime.value += dt;
+    mat.uniforms.uOpacity.value = weight.current;
+    if (ref.current) ref.current.visible = weight.current > 0.005;
+  });
+  if (!geometry) return null;
+  return <mesh ref={ref} geometry={geometry} material={mat} renderOrder={5} frustumCulled={false} />;
+}
+
 // ── Scene / mode cycling ─────────────────────────────────────
 function Scene({ mode, started, dark }) {
   const [vol, setVol] = useState(null);
@@ -413,7 +523,7 @@ function Scene({ mode, started, dark }) {
       <Car cpWeight={weights[1]} />
       <Pathlines weight={weights[0]} />
       {vol && <VelocitySlice vol={vol} weight={weights[2]} />}
-      {vol && <VortexSmoke vol={vol} weight={weights[3]} dark={dark} />}
+      <SmokeTunnel weight={weights[3]} dark={dark} />
       <OrbitControls target={[1.3, 0.35, 0]} enableZoom={false} enablePan={false}
         autoRotate={started} autoRotateSpeed={0.9}
         minPolarAngle={0.35} maxPolarAngle={Math.PI / 2 - 0.05} />
