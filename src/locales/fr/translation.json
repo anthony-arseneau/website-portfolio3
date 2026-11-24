@@ -150,11 +150,12 @@
         "description": "Stage d'été étudiant chez NB Power."
       },
       "item2": {
-        "date": "Mai - Août 2024",
+        "date": "Mai 2024 – Présent",
         "title": "Développeur Web",
         "subtitle": "Moncton (N.-B.)",
         "ranzPortfolio": "Portfolio de Ranz Bontogon",
-        "description": "Création d'un site haute performance en HTML, CSS et JavaScript, augmentant la visibilité du client et l'engagement de plus de 1 500 utilisateurs uniques par mois. Collaboration étroite pour l'enregistrement de domaine, la gestion de l'hébergement et la migration de la plateforme. Surveillance du trafic et optimisation (Cloudflare), améliorant de 33 % la vitesse de chargement, la sécurité et l'expérience utilisateur."
+        "bronwenPortfolio": "Portfolio de Bronwen Ramsey-Brimberg",
+        "description": "Développement de sites web haute performance pour des clients avec React, JavaScript, HTML et CSS, chacun attirant plus de 2 200 vues par mois. Collaboration étroite avec les clients pour l'enregistrement de domaine, la gestion de l'hébergement sur des serveurs Ubuntu et la migration de chaque site vers sa nouvelle plateforme. Surveillance du trafic et des performances (Cloudflare), améliorant de 33 % la vitesse de chargement, la sécurité et l'expérience utilisateur."
       },
       "item3": {
         "date": "Été 2018 – 2024",

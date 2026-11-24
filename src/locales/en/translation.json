@@ -150,11 +150,12 @@
         "description": "NB Power summer student internship."
       },
       "item2": {
-        "date": "May – August 2024",
+        "date": "May 2024 – Present",
         "title": "Web Developer",
         "subtitle": "Moncton (NB)",
         "ranzPortfolio": "Ranz Bontogon's Portfolio",
-        "description": "Developed a high-performance website using HTML, CSS, and JavaScript, increasing client visibility and user engagement by over 10x, attracting more than 1,500 unique users per month. Collaborated closely with the client to provide comprehensive assistance throughout the domain registration process, management of the hosting setup, and migration of the website to the new platform. Monitored website traffic and performance metrics through advanced analytics tools, such as Cloudflare, which contributed to a 33% improvement in website loading speed, overall security, and user experience."
+        "bronwenPortfolio": "Bronwen Ramsey-Brimberg's Portfolio",
+        "description": "Developed high-performance websites for clients using React, JavaScript, HTML, and CSS, each attracting over 2,200 monthly views. Collaborated closely with clients to provide comprehensive assistance throughout the domain registration process, management of the hosting setup on Ubuntu servers, and migration of each website to its new platform. Monitored website traffic and performance metrics through analytics tools such as Cloudflare, contributing to a 33% improvement in loading speed, overall security, and user experience."
       },
       "item3": {
         "date": "Summers 2018 – 2024",

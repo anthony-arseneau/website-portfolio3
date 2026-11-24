@@ -35,7 +35,7 @@ const TechStack = () => {
 
   const cadEngineering = [
     // { name: 'CATIA', url: 'https://www.3ds.com/products-services/catia/', logo: null, placeholder: 'CATIA' },
-    { name: 'ANSYS', url: 'https://www.ansys.com/', logo: ansys },
+    { name: 'Ansys', url: 'https://www.ansys.com/', logo: ansys },
     { name: 'SolidWorks', url: 'https://www.solidworks.com/', logo: solidworks, },
     { name: 'MATLAB & Simulink', url: 'https://www.mathworks.com/products/matlab.html', logo: matlab },
     { name: '20-sim', url: 'https://www.20sim.com/', logo: sim20, },

@@ -59,6 +59,9 @@ import postToronto1 from '../../assets/posts/toronto1.png';
 import postToronto2 from '../../assets/posts/toronto2.png';
 import postToronto3 from '../../assets/posts/toronto3.png';
 import ranzWebsite from '../../assets/ranz_website.png';
+import bronwenWebsite from '../../assets/bronwen_website.png';
+import rbLogo from '../../assets/rb_logo.png';
+import rbLogoTransparent from '../../assets/rb_logo_transparent.png';
 
 import acadiauniversity from '../../assets/acadiauniversity.png';
 import bellmedia from '../../assets/bellmedia.png';
@@ -126,7 +129,7 @@ const TechTag = ({ name, logo, url, invertOnLight }) => (
 
 const PREVIEW_LENGTH = 138;
 
-const ExperienceCard = ({ item, index, isAlternate = false, children, media = null, logo = null, logoUrl = null, logoLabel = null, descriptionContent = null, descriptionRestContent = null }) => {
+const ExperienceCard = ({ item, index, isAlternate = false, children, media = null, logo = null, logoUrl = null, logoLabel = null, descriptionContent = null, descriptionRestContent = null, extraLogos = [] }) => {
   const isEven = index % 2 === 0;
   const layoutReversed = isAlternate && !isEven;
   const [expanded, setExpanded] = useState(false);
@@ -165,21 +168,28 @@ const ExperienceCard = ({ item, index, isAlternate = false, children, media = nu
               )}
             </div>
             {logo && (
-              logoUrl ? (
-                <a href={logoUrl} target="_blank" rel="noopener noreferrer" title={logoLabel ?? undefined} aria-label={logoLabel ? `Visit ${logoLabel} website` : undefined} className="flex-shrink-0 hover:opacity-80 transition-opacity duration-200">
+              <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+                {logoUrl ? (
+                  <a href={logoUrl} target="_blank" rel="noopener noreferrer" title={logoLabel ?? undefined} aria-label={logoLabel ? `Visit ${logoLabel} website` : undefined} className="flex-shrink-0 hover:opacity-80 transition-opacity duration-200">
+                    <img
+                      src={logo}
+                      alt={`${item.title} company logo - Anthony Arseneau`}
+                      className={`h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 ${logo === vestcor ? 'max-w-[100px]' : ''}`}
+                    />
+                  </a>
+                ) : (
                   <img
                     src={logo}
                     alt={`${item.title} company logo - Anthony Arseneau`}
-                    className={`h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 ${logo === vestcor ? 'max-w-[100px]' : ''}`}
+                    className={`h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 flex-shrink-0 ${logo === vestcor ? 'max-w-[100px]' : ''}`}
                   />
-                </a>
-              ) : (
-                <img
-                  src={logo}
-                  alt={`${item.title} company logo - Anthony Arseneau`}
-                  className={`h-10 sm:h-12 w-auto object-contain theme-invert opacity-60 flex-shrink-0 ${logo === vestcor ? 'max-w-[100px]' : ''}`}
-                />
-              )
+                )}
+                {extraLogos.map(x => (
+                  <a key={x.url} href={x.url} target="_blank" rel="noopener noreferrer" title={x.label} aria-label={`Visit ${x.label} website`} className="flex-shrink-0 hover:opacity-80 transition-opacity duration-200">
+                    <img src={x.logo} alt={`${x.label} logo - Anthony Arseneau`} className={`${x.className ?? 'h-10 sm:h-12'} w-auto object-contain theme-invert opacity-60`} />
+                  </a>
+                ))}
+              </div>
             )}
           </div>
           <p className="text-base leading-relaxed text-text-secondary mt-3 sm:mt-4">
@@ -599,37 +609,44 @@ export const Experience = () => {
                 subtitleUrl: 'https://maps.google.com/?q=Bathurst,+NB,+Canada',
                 description: t('experience.work.item1.description'),
               }} />
-              <ExperienceCard index={2} logo={ranzbontogon} logoUrl="https://ranz-bontogon.com/" logoLabel="Ranz Bontogon" item={{
+              <ExperienceCard index={2} logo={ranzbontogon} logoUrl="https://ranz-bontogon.com/" logoLabel="Ranz Bontogon" extraLogos={[{ logo: rbLogoTransparent, url: 'https://bronwenrb.com/', label: 'Bronwen Ramsey-Brimberg', className: 'h-7 sm:h-8' }]} item={{
                 date: t('experience.work.item2.date'),
                 title: t('experience.work.item2.title'),
                 subtitle: t('experience.work.item2.subtitle') || '',
                 subtitleUrl: 'https://maps.google.com/?q=Moncton,+NB,+Canada',
                 description: t('experience.work.item2.description'),
               }} media={
-                <div className="flex flex-col items-center">
-                  <a
-                    href="https://ranz-bontogon.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex flex-col rounded-xl overflow-hidden border border-border-default no-underline cursor-pointer bg-bg-base w-full max-w-sm group"
-                  >
-                    <img src={ranzWebsite} alt="ranz-bontogon.com website preview - Anthony Arseneau" className="w-full object-cover group-hover:brightness-75 transition-[filter] duration-300" />
-                    <div className="p-3 sm:p-4 flex flex-col gap-1 border-t border-border-default">
-                      <div className="flex items-center gap-2">
-                        <img src="https://www.google.com/s2/favicons?domain=ranz-bontogon.com&sz=32" alt="ranz-bontogon.com favicon" className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-80" />
-                        <span className="text-[0.7rem] sm:text-xs text-text-muted">ranz-bontogon.com</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full max-w-[44rem] mx-auto">
+                  {[
+                    { href: 'https://ranz-bontogon.com/', domain: 'ranz-bontogon.com', img: ranzWebsite, icon: 'https://www.google.com/s2/favicons?domain=ranz-bontogon.com&sz=32', label: t('experience.work.item2.ranzPortfolio') },
+                    { href: 'https://bronwenrb.com/', domain: 'bronwenrb.com', img: bronwenWebsite, icon: rbLogo, label: t('experience.work.item2.bronwenPortfolio') },
+                  ].map(site => (
+                    <a
+                      key={site.domain}
+                      href={site.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col rounded-xl overflow-hidden border border-border-default no-underline cursor-pointer bg-bg-base w-full group"
+                    >
+                      <img src={site.img} alt={`${site.domain} website preview - Anthony Arseneau`} className="w-full aspect-[2/1] object-cover object-top group-hover:brightness-75 transition-[filter] duration-300" />
+                      <div className="p-3 sm:p-4 flex flex-col gap-1 border-t border-border-default flex-1">
+                        <div className="flex items-center gap-2">
+                          <img src={site.icon} alt={`${site.domain} favicon`} className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-80 object-contain" />
+                          <span className="text-[0.7rem] sm:text-xs text-text-muted">{site.domain}</span>
+                        </div>
+                        <div className="text-sm sm:text-base font-bold text-text-primary leading-snug mt-0.5">{site.label}</div>
                       </div>
-                      <div className="text-sm sm:text-base font-bold text-text-primary leading-snug mt-0.5">{t('experience.work.item2.ranzPortfolio')}</div>
-                    </div>
-                  </a>
+                    </a>
+                  ))}
                 </div>
               }>
+                <TechTag name="React" logo={react} url="https://react.dev/" />
+                <TechTag name="JavaScript" logo={js} url="https://www.javascript.com/" />
+                <TechTag name="Cloudflare" logo={cloudflare} url="https://www.cloudflare.com/" />
+                <TechTag name="Ubuntu" logo={ubuntu} url="https://design.ubuntu.com/brand" />
                 <TechTag name="HTML" logo={html} url="https://developer.mozilla.org/en-US/docs/Web/HTML" />
                 <TechTag name="CSS" logo={css} url="https://developer.mozilla.org/en-US/docs/Web/CSS" />
-                <TechTag name="JavaScript" logo={js} url="https://www.javascript.com/" />
                 <TechTag name="Bash" logo={bash} url="https://mywiki.wooledge.org/BashGuide" invertOnLight />
-                <TechTag name="Ubuntu" logo={ubuntu} url="https://design.ubuntu.com/brand" />
-                <TechTag name="Cloudflare" logo={cloudflare} url="https://www.cloudflare.com/" />
               </ExperienceCard>
               <ExperienceCard index={3} logo={madisco} logoUrl="https://madisco.ca/" logoLabel="Madisco" item={{
                 date: t('experience.work.item3.date'),
