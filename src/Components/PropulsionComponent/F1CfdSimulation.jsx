@@ -353,9 +353,12 @@ function makeShadowTexture() {
   c.width = 256; c.height = 128;
   const ctx = c.getContext('2d');
   ctx.shadowColor = 'rgba(0,0,0,0.5)';
-  ctx.shadowBlur = 22;
+  ctx.shadowBlur = 15;
   ctx.shadowOffsetX = 512;
-  ctx.fillRect(34 - 512, 36, 188, 56);
+  // The canvas spans 7.4 m of car length (left = nose). The patch stops about
+  // 0.5 m short of the nose tip so its soft edge ends under the front wing
+  // instead of running out ahead of the car.
+  ctx.fillRect(54 - 512, 39, 164, 50);
   return new THREE.CanvasTexture(c);
 }
 
