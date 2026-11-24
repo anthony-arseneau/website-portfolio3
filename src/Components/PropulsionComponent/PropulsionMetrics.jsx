@@ -1,7 +1,13 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import CountUp from '../HeroComponent/CountUp';
+import F1CfdSimulation from './F1CfdSimulation';
 import NozzleSimulation from './NozzleSimulation';
+
+// Which 3D visual this section shows.
+// 'f1'     -> F1 CFD pathlines (Ansys Fluent)
+// 'nozzle' -> original rocket nozzle / thruster animation
+const SECTION_VISUAL = 'f1';
 
 function PropulsionMetrics() {
   const { t } = useTranslation();
@@ -60,7 +66,7 @@ function PropulsionMetrics() {
           className="mt-12 flex justify-center lg:absolute lg:top-8 lg:right-12 lg:mt-0 lg:w-[55%]"
         >
           <div className="w-full h-[450px] md:h-[550px] lg:h-[700px] relative overflow-hidden">
-            <NozzleSimulation />
+            {SECTION_VISUAL === 'f1' ? <F1CfdSimulation /> : <NozzleSimulation />}
           </div>
         </motion.div>
       </div>
