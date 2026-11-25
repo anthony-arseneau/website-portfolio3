@@ -1,0 +1,63 @@
+--- a/src/Components/PropulsionComponent/F1CfdSimulation.jsx	2026-11-24 19:03:08.151719107 -0400
++++ b/src/Components/PropulsionComponent/F1CfdSimulation.jsx	2026-11-24 19:03:08.168487229 -0400
+@@ -3,6 +3,7 @@
+ import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+ import * as THREE from 'three';
+ import { buildCar } from './f1Car';
++import { VortexIso, useFlowCycle } from './F1CfdVortex';
+ import { buildArrival, buildLap, hash, roadLeft, roadRight, sampleArrival, sampleLap, vnoise } from './f1Lap';
+ 
+ // ─────────────────────────────────────────────────────────────
+@@ -315,6 +316,7 @@
+   uniform float uReveal;
+   uniform float uSpread;
+   uniform float uGrowRate;
++  uniform float uFade;
+   ${STREAK_GLSL}
+ 
+   void main() {
+@@ -329,7 +331,7 @@
+     float ends = smoothstep(0.0, 0.008, vTime) * smoothstep(0.0, 0.9, vRemain) * smoothstep(0.6, 2.4, vNear);
+     float alpha = (0.2 + 0.8 * streak) * edge * ends * shown;
+     vec3 col = mix(vColor * 0.8, mix(vColor, vec3(1.0), 0.3 * streak * streak * streak), streak);
+-    gl_FragColor = vec4(col, alpha);
++    gl_FragColor = vec4(col, alpha * uFade);
+   }
+ `;
+ 
+@@ -372,6 +374,8 @@
+ function Rig({ started }) {
+   const { scene } = useGLTF(CAR_URL);
+   const lines = usePathlines();
++  // smoke -> nothing -> streak lines -> nothing -> repeat
++  const cycle = useFlowCycle(started && lines.done);
+   const car = useMemo(() => buildCar(scene), [scene]);
+   const lap = useMemo(() => buildLap(), []);
+   const arrival = useMemo(() => buildArrival(180 + STATION_LEAN), []);
+@@ -395,6 +399,7 @@
+       uReveal: { value: -1 },
+       uSpread: { value: WAVE_SPREAD },
+       uGrowRate: { value: GROW_RATE },
++      uFade: { value: 0 },
+     },
+   }), []);
+ 
+@@ -538,7 +543,9 @@
+     // ── Streak lines. Wrapping at a whole number of periods is invisible.
+     s.simTime = (s.simTime + dt * SLOWMO * (0.5 + 0.5 * speed)) % (PERIOD * 1024);
+     lineMaterial.uniforms.uSimTime.value = s.simTime;
+-    lineMaterial.uniforms.uReveal.value = s.t - WAVE_START;
++    // the lines redraw from the nose each time their turn comes round
++    lineMaterial.uniforms.uReveal.value = cycle.linesTime.current < 0 ? -1 : cycle.linesTime.current - WAVE_START;
++    lineMaterial.uniforms.uFade.value = cycle.lines.current;
+     lineMaterial.uniforms.uRes.value.set(size.width, size.height);
+   });
+ 
+@@ -556,6 +563,7 @@
+         {lines.geometry && (
+           <mesh geometry={lines.geometry} material={lineMaterial} frustumCulled={false} renderOrder={2} />
+         )}
++        <VortexIso weight={cycle.smoke} />
+       </group>
+     </group>
+   );
