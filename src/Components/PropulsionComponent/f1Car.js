@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { SURFACE_CP_GLSL, setVolumeUniforms, surfacePressureColours } from './f1Volume';
 
 // ─────────────────────────────────────────────────────────────
 // Turns the single static car mesh set into a car that can move:
@@ -156,24 +157,70 @@ const WHEEL_PAINT = /* glsl */ `
   }
 `;
 
-function makeWheelMaterial() {
-  const material = new THREE.MeshStandardMaterial({ ...MATERIALS.wheels, side: THREE.DoubleSide });
-  material.userData.blur = { value: 0 };
+// Blends a material from its livery to the estimated surface pressure (see f1Volume.js)
+// as `mix` goes 0 -> 1. The body carries the pressure colours on its vertices (aCp).
+function addPressureBlend(material, mix) {
   material.onBeforeCompile = (shader) => {
-    shader.uniforms.uWheelBlur = material.userData.blur;
+    shader.uniforms.uCpMix = mix;
     shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', 'varying vec3 vWheelPos;\n#include <common>')
-      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvWheelPos = position;');
+      .replace('#include <common>', 'attribute vec3 aCp;\nvarying vec3 vCp;\n#include <common>')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvCp = aCp;');
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', `varying vec3 vWheelPos;\n${WHEEL_PAINT}\n#include <common>`)
-      .replace('#include <color_fragment>', '#include <color_fragment>\ndiffuseColor.rgb = wheelPaint(vWheelPos, diffuseColor.rgb);');
+      .replace('#include <common>', 'uniform float uCpMix;\nvarying vec3 vCp;\n#include <common>')
+      .replace('#include <color_fragment>', '#include <color_fragment>\ndiffuseColor.rgb = mix(diffuseColor.rgb, vCp, uCpMix);')
+      // painted metal would tint the pressure colours with reflections
+      .replace('#include <metalnessmap_fragment>', '#include <metalnessmap_fragment>\nmetalnessFactor *= 1.0 - uCpMix;');
+  };
+}
+
+// One material per wheel: each has its own spin angle and place on the car, which
+// the pressure estimate needs to look the air up where the tyre surface is at that
+// moment, not where it was when the wheel was built.
+function makeWheelMaterial(shared, toCar) {
+  const material = new THREE.MeshStandardMaterial({ ...MATERIALS.wheels, side: THREE.DoubleSide });
+  const own = {
+    uWheelBlur: shared.blur,
+    uCpMix: shared.cpMix,
+    uVel: shared.volume.uVel, uGrid: shared.volume.uGrid, uGridN: shared.volume.uGridN,
+    uWheelToCar: { value: toCar },
+    uSpin: { value: 0 },
+  };
+  material.userData.spin = own.uSpin;
+  material.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, own);
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', `
+        uniform mat4 uWheelToCar;
+        uniform float uSpin;
+        varying vec3 vWheelPos;
+        varying vec3 vCarPos;
+        varying vec3 vCarNormal;
+        #include <common>`)
+      .replace('#include <begin_vertex>', `#include <begin_vertex>
+        vWheelPos = position;
+        float spinC = cos(uSpin), spinS = sin(uSpin);
+        mat3 spin = mat3(spinC, spinS, 0.0, -spinS, spinC, 0.0, 0.0, 0.0, 1.0);
+        vCarPos = (uWheelToCar * vec4(spin * position, 1.0)).xyz;
+        vCarNormal = mat3(uWheelToCar) * (spin * normal);`);
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', `
+        uniform float uCpMix;
+        varying vec3 vWheelPos;
+        varying vec3 vCarPos;
+        varying vec3 vCarNormal;
+        ${WHEEL_PAINT}
+        ${SURFACE_CP_GLSL}
+        #include <common>`)
+      .replace('#include <color_fragment>', `#include <color_fragment>
+        diffuseColor.rgb = wheelPaint(vWheelPos, diffuseColor.rgb);
+        if (uCpMix > 0.0) diffuseColor.rgb = mix(diffuseColor.rgb, surfaceCpColour(vCarPos, normalize(vCarNormal)), uCpMix);`);
   };
   return material;
 }
 
 // Cuts the combined wheel mesh into [front-left, front-right, rear-left, rear-right].
 // Left is +z (the car's nose points down −x).
-function splitWheels(mesh, material) {
+function splitWheels(mesh, shared) {
   const src = mesh.geometry;
   const pos = src.attributes.position;
   const index = src.index;
@@ -217,31 +264,45 @@ function splitWheels(mesh, material) {
     const camber = new THREE.Group();
     camber.quaternion.copy(tilt);
     const spin = new THREE.Group();
+    // wheel's own frame (hub-centred, spin axis = z, not yet turned) -> the car's frame
+    const material = makeWheelMaterial(shared, new THREE.Matrix4().compose(centre, tilt, new THREE.Vector3(1, 1, 1)));
     spin.add(new THREE.Mesh(geometry, material));
     camber.add(spin);
     pivot.add(camber);
 
-    return { pivot, spin, geometry, radius, angle: 0, baseY: centre.y, front: b < 2, left: b % 2 === 0 };
+    return { pivot, spin, geometry, material, radius, angle: 0, baseY: centre.y, front: b < 2, left: b % 2 === 0 };
   });
 }
 
 export function buildCar(scene) {
   const body = new THREE.Group();
-  const wheelMaterial = makeWheelMaterial();
+  // shared by every material on the car: wheel motion blur, how far the livery has
+  // given way to the pressure colours, and the velocity volume the wheels sample
+  const shared = {
+    blur: { value: 0 },
+    cpMix: { value: 0 },
+    volume: { uVel: { value: null }, uGrid: { value: new THREE.Vector3() }, uGridN: { value: new THREE.Vector3(1, 1, 1) } },
+  };
   let wheels = [];
-  const owned = [wheelMaterial];
+  const owned = [];
+  const skins = [];
 
   scene.traverse((o) => {
     if (!o.isMesh) return;
     const key = Object.keys(MATERIALS).find((k) => o.name.startsWith(k)) || 'body';
     if (key === 'wheels') {
-      wheels = splitWheels(o, wheelMaterial);
-      wheels.forEach((w) => owned.push(w.geometry));
+      wheels = splitWheels(o, shared);
+      wheels.forEach((w) => owned.push(w.geometry, w.material));
       return;
     }
     o.geometry.computeVertexNormals();
+    if (!o.geometry.attributes.aCp) {
+      o.geometry.setAttribute('aCp', new THREE.BufferAttribute(new Float32Array(o.geometry.attributes.position.count * 3), 3));
+    }
     const material = new THREE.MeshStandardMaterial({ ...MATERIALS[key], side: THREE.DoubleSide });
+    addPressureBlend(material, shared.cpMix);
     owned.push(material);
+    skins.push(o.geometry);
     body.add(new THREE.Mesh(o.geometry, material));
   });
 
@@ -249,5 +310,18 @@ export function buildCar(scene) {
     ? { front: wheels[0].pivot.position.x, rear: wheels[2].pivot.position.x }
     : { front: -1.35, rear: 2.1 };
 
-  return { body, wheels, wheelbase, wheelBlur: wheelMaterial.userData.blur, dispose: () => owned.forEach((o) => o.dispose()) };
+  // Works out the pressure colours from the velocity volume (what loadVortex() returns).
+  // Until this has run, cpMix must stay at 0.
+  const paintPressure = (vol) => {
+    skins.forEach((geometry) => {
+      geometry.attributes.aCp.array.set(surfacePressureColours(geometry, vol).colours);
+      geometry.attributes.aCp.needsUpdate = true;
+    });
+    setVolumeUniforms(shared.volume, vol);
+  };
+
+  return {
+    body, wheels, wheelbase, wheelBlur: shared.blur, cpMix: shared.cpMix, paintPressure,
+    dispose: () => owned.forEach((o) => o.dispose()),
+  };
 }

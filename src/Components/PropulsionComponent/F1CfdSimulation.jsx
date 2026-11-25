@@ -1,9 +1,14 @@
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as THREE from 'three';
+import { useTheme } from '../../context/ThemeContext';
 import { buildCar } from './f1Car';
+import { VelocitySlices } from './F1CfdSlices';
+import { VortexIso, loadVortex } from './F1CfdVortex';
 import { buildArrival, buildLap, hash, roadLeft, roadRight, sampleArrival, sampleLap, vnoise } from './f1Lap';
+import { FREE_STREAM, RAINBOW_GLSL } from './f1Volume';
 
 // ─────────────────────────────────────────────────────────────
 // F1 external-aero CFD viewer
@@ -12,16 +17,41 @@ import { buildArrival, buildLap, hash, roadLeft, roadRight, sampleArrival, sampl
 // mirrored across the symmetry plane. Geometry: Flexcompute F1_2025.
 // Data files live in /public/f1 (built by the asset script).
 //
-// The camera is fixed, low and close. The car arrives from far off to
-// the right along a curved path, settles at its station and then "laps
-// a circuit" in place: it yaws through the corners, rides its suspension
-// and spins its wheels at true speed, with the streak lines carried along
-// in the car's frame.
+// The camera is fixed. The car arrives from the top right, settles at its
+// station and then "laps a circuit" in place: it yaws through the corners,
+// rides its suspension and spins its wheels at true speed. Around it, one
+// view of the flow is shown at a time (see SEQUENCE), all carried along in
+// the car's frame. The streak lines are from the steady RANS run; the smoke,
+// the surface pressure estimate and the velocity planes are from a DES
+// snapshot (public/f1/vortex.bin).
 // ─────────────────────────────────────────────────────────────
 
 const BASE = import.meta.env.BASE_URL;
 const CAR_URL = `${BASE}f1/car.glb`;
 const LINES_URL = `${BASE}f1/pathlines.bin`;
+const FLOOR_URL = `${BASE}f1/floorlines.bin`;   // a row of pathlines seeded 5 cm off the ground; same format
+
+// ── Scene sequence ───────────────────────────────────────────
+// One view of the flow at a time, in this order, looping. Each scene comes in
+// (fading over `fadeIn`, or drawing itself if that is 0), holds, fades out over
+// `fadeOut`, then the bare car is shown alone for `gap` before the next one.
+// Scenes marked `volume` need the velocity volume and are skipped if it fails to load.
+// Each key has a caption in the locale files: propulsion_scene_<key>.
+const SEQUENCE = {
+  fadeOut: 0.6,
+  gap: 0.7,
+  scenes: [
+    { key: 'smoke', fadeIn: 1.2, hold: 7, volume: true },      // vortex smoke (F1CfdVortex)
+    { key: 'lines', fadeIn: 0, hold: 8 },                      // streak lines round the whole car
+    { key: 'pressure', fadeIn: 0.9, hold: 7.2, volume: true }, // estimated surface pressure on the car
+    { key: 'floor', fadeIn: 0, hold: 8 },                      // the row of streak lines along the ground
+    { key: 'slice', fadeIn: 0.7, hold: 8, volume: true },      // velocity on cutting planes; one sweeps during the hold
+  ],
+};
+// While the smoke is up the canvas is drawn at no more than this pixel ratio
+// (the ray-marcher's cost goes with the number of pixels); otherwise at MAX_DPR.
+const SMOKE_DPR = 1.5;
+const MAX_DPR = 2;
 
 // ── Streak lines ─────────────────────────────────────────────
 const V_MAX = 75;          // colormap range [m/s]
@@ -34,7 +64,6 @@ const WAVE_SPREAD = 0.5;   // seconds for the start to reach the outermost line
 const GROW_RATE = 0.45;    // how fast a started line draws downstream [sim s per s]
 const WAKE_EXTEND = 5;     // metres each line is carried on behind the exported data
 const WAKE_RECOVERY = 0.09; // seconds for the wake's velocity deficit to decay [sim s]
-const FREE_STREAM = 50;    // m/s
 // Every line starts the same distance ahead of the front wing's leading edge.
 // The wing is swept back like an arrowhead, so the starts form the same shallow
 // V: furthest forward on the centreline, further back going outboard.
@@ -278,15 +307,7 @@ const lineVertexShader = /* glsl */ `
   varying vec3 vColor;
   ${STREAK_GLSL}
 
-  // Fluent-style rainbow: blue -> cyan -> green -> yellow -> red
-  vec3 rainbow(float s) {
-    s = clamp(s, 0.0, 1.0);
-    return clamp(vec3(
-      1.5 - abs(4.0 * s - 3.0),
-      1.5 - abs(4.0 * s - 2.0),
-      1.5 - abs(4.0 * s - 1.0)
-    ), 0.0, 1.0);
-  }
+  ${RAINBOW_GLSL}
 
   // The CFD was run with the front wheels straight. When they steer, the air
   // around each one is turned with it: a point is rotated about that wheel's
@@ -340,6 +361,7 @@ const lineFragmentShader = /* glsl */ `
   uniform float uReveal;
   uniform float uSpread;
   uniform float uGrowRate;
+  uniform float uFade;
   ${STREAK_GLSL}
 
   void main() {
@@ -354,19 +376,101 @@ const lineFragmentShader = /* glsl */ `
     float ends = smoothstep(0.0, 0.008, vTime) * smoothstep(0.0, 0.9, vRemain) * smoothstep(0.6, 2.4, vNear);
     float alpha = (0.2 + 0.8 * streak) * edge * ends * shown;
     vec3 col = mix(vColor * 0.8, mix(vColor, vec3(1.0), 0.3 * streak * streak * streak), streak);
-    gl_FragColor = vec4(col, alpha);
+    gl_FragColor = vec4(col, alpha * uFade);
   }
 `;
 
-function usePathlines() {
+function usePathlines(url) {
   const [state, setState] = useState({ geometry: null, done: false });
   useEffect(() => {
     let alive = true;
     let loaded = null;
-    loadPathlines(LINES_URL)
+    loadPathlines(url)
       .then((g) => { loaded = g; if (alive) setState({ geometry: g, done: true }); else g.dispose(); })
       .catch(() => { if (alive) setState({ geometry: null, done: true }); });
     return () => { alive = false; if (loaded) loaded.dispose(); };
+  }, [url]);
+  return state;
+}
+
+// One set of streak lines. The two sets (whole car, floor row) share everything
+// that describes the car and the clock, and differ only in when they are drawn.
+function makeLineMaterial() {
+  return new THREE.ShaderMaterial({
+    vertexShader: lineVertexShader,
+    fragmentShader: lineFragmentShader,
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+    uniforms: {
+      uSimTime: { value: 0 },
+      uPeriod: { value: PERIOD },
+      uStreak: { value: STREAK },
+      uVMax: { value: V_MAX },
+      uRes: { value: new THREE.Vector2(1, 1) },
+      uWidth: { value: LINE_WIDTH },
+      uRefDist: { value: CAM_DIST },
+      uReveal: { value: -1 },
+      uSpread: { value: WAVE_SPREAD },
+      uGrowRate: { value: GROW_RATE },
+      uFade: { value: 0 },
+      uSteer: { value: 0 },
+      uWheelL: { value: new THREE.Vector2() },
+      uWheelR: { value: new THREE.Vector2() },
+      uBend: { value: new THREE.Vector2(BEND_FULL, BEND_NONE) },
+    },
+  });
+}
+
+// Timeline for SEQUENCE. For every scene key it keeps a weight (0..1, for fading)
+// and a time (seconds since that scene came on, -1 while it is off). `onScene` is
+// told which scene is up (its key), and null while one is fading out or in the gap.
+function useSceneCycle(active, hasVolume, onScene) {
+  const state = useMemo(() => {
+    const init = { t: 0, weight: {}, time: {}, current: null };
+    SEQUENCE.scenes.forEach((scene) => {
+      init.weight[scene.key] = { current: 0 };
+      init.time[scene.key] = { current: -1 };
+    });
+    return init;
+  }, []);
+  const scenes = useMemo(() => SEQUENCE.scenes.filter((scene) => hasVolume || !scene.volume), [hasVolume]);
+  useFrame((_, rawDt) => {
+    if (!active) return;
+    const { fadeOut, gap } = SEQUENCE;
+    const total = scenes.reduce((sum, scene) => sum + scene.fadeIn + scene.hold + fadeOut + gap, 0);
+    state.t = (state.t + Math.min(rawDt, 0.05)) % total;
+    const ease = (x) => { const c = Math.min(Math.max(x, 0), 1); return c * c * (3 - 2 * c); };
+    let start = 0;
+    let current = null;
+    scenes.forEach((scene) => {
+      const local = state.t - start;
+      const on = scene.fadeIn + scene.hold;       // seconds before it starts to fade out
+      const showing = local >= 0 && local < on + fadeOut;
+      state.time[scene.key].current = showing ? local : -1;
+      state.weight[scene.key].current = !showing ? 0
+        : local < on ? (scene.fadeIn > 0 ? ease(local / scene.fadeIn) : 1)
+          : 1 - ease((local - on) / fadeOut);
+      if (showing && local < on) current = scene.key;
+      start += on + fadeOut + gap;
+    });
+    if (current !== state.current) {
+      state.current = current;
+      if (onScene) onScene(current);
+    }
+  });
+  return state;
+}
+
+// The velocity volume (shared with the smoke). `done` is set once it has loaded or failed.
+function useVolume() {
+  const [state, setState] = useState({ vol: null, done: false });
+  useEffect(() => {
+    let alive = true;
+    loadVortex()
+      .then((vol) => { if (alive) setState({ vol, done: true }); })
+      .catch(() => { if (alive) setState({ vol: null, done: true }); });
+    return () => { alive = false; };
   }, []);
   return state;
 }
@@ -394,52 +498,52 @@ function spring(state, key, target, omega, zeta, dt) {
   state[key] += state[vKey] * dt;
 }
 
-function Rig({ started }) {
+const SLICE_SCENE = SEQUENCE.scenes.find((scene) => scene.key === 'slice');
+const SLICE_SWEEP = { delay: SLICE_SCENE.fadeIn, seconds: SLICE_SCENE.hold };
+
+function Rig({ started, dark, onScene, onSmoke }) {
   const { scene } = useGLTF(CAR_URL);
-  const lines = usePathlines();
+  const lines = usePathlines(LINES_URL);
+  const floor = usePathlines(FLOOR_URL);
+  const volume = useVolume();
+  // The car sets off as soon as the lines are in; the scenes wait for the volume too,
+  // so the smoke fades in from nothing instead of appearing part-way through.
+  const ready = lines.done && floor.done;
+  const cycle = useSceneCycle(started && ready && volume.done, !!volume.vol, onScene);
   const car = useMemo(() => buildCar(scene), [scene]);
+  const [painted, setPainted] = useState(null);
   const lap = useMemo(() => buildLap(), []);
   const arrival = useMemo(() => buildArrival(180 + STATION_LEAN), []);
   const shadow = useMemo(() => makeShadowTexture(), []);
   const size = useThree((s) => s.size);
 
-  const lineMaterial = useMemo(() => new THREE.ShaderMaterial({
-    vertexShader: lineVertexShader,
-    fragmentShader: lineFragmentShader,
-    transparent: true,
-    depthWrite: false,
-    side: THREE.DoubleSide,
-    uniforms: {
-      uSimTime: { value: 0 },
-      uPeriod: { value: PERIOD },
-      uStreak: { value: STREAK },
-      uVMax: { value: V_MAX },
-      uRes: { value: new THREE.Vector2(1, 1) },
-      uWidth: { value: LINE_WIDTH },
-      uRefDist: { value: CAM_DIST },
-      uReveal: { value: -1 },
-      uSpread: { value: WAVE_SPREAD },
-      uGrowRate: { value: GROW_RATE },
-      uSteer: { value: 0 },
-      uWheelL: { value: new THREE.Vector2() },
-      uWheelR: { value: new THREE.Vector2() },
-      uBend: { value: new THREE.Vector2(BEND_FULL, BEND_NONE) },
-    },
-  }), []);
+  const lineMaterial = useMemo(() => makeLineMaterial(), []);
+  const floorMaterial = useMemo(() => makeLineMaterial(), []);
 
   useEffect(() => {
     // front wheel steering axes, for bending the lines round a turned wheel
     const [left, right] = car.wheels;
     if (left && right) {
-      lineMaterial.uniforms.uWheelL.value.set(left.pivot.position.x, left.pivot.position.z);
-      lineMaterial.uniforms.uWheelR.value.set(right.pivot.position.x, right.pivot.position.z);
+      [lineMaterial, floorMaterial].forEach((material) => {
+        material.uniforms.uWheelL.value.set(left.pivot.position.x, left.pivot.position.z);
+        material.uniforms.uWheelR.value.set(right.pivot.position.x, right.pivot.position.z);
+      });
     }
-  }, [car, lineMaterial]);
+  }, [car, lineMaterial, floorMaterial]);
   useEffect(() => () => { car.dispose(); }, [car]);
-  useEffect(() => () => { lineMaterial.dispose(); shadow.dispose(); }, [lineMaterial, shadow]);
+  // surface pressure colours, once the car and the volume are both here
+  useEffect(() => {
+    if (!volume.vol) return;
+    car.paintPressure(volume.vol);
+    setPainted(car);
+  }, [car, volume.vol]);
+  useEffect(() => () => { lineMaterial.dispose(); floorMaterial.dispose(); shadow.dispose(); }, [lineMaterial, floorMaterial, shadow]);
 
   const root = useRef();
   const bodyRef = useRef();
+  const linesRef = useRef();
+  const floorRef = useRef();
+  const smokeOn = useRef(false);
   const sim = useRef(null);
   const now = useRef({});
   const arriving = useRef({});
@@ -448,7 +552,7 @@ function Rig({ started }) {
   const wheelbase = car.wheelbase.rear - car.wheelbase.front;
 
   useFrame(({ camera }, rawDt) => {
-    if (!started || !lines.done || !root.current) return;
+    if (!started || !ready || !root.current) return;
     const dt = Math.min(rawDt, 0.05);
 
     if (!sim.current) {
@@ -567,6 +671,7 @@ function Rig({ started }) {
       w.angle = (w.angle + omega * dt) % (Math.PI * 2);
       w.pivot.position.y = w.baseY + heights[i];
       w.spin.rotation.z = w.angle;
+      w.material.userData.spin.value = w.angle;
       if (w.front) w.pivot.rotation.y = steer;
       blur += (omega * s.frame) / (Math.PI * 2) / car.wheels.length;
     });
@@ -574,10 +679,29 @@ function Rig({ started }) {
 
     // ── Streak lines. Wrapping at a whole number of periods is invisible.
     s.simTime = (s.simTime + dt * SLOWMO * (0.5 + 0.5 * speed)) % (PERIOD * 1024);
-    lineMaterial.uniforms.uSimTime.value = s.simTime;
-    lineMaterial.uniforms.uSteer.value = steer;
-    lineMaterial.uniforms.uReveal.value = s.t - WAVE_START;
-    lineMaterial.uniforms.uRes.value.set(size.width, size.height);
+    // Each set redraws itself from the nose when its scene comes round, and is
+    // not drawn at all while its scene is off.
+    [[lineMaterial, 'lines', linesRef], [floorMaterial, 'floor', floorRef]].forEach(([material, key, mesh]) => {
+      const u = material.uniforms;
+      const time = cycle.time[key].current;
+      const weight = cycle.weight[key].current;
+      if (mesh.current) mesh.current.visible = weight > 0.002;
+      u.uSimTime.value = s.simTime;
+      u.uSteer.value = steer;
+      u.uReveal.value = time < 0 ? -1 : time - WAVE_START;
+      u.uFade.value = weight;
+      u.uRes.value.set(size.width, size.height);
+    });
+
+    // ── Surface pressure: the livery gives way to the estimate
+    car.cpMix.value = painted === car ? cycle.weight.pressure.current : 0;
+
+    // ── Say when the smoke scene starts and ends (the canvas is drawn coarser for it)
+    const smoke = cycle.time.smoke.current >= 0;
+    if (smoke !== smokeOn.current) {
+      smokeOn.current = smoke;
+      if (onSmoke) onSmoke(smoke);
+    }
   });
 
   return (
@@ -592,8 +716,15 @@ function Rig({ started }) {
         </group>
         {car.wheels.map((w, i) => <primitive key={i} object={w.pivot} />)}
         {lines.geometry && (
-          <mesh geometry={lines.geometry} material={lineMaterial} frustumCulled={false} renderOrder={2} />
+          <mesh ref={linesRef} geometry={lines.geometry} material={lineMaterial} frustumCulled={false} visible={false} renderOrder={2} />
         )}
+        {floor.geometry && (
+          <mesh ref={floorRef} geometry={floor.geometry} material={floorMaterial} frustumCulled={false} visible={false} renderOrder={2} />
+        )}
+        {volume.vol && (
+          <VelocitySlices vol={volume.vol} weight={cycle.weight.slice} time={cycle.time.slice} sweep={SLICE_SWEEP} vMax={V_MAX} />
+        )}
+        <VortexIso weight={cycle.weight.smoke} dark={dark} />
       </group>
     </group>
   );
@@ -619,7 +750,7 @@ function StationOffset({ pad }) {
   return null;
 }
 
-function F1Scene({ started, pad, dragTarget }) {
+function F1Scene({ started, pad, dragTarget, dark, onScene, onSmoke }) {
   return (
     <>
       <ambientLight intensity={0.35} />
@@ -628,7 +759,7 @@ function F1Scene({ started, pad, dragTarget }) {
       <hemisphereLight args={['#dfe6ff', '#1a1a1a', 0.9]} />
       <StationOffset pad={pad} />
       <Suspense fallback={null}>
-        <Rig started={started} />
+        <Rig started={started} dark={dark} onScene={onScene} onSmoke={onSmoke} />
       </Suspense>
       {/* The view can still be dragged (over the layout box only), but it no longer turns by itself: the car does. */}
       {dragTarget && <OrbitControls
@@ -655,6 +786,14 @@ function F1CfdSimulation() {
   const [inView, setInView] = useState(false);
   const [pad, setPad] = useState(viewPad);
   const [dragTarget, setDragTarget] = useState(null);
+  const { t } = useTranslation();
+  const { isDarkMode } = useTheme();   // the canvas is outside React's context, so the theme is handed down
+  // Caption: which scene is up. It keeps its last text while it fades out.
+  const [caption, setCaption] = useState({ key: null, show: false });
+  const onScene = useCallback((key) => setCaption((c) => ({ key: key || c.key, show: !!key })), []);
+  // The smoke costs by the pixel, so on dense screens the canvas is drawn a little coarser
+  // while it is up. The switch falls at the start and end of that scene, with only the car in view.
+  const [smoke, setSmoke] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -694,12 +833,17 @@ function F1CfdSimulation() {
             WebkitMaskComposite: 'source-in',
           }}
         >
-          <Canvas camera={{ position: CAMERA, fov: FOV }} gl={{ alpha: true, antialias: true }} style={{ pointerEvents: 'none' }}>
-            <F1Scene started={inView} pad={pad} dragTarget={dragTarget} />
+          <Canvas dpr={[1, smoke ? SMOKE_DPR : MAX_DPR]} camera={{ position: CAMERA, fov: FOV }} gl={{ alpha: true, antialias: true }} style={{ pointerEvents: 'none' }}>
+            <F1Scene started={inView} pad={pad} dragTarget={dragTarget} dark={isDarkMode} onScene={onScene} onSmoke={setSmoke} />
           </Canvas>
         </div>
         {/* dragging to look around happens on the layout box only */}
         <div ref={setDragTarget} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
+        <p
+          className={`pointer-events-none absolute right-4 bottom-2 lg:right-10 lg:bottom-4 max-w-[70%] text-right text-xs sm:text-sm text-text-muted transition-opacity duration-500 ${caption.show ? 'opacity-100' : 'opacity-0'}`}
+        >
+          {caption.key ? t(`propulsion_scene_${caption.key}`) : ''}
+        </p>
       </div>
     </div>
   );
