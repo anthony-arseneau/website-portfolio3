@@ -18,8 +18,8 @@ import numpy as np, pandas as pd
 from scipy.spatial import cKDTree
 from scipy.ndimage import binary_dilation, gaussian_filter, maximum_filter
 
-Q0, QMAX, VSCALE = 2.0e3, 4.0e6, 90.0
-X0, X1, Y1, Z1 = -1.4, 6.0, 1.15, 1.35
+Q0, QMAX, VSCALE = 2.0e2, 4.0e6, 90.0
+X0, X1, Y1, Z1 = -1.4, 7.0, 1.2, 1.4
 REACH = 0.25
 WHEELS = [(0.2027, 0.363, 0.37, 0.58, 1.03), (3.648, 0.344, 0.37, 0.50, 1.03)]
 

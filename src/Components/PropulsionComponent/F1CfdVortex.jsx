@@ -36,7 +36,8 @@ const BASE = import.meta.env.BASE_URL;
 const CX = 1.55;            // Fluent x at the scene origin
 
 export const VORTEX_DEFAULTS = {
-  iso: 0.36,                // iso level in encoded units (see build script); lower = more structures
+  iso: 0.22,                // iso level in encoded units (see build script); lower = more structures.
+                            // 0.22 is Q of about 1500 1/s^2, tuned on the DES snapshot
   advect: 0.006,            // seconds of flow each structure slides per cycle
   cycle: 0.55,              // flow-map cycles per second
 };
@@ -184,9 +185,9 @@ const fragmentShader = /* glsl */ `
         float ndv = max(dot(n, -rd), 0.0);
         float fres = pow(1.0 - ndv, 2.2);
         float diff = 0.55 + 0.45 * max(dot(n, L), 0.0);
-        float spec = pow(max(dot(reflect(-L, n), -rd), 0.0), 24.0) * 0.25;
-        vec3 shell = mix(uColor * diff, uRim, fres * 0.55) + spec;
-        float al = mix(0.2, 0.66, fres);
+        float spec = pow(max(dot(reflect(-L, n), -rd), 0.0), 24.0) * 0.15;
+        vec3 shell = mix(uColor * diff, uRim, fres * 0.38) + spec;
+        float al = mix(0.25, 0.66, fres);
         col += T * al * shell;
         T *= 1.0 - al;
         if (++hits >= 6 || T < 0.04) break;
