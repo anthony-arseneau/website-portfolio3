@@ -21,6 +21,7 @@ import * as THREE from 'three';
 //        and pathlines.bin) and ray-marches in its own local space, so it can
 //        sit inside any moving / yawing group, e.g. next to the streak-line
 //        mesh in F1CfdSimulation's Rig, and it follows the car.
+//   loadVortex()  the shared volume textures (velocity, Q, solid mask).
 //   useFlowCycle(active)  timeline for showing the smoke and the streak lines
 //        one after the other: smoke -> nothing -> lines -> nothing -> repeat.
 //        Returns refs: smoke (0..1), lines (0..1) and linesTime (seconds since
@@ -65,7 +66,7 @@ export function useFlowCycle(active = true, timing = CYCLE) {
   return state;
 }
 
-async function loadVortex() {
+async function fetchVortex() {
   const buf = await (await fetch(`${BASE}f1/vortex.bin`)).arrayBuffer();
   const dv = new DataView(buf);
   const nx = dv.getUint32(0, true), ny = dv.getUint32(4, true), nz = dv.getUint32(8, true);
@@ -84,6 +85,18 @@ async function loadVortex() {
     q: mk(new Uint8Array(buf, 36 + n * 4, n * 2), THREE.RGFormat),
     x0, x1, y1, z1, vscale, transient,
   };
+}
+
+// The volume is fetched once and shared: other scenes (slices, surface colouring)
+// can call loadVortex() too and get the same textures.
+//   vel : Data3DTexture RGBA8, rgb = Fluent (u, v, w) as (c * 2 - 1) * vscale [m/s], a = 1 inside the car
+//   q   : Data3DTexture RG8,   r = Q (log-encoded), g = neighbourhood max of r
+//   x0, x1, y1, z1 : box in Fluent metres (y from 0, z from 0); texture coords of a point in
+//                    model space p are ((p.x + 1.55 - x0) / (x1 - x0), abs(p.z) / y1, p.y / z1)
+let vortexPromise = null;
+export function loadVortex() {
+  if (!vortexPromise) vortexPromise = fetchVortex().catch((e) => { vortexPromise = null; throw e; });
+  return vortexPromise;
 }
 
 const vertexShader = /* glsl */ `
@@ -239,7 +252,6 @@ export function VortexIso({ weight, dark, iso = VORTEX_DEFAULTS.iso }) {
   }, [vol, isDark, iso]);
 
   useEffect(() => () => { if (built) { built.material.dispose(); built.geometry.dispose(); } }, [built]);
-  useEffect(() => () => { if (vol) { vol.vel.dispose(); vol.q.dispose(); } }, [vol]);
 
   // rays are marched in local space, so the volume follows whatever group it is in
   const inv = useMemo(() => new THREE.Matrix4(), []);
