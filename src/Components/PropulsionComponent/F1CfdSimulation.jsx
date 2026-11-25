@@ -77,6 +77,10 @@ const PITCH_GAIN = 0.05;   // dive/squat per unit of braking/acceleration [rad]
 const SURGE_GAIN = 0.9;    // metres the car pulls ahead/drops back per unit of acceleration
 const STEER_GAIN = 0.2;    // front-wheel lock per unit of yaw rate / speed [rad]
 const TRACK_WIDTH = 1.6;
+// Distance from a front wheel's steering axis [m] within which the lines turn
+// fully with the wheel, and beyond which they are left alone.
+const BEND_FULL = 0.5;
+const BEND_NONE = 1.05;
 
 // x position of the station inside a canvas of this width [css px]
 function stationX(width) {
@@ -261,6 +265,10 @@ const lineVertexShader = /* glsl */ `
   uniform float uWidth;
   uniform float uRefDist;
   uniform float uVMax;
+  uniform float uSteer;
+  uniform vec2 uWheelL;
+  uniform vec2 uWheelR;
+  uniform vec2 uBend;
   varying float vTime;
   varying float vOffset;
   varying float vDelay;
@@ -280,6 +288,23 @@ const lineVertexShader = /* glsl */ `
     ), 0.0, 1.0);
   }
 
+  // The CFD was run with the front wheels straight. When they steer, the air
+  // around each one is turned with it: a point is rotated about that wheel's
+  // steering axis by the full steer angle close to the tyre, easing to nothing
+  // further out, so the lines bend round the turned wheel instead of cutting
+  // through it.
+  vec3 steerBend(vec3 p, vec2 hub) {
+    vec2 d = p.xz - hub;
+    float a = uSteer * (1.0 - smoothstep(uBend.x, uBend.y, length(d)));
+    float s = sin(a);
+    float c = cos(a);
+    p.xz = hub + vec2(d.x * c + d.y * s, d.y * c - d.x * s);
+    return p;
+  }
+  vec3 steered(vec3 p) {
+    return steerBend(steerBend(p, uWheelL), uWheelR);
+  }
+
   void main() {
     vTime = aTime;
     vOffset = aOffset;
@@ -289,10 +314,10 @@ const lineVertexShader = /* glsl */ `
     vColor = rainbow(aSpeed / uVMax);
 
     mat4 m = projectionMatrix * modelViewMatrix;
-    vec4 c = m * vec4(position, 1.0);
+    vec4 c = m * vec4(steered(position), 1.0);
     vNear = c.w;
-    vec4 a = m * vec4(aPrev, 1.0);
-    vec4 b = m * vec4(aNext, 1.0);
+    vec4 a = m * vec4(steered(aPrev), 1.0);
+    vec4 b = m * vec4(steered(aNext), 1.0);
     vec2 dir = (b.xy / b.w - a.xy / a.w) * uRes;
     float len = length(dir);
     dir = len > 1e-5 ? dir / len : vec2(1.0, 0.0);
@@ -353,12 +378,12 @@ function makeShadowTexture() {
   c.width = 256; c.height = 128;
   const ctx = c.getContext('2d');
   ctx.shadowColor = 'rgba(0,0,0,0.5)';
-  ctx.shadowBlur = 15;
+  ctx.shadowBlur = 18;
   ctx.shadowOffsetX = 512;
   // The canvas spans 7.4 m of car length (left = nose). The patch stops about
-  // 0.5 m short of the nose tip so its soft edge ends under the front wing
-  // instead of running out ahead of the car.
-  ctx.fillRect(54 - 512, 39, 164, 50);
+  // 0.2 m short of the nose tip, so its soft edge reaches the front of the wing
+  // without running out far ahead of the car.
+  ctx.fillRect(44 - 512, 38, 174, 52);
   return new THREE.CanvasTexture(c);
 }
 
@@ -395,9 +420,21 @@ function Rig({ started }) {
       uReveal: { value: -1 },
       uSpread: { value: WAVE_SPREAD },
       uGrowRate: { value: GROW_RATE },
+      uSteer: { value: 0 },
+      uWheelL: { value: new THREE.Vector2() },
+      uWheelR: { value: new THREE.Vector2() },
+      uBend: { value: new THREE.Vector2(BEND_FULL, BEND_NONE) },
     },
   }), []);
 
+  useEffect(() => {
+    // front wheel steering axes, for bending the lines round a turned wheel
+    const [left, right] = car.wheels;
+    if (left && right) {
+      lineMaterial.uniforms.uWheelL.value.set(left.pivot.position.x, left.pivot.position.z);
+      lineMaterial.uniforms.uWheelR.value.set(right.pivot.position.x, right.pivot.position.z);
+    }
+  }, [car, lineMaterial]);
   useEffect(() => () => { car.dispose(); }, [car]);
   useEffect(() => () => { lineMaterial.dispose(); shadow.dispose(); }, [lineMaterial, shadow]);
 
@@ -538,6 +575,7 @@ function Rig({ started }) {
     // ── Streak lines. Wrapping at a whole number of periods is invisible.
     s.simTime = (s.simTime + dt * SLOWMO * (0.5 + 0.5 * speed)) % (PERIOD * 1024);
     lineMaterial.uniforms.uSimTime.value = s.simTime;
+    lineMaterial.uniforms.uSteer.value = steer;
     lineMaterial.uniforms.uReveal.value = s.t - WAVE_START;
     lineMaterial.uniforms.uRes.value.set(size.width, size.height);
   });
